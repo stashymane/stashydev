@@ -5,9 +5,9 @@ import kotlinx.serialization.SerialName
 import model.GithubRepo
 
 @Resource("https://api.github.com/")
-class Github {
+class GithubApi {
     @Resource("users")
-    class Users(val parent: Github = Github()) {
+    class Users(val parent: GithubApi = GithubApi()) {
         @Resource("{username}")
         class ByUsername(val username: String, val parent: Users = Users()) {
             @Resource("repos")
