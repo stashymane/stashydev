@@ -1,7 +1,5 @@
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
@@ -10,17 +8,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import components.AppNavbar
 import kotlinx.serialization.json.Json
 import locals.LocalNavController
+import locals.LocalSharedTransitionScope
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import screens.HomeScreen
-import screens.ProjectsScreen
 import stashydev.composeapp.generated.resources.Res
 import theme.AppTheme
 
@@ -28,11 +23,10 @@ val json = Json {
     ignoreUnknownKeys = true
 }
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun App() {
     val navController = rememberNavController()
-    val bg = Res.getUri("drawable/background.jpg")
 
 //    val dots = imageResource(Res.drawable.texture)
 //    val brush = ShaderBrush(ImageShader(dots))
@@ -44,23 +38,14 @@ fun App() {
             }) { contentPadding ->
                 Box {
                     AsyncImage(
-                        bg,
+                        Res.getUri("drawable/background.jpg"),
                         null,
                         Modifier.fillMaxSize(),
                         contentScale = ContentScale.FillBounds
                     )
-                    NavHost(LocalNavController.current, "home",
-                        enterTransition = {
-                            fadeIn() + scaleIn(initialScale = 0.95f)
-                        },
-                        exitTransition = {
-                            fadeOut() + scaleOut(targetScale = 0.95f)
-                        }) {
-                        composable("home") {
-                            HomeScreen(contentPadding)
-                        }
-                        composable("projects") {
-                            ProjectsScreen(contentPadding)
+                    SharedTransitionLayout {
+                        CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
+                            Navigation(contentPadding)
                         }
                     }
                 }
