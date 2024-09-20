@@ -18,18 +18,19 @@ import components.util.AnimatedLaunch
 import components.util.NullSwapper
 import kotlinx.serialization.json.Json
 import model.HomeLink
-import org.jetbrains.compose.resources.InternalResourceApi
-import org.jetbrains.compose.resources.readResourceBytes
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import stashydev.composeapp.generated.resources.Res
 
-@OptIn(InternalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun HomeScreen(contentPadding: PaddingValues) {
     val uriHandler = LocalUriHandler.current
     var links: List<HomeLink>? by rememberSaveable { mutableStateOf(null) }
 
+
     LaunchedEffect(Unit) {
         try {
-            links = Json.decodeFromString(readResourceBytes("/strings/links.json").decodeToString())
+            links = Json.decodeFromString(Res.readBytes("files/links.json").decodeToString())
         } catch (e: Exception) {
             e.printStackTrace()
         }

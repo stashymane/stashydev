@@ -22,7 +22,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import screens.HomeScreen
 import screens.ProjectsScreen
 import stashydev.composeapp.generated.resources.Res
-import stashydev.composeapp.generated.resources.background
 import theme.AppTheme
 
 val json = Json {
@@ -33,7 +32,7 @@ val json = Json {
 @Composable
 fun App() {
     val navController = rememberNavController()
-//    val bg = Res.getUri("drawable/background.jpg")
+    val bg = Res.getUri("drawable/background.jpg")
 
 //    val dots = imageResource(Res.drawable.texture)
 //    val brush = ShaderBrush(ImageShader(dots))
@@ -45,17 +44,11 @@ fun App() {
             }) { contentPadding ->
                 Box {
                     AsyncImage(
-                        Res.drawable.background,
+                        bg,
                         null,
                         Modifier.fillMaxSize(),
                         contentScale = ContentScale.FillBounds
                     )
-//                    Image(
-//                        painterResource(bg),
-//                        contentDescription = "Background",
-//                        modifier = Modifier.fillMaxSize(),
-//                        contentScale = ContentScale.FillBounds
-//                    )
                     NavHost(LocalNavController.current, "home",
                         enterTransition = {
                             fadeIn() + scaleIn(initialScale = 0.95f)
