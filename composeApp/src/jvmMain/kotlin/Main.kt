@@ -4,9 +4,14 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import org.koin.core.context.startKoin
 import java.awt.Dimension
 
 fun main() = application {
+    startKoin {
+        modules(KoinModule)
+    }
+
     val state = rememberWindowState()
     val icon = rememberVectorPainter(Icons.Default.Web)
 

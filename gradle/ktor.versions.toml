@@ -1,0 +1,16 @@
+[versions]
+ktor = "3.0.1"
+
+[libraries]
+client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor" }
+client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+
+resources = { module = "io.ktor:ktor-resources", version.ref = "ktor" }
+serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+[bundles]
+client = ["client-core", "client-contentNegotiation", "client-resources", "client-logging", "serialization-json"]

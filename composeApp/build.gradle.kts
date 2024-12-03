@@ -1,60 +1,79 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.serialization)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
+    jvm()
+
     wasmJs {
         moduleName = "composeApp"
         browser {
+            val rootDirPath = project.rootDir.path
+            val projectDirPath = project.projectDir.path
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(rootDirPath)
+                        add(projectDirPath)
+                    }
+                }
             }
         }
         binaries.executable()
     }
-    jvm()
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.kotlinx.coroutines)
-
             implementation(projects.modules.githubApi)
-
-            implementation(libs.bundles.ktor.client)
-            implementation(libs.bundles.coil)
-
-            implementation(libs.materialKolor)
-            implementation(libs.navigation)
+            implementation(libs.kotlinx.serialization.json)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(compose.ui)
+            implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(compose.components.resources)
+            implementation(libs.bundles.koin)
+            implementation(libs.bundles.coil)
+            implementation(libs.navigation)
+            implementation(libs.materialKolor)
+
+            implementation(ktor.bundles.client)
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs) {
                 exclude(compose.material)
             }
+            implementation(ktor.client.cio)
+        }
 
-            implementation(libs.ktor.client.cio)
+        wasmJsMain.dependencies {
+            implementation(libs.kotlinx.browser)
         }
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
+compose {
+    resources {
+        packageOfResClass = "dev.stashy.home"
+    }
+
+    desktop {
+        application {
+            mainClass = "MainKt"
+        }
     }
 }

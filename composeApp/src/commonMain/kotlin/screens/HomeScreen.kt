@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import components.util.AnimatedLaunch
 import components.util.NullSwapper
+import dev.stashy.home.Res
 import kotlinx.serialization.json.Json
 import model.HomeLink
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import stashydev.composeapp.generated.resources.Res
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable

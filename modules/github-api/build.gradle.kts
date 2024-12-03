@@ -1,12 +1,13 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.serialization)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
     }
@@ -18,12 +19,12 @@ kotlin {
             implementation(libs.kotlinx.coroutines)
             api(libs.kotlinx.datetime)
 
-            implementation(libs.ktor.resources)
+            implementation(ktor.resources)
         }
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.ktor.client.mock)
+            implementation(ktor.client.mock)
         }
     }
 }
