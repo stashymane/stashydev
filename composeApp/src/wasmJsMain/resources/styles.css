@@ -22,3 +22,12 @@ html, body {
     justify-content: center;
     align-items: center;
 }
+
+.container svg {
+    display: none;
+}
+
+.container svg:only-child {
+    width: 6em;
+    height: 6em;
+}
