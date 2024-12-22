@@ -16,4 +16,3 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 .kotlin
-kotlin-js-store
