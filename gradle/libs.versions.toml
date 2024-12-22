@@ -15,6 +15,7 @@ kotlinx-browser = "0.3"
 
 # libs
 koin = "4.1.0-Beta1"
+slf4j-simple = "2.0.16"
 
 # compose
 navigation = "2.8.0-alpha10"
@@ -37,6 +38,8 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ktor3 = { module = "io.insert-koin:koin-ktor3", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j-simple" }
 
 # compose
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }

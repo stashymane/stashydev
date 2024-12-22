@@ -58,6 +58,7 @@ kotlin {
                 exclude(compose.material)
             }
             implementation(ktor.client.cio)
+            implementation(libs.slf4j.simple)
         }
 
         wasmJsMain.dependencies {
