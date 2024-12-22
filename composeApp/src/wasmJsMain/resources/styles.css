@@ -10,14 +10,15 @@ html, body {
     font-family: sans-serif;
 }
 
-noscript, .loading {
+.container {
+    display: none;
+}
+
+.container:only-child {
     display: flex;
     width: 100%;
     height: 100%;
+    gap: 2em;
     justify-content: center;
     align-items: center;
-}
-
-canvas ~ .loading {
-    display: none;
 }
