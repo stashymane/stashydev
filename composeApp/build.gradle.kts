@@ -67,6 +67,7 @@ kotlin {
             implementation(compose.desktop.currentOs) {
                 exclude(compose.material)
             }
+            implementation(libs.kotlinx.coroutines.swing)
             implementation(ktor.client.cio)
             implementation(libs.slf4j.simple)
         }
