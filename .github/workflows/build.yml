@@ -60,11 +60,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Production build with Gradle
-        if: env.mode == "production"
+        if: env.mode == 'production'
         run: ./gradlew wasmJsBrowserDistribution
 
       - name: Development build with Gradle
-        if: env.mode == "development"
+        if: env.mode == 'development'
         run: ./gradlew wasmJsBrowserDevelopmentExecutableDistribution
 
       - name: Upload artifact
