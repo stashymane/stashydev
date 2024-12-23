@@ -61,7 +61,7 @@ jobs:
 
       - name: Production build with Gradle
         if: env.mode == 'production'
-        run: ./gradlew wasmJsBrowserDistribution
+        run: ./gradlew :composeApp:wasmJsBrowserDistribution
 
       - name: Development build with Gradle
         if: env.mode == 'development'
