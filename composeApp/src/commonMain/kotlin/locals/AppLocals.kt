@@ -5,10 +5,14 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavHostController
+import coil3.ImageLoader
 
 val LocalNavController: ProvidableCompositionLocal<NavHostController> =
-    staticCompositionLocalOf { throw RuntimeException("LocalNavController not initialized.") }
+    staticCompositionLocalOf { error("LocalNavController not initialized.") }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 val LocalSharedTransitionScope: ProvidableCompositionLocal<SharedTransitionScope> =
-    staticCompositionLocalOf { throw RuntimeException("LocalSharedTransitionScope not initialized.") }
+    staticCompositionLocalOf { error("LocalSharedTransitionScope not initialized.") }
+
+val LocalImageLoader: ProvidableCompositionLocal<ImageLoader> =
+    staticCompositionLocalOf { error("ImageLoader has not been initialized.") }

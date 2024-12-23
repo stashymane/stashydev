@@ -10,11 +10,19 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.decode.SkiaImageDecoder
+import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import components.AppNavbar
+import coil3.serviceLoaderEnabled
+import coil3.svg.SvgDecoder
+import coil3.toUri
+import coil3.util.DebugLogger
+import components.nav.AppNavbar
 import dev.stashy.home.Res
 import kotlinx.serialization.json.Json
 import locals.LocalSharedTransitionScope
@@ -31,8 +39,21 @@ val json = Json {
 @OptIn(ExperimentalResourceApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun App(vm: MainViewModel = koinViewModel()) {
+    setSingletonImageLoaderFactory { context ->
+        ImageLoader.Builder(context)
+            .crossfade(true)
+            .components {
+                add(KtorNetworkFetcherFactory())
+                add(SkiaImageDecoder.Factory())
+                add(SvgDecoder.Factory())
+            }
+            .serviceLoaderEnabled(true)
+            .logger(DebugLogger())
+            .build()
+    }
+
     val background = ImageRequest.Builder(LocalPlatformContext.current)
-        .data(Res.getUri("drawable/background.jpg"))
+        .data(Res.getUri("drawable/background.jpg").toUri())
         .crossfade(true)
         .build()
 

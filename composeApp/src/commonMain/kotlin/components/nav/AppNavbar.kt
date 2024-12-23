@@ -1,52 +1,38 @@
-package components
+package components.nav
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.HoverInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.ForkRight
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import components.util.AnimatedLaunch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.onEach
+import icons.Briefcase
+import icons.LogoGithub
+import icons.LogoTwitter
 import locals.LocalNavController
 import model.Destination
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun AppNavbar(modifier: Modifier = Modifier.width(300.dp)) {
+fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
     val navController = LocalNavController.current
     val uriHandler = LocalUriHandler.current
 
     val backState by navController.currentBackStackEntryAsState()
     val destination = backState?.destination
-
-    val gradient = Brush.verticalGradient(
-        listOf(
-            Color.White.copy(alpha = 0.05f).compositeOver(MaterialTheme.colorScheme.background), Color.Transparent
-        )
-    )
 
     Box(modifier = modifier) {
         Column(
@@ -77,9 +63,26 @@ fun AppNavbar(modifier: Modifier = Modifier.width(300.dp)) {
                     state = rememberTooltipState()
                 ) {
                     NavLink(
-                        icon = { Icon(Icons.Default.ForkRight, null) },
-                        isActive = false
+                        icon = { Icon(icons.Icons.LogoGithub, null, Modifier.size(24.dp)) },
+                        isActive = false,
+                        isExternal = true
                     ) { uriHandler.openUri("https://github.com/stashymane") }
+                }
+
+                TooltipBox(
+                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                    tooltip = {
+                        PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
+                            Text("Twitter")
+                        }
+                    },
+                    state = rememberTooltipState()
+                ) {
+                    NavLink(
+                        icon = { Icon(icons.Icons.LogoTwitter, null, Modifier.size(24.dp)) },
+                        isActive = false,
+                        isExternal = true
+                    ) { uriHandler.openUri("https://twitter.com/stashyymane") }
                 }
 
                 TooltipBox(
@@ -92,8 +95,9 @@ fun AppNavbar(modifier: Modifier = Modifier.width(300.dp)) {
                     state = rememberTooltipState()
                 ) {
                     NavLink(
-                        icon = { Icon(Icons.Default.Mail, null) },
-                        isActive = false
+                        icon = { Icon(Icons.Default.Mail, null, Modifier.size(24.dp)) },
+                        isActive = false,
+                        isExternal = true
                     ) { uriHandler.openUri("mailto:me@stashy.dev") }
                 }
             }
@@ -111,7 +115,7 @@ fun AppNavbar(modifier: Modifier = Modifier.width(300.dp)) {
                 NavLink(
                     modifier = Modifier.fillMaxWidth(),
                     title = { Text("Projects") },
-                    icon = { Icon(Icons.AutoMirrored.Default.List, null) },
+                    icon = { Icon(icons.Icons.Briefcase, null, Modifier.size(24.dp)) },
                     isActive = destination?.hasRoute<Destination.Projects.List>() == true
                 ) { navController.navigate(Destination.Projects.List) }
             }
@@ -123,41 +127,5 @@ fun AppNavbar(modifier: Modifier = Modifier.width(300.dp)) {
                 .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 .align(Alignment.TopEnd)
         )
-    }
-}
-
-@Composable
-fun NavLink(
-    modifier: Modifier = Modifier,
-    title: @Composable () -> Unit = {},
-    icon: @Composable () -> Unit = {},
-    isActive: Boolean,
-    onClick: () -> Unit
-) {
-    val interactionSource = MutableInteractionSource()
-    val backgroundColor by animateColorAsState(if (isActive) LocalContentColor.current.copy(alpha = 0.2f) else Color.Transparent)
-
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions
-            .filterIsInstance<HoverInteraction.Enter>()
-            .onEach {
-                //play sound
-            }.collect()
-    }
-
-    Surface(
-        onClick,
-        modifier = modifier.width(IntrinsicSize.Max),
-        shape = MaterialTheme.shapes.medium,
-        color = backgroundColor,
-        interactionSource = interactionSource
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            icon()
-            title()
-        }
     }
 }
