@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import components.projects.RepoListItem
 import locals.LocalNavController
 import locals.LocalSharedTransitionScope
+import model.Destination
 import model.GithubRepo
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -52,7 +53,7 @@ fun ProjectsScreen(
                         animatedContentScope
                     ),
                 ) {
-                    navController.navigate("projects/${project.id}")
+                    navController.navigate(Destination.Projects.Id(project.id))
                 }
             }
         }

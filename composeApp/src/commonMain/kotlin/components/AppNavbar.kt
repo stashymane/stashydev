@@ -19,11 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.onEach
 import locals.LocalNavController
+import model.Destination
 
 @Composable
 fun AppNavbar(modifier: Modifier = Modifier.fillMaxWidth()) {
@@ -42,8 +45,12 @@ fun AppNavbar(modifier: Modifier = Modifier.fillMaxWidth()) {
         ) {
             Text("stashy.dev")
             Spacer(Modifier)
-            NavLink(title = "Home", name = "home") { navController.navigate("home") }
-            NavLink(title = "Projects", name = "projects") { navController.navigate("projects") }
+            NavLink(title = "Home", isActive = { it?.hasRoute<Destination.Home>() == true }) {
+                navController.navigate(Destination.Home)
+            }
+            NavLink(title = "Projects", isActive = { it?.hasRoute<Destination.Projects.List>() == true }) {
+                navController.navigate(Destination.Projects.List)
+            }
             Spacer(Modifier.weight(1f))
             NavIcon(icon = Icons.Default.Videocam) {}
         }
@@ -51,11 +58,15 @@ fun AppNavbar(modifier: Modifier = Modifier.fillMaxWidth()) {
 }
 
 @Composable
-fun NavLink(modifier: Modifier = Modifier, title: String, name: String, onClick: () -> Unit) {
+fun NavLink(modifier: Modifier = Modifier, title: String, isActive: (NavDestination?) -> Boolean, onClick: () -> Unit) {
     val interactionSource = MutableInteractionSource()
     val backState by LocalNavController.current.currentBackStackEntryAsState()
-    val isActive = backState?.destination?.route == name
-    val backgroundColor by animateColorAsState(if (isActive) LocalContentColor.current.copy(alpha = 0.2f) else Color.Transparent)
+    val backgroundColor by animateColorAsState(
+        if (isActive(backState?.destination))
+            LocalContentColor.current.copy(alpha = 0.2f)
+        else
+            Color.Transparent
+    )
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions
