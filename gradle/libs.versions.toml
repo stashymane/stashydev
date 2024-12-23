@@ -2,7 +2,7 @@
 # plugins
 kotlin = "2.1.0"
 jvm = "21"
-compose-multiplatform = "1.7.3"
+compose-multiplatform = "1.8.0-alpha01"
 jib = "3.4.2"
 
 # kotlinx
@@ -18,7 +18,7 @@ koin = "4.1.0-Beta1"
 slf4j-simple = "2.0.16"
 
 # compose
-navigation = "2.8.0-alpha10"
+navigation = "2.8.0-alpha11"
 haze = "1.0.2"
 coil = "3.0.4"
 materialKolor = "2.0.0"
