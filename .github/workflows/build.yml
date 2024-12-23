@@ -21,6 +21,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  # production/development
+  mode: development
+
 jobs:
   # Single deploy job since we're just deploying
   deploy:
@@ -55,13 +59,18 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build with Gradle
+      - name: Production build with Gradle
+        if: env.mode == "production"
         run: ./gradlew wasmJsBrowserDistribution
+
+      - name: Development build with Gradle
+        if: env.mode == "development"
+        run: ./gradlew wasmJsBrowserDevelopmentExecutableDistribution
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './composeApp/build/dist/wasmJs/productionExecutable/'
+          path: './composeApp/build/dist/wasmJs/${{ env.mode }}Executable/'
 
       - name: Deploy to GitHub Pages
         id: deployment
