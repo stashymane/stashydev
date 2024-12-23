@@ -1,18 +1,27 @@
 package model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
-sealed class Destination {
+sealed class Destination(
+    @Transient
+    val parent: Destination? = null
+) {
     @Serializable
-    object Home : Destination()
+    @SerialName("home")
+    data object Home : Destination()
 
     @Serializable
-    object Projects : Destination() {
+    data object Projects : Destination() {
         @Serializable
-        object List : Destination()
+        @SerialName("list")
+        data object List : Destination(Projects)
 
         @Serializable
-        class Id(val id: Int) : Destination()
+        @SerialName("id")
+        data class Id(val id: Int) : Destination(Projects)
+    }
     }
 }
