@@ -6,7 +6,7 @@ import io.ktor.serialization.kotlinx.json.*
 
 actual val httpClient: HttpClient = HttpClient {
     install(Logging) {
-        level = LogLevel.ALL
+        level = LogLevel.INFO
     }
     install(Resources)
     install(ContentNegotiation) {
