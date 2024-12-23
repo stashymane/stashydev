@@ -29,7 +29,12 @@ kotlin {
                 }
             }
         }
+
         binaries.executable()
+        
+        compilerOptions {
+            freeCompilerArgs.add("-Xwasm-debugger-custom-formatters")
+        }
     }
 
     sourceSets {
