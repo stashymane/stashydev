@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
@@ -37,7 +38,7 @@ val json = Json {
 fun App(vm: MainViewModel = koinViewModel()) {
     val navController = rememberNavController()
 
-    val dotsBrush = ShaderBrush(ImageShader(imageResource(Res.drawable.texture)))
+    val dotsBrush = ShaderBrush(ImageShader(imageResource(Res.drawable.texture), TileMode.Repeated, TileMode.Repeated))
     val background = ImageRequest.Builder(LocalPlatformContext.current)
         .data(Res.getUri("drawable/background.jpg"))
         .crossfade(true)
@@ -56,7 +57,7 @@ fun App(vm: MainViewModel = koinViewModel()) {
                         contentScale = ContentScale.FillBounds
                     )
                     Box(Modifier.matchParentSize().background(dotsBrush))
-                    
+
                     SharedTransitionLayout {
                         CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
                             Navigation(contentPadding)
