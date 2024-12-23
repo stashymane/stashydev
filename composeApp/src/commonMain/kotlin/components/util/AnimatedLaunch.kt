@@ -12,16 +12,16 @@ import androidx.compose.ui.graphics.graphicsLayer
 
 @Composable
 fun AnimatedLaunch(
-    values: Pair<Float, Float>,
+    values: ClosedFloatingPointRange<Float>,
     modifier: GraphicsLayerScope.(Float) -> Unit,
     spec: AnimationSpec<Float> = tween(1000),
     content: @Composable (Modifier) -> Unit
 ) {
-    val animation = remember { Animatable(values.first) }
+    val animation = remember { Animatable(values.start) }
     val graphicsModifier = Modifier.graphicsLayer { modifier(animation.value) }
 
     LaunchedEffect(Unit) {
-        animation.animateTo(values.second, spec)
+        animation.animateTo(values.endInclusive, spec)
     }
 
     content(graphicsModifier)

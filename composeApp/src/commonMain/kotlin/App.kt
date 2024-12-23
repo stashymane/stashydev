@@ -1,7 +1,9 @@
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -34,10 +36,10 @@ fun App(vm: MainViewModel = koinViewModel()) {
         .crossfade(true)
         .build()
 
-    AppTheme(Color.Red, true) {
-        Scaffold(topBar = {
-            AppNavbar()
-        }) { contentPadding ->
+    AppTheme(Color.Blue, true) {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        ) { contentPadding ->
             Box {
                 AsyncImage(
                     background,
@@ -46,9 +48,13 @@ fun App(vm: MainViewModel = koinViewModel()) {
                     contentScale = ContentScale.FillBounds
                 )
 
-                SharedTransitionLayout {
-                    CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
-                        Navigation(contentPadding)
+                Row {
+                    AppNavbar()
+
+                    SharedTransitionLayout {
+                        CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
+                            Navigation(contentPadding)
+                        }
                     }
                 }
             }

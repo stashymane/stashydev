@@ -31,7 +31,7 @@ kotlin {
         }
 
         binaries.executable()
-        
+
         compilerOptions {
             freeCompilerArgs.add("-Xwasm-debugger-custom-formatters")
         }
@@ -39,6 +39,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.model)
             implementation(projects.modules.githubApi)
             implementation(libs.kotlinx.serialization.json)
 
@@ -56,6 +57,10 @@ kotlin {
             implementation(libs.materialKolor)
 
             implementation(ktor.bundles.client)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
 
         jvmMain.dependencies {

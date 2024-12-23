@@ -23,4 +23,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp", ":modules:github-api")
+include(
+    "model",
+    ":composeApp",
+    ":modules:github-api"
+)
