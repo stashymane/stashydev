@@ -1,12 +1,12 @@
 [versions]
 # plugins
-kotlin = "2.1.20-Beta1"
+kotlin = "2.1.0"
 jvm = "21"
-compose-multiplatform = "1.8.0-alpha01"
+compose-multiplatform = "1.7.3"
 jib = "3.4.2"
 
 # kotlinx
-kotlinx-coroutines = "1.10.1"
+kotlinx-coroutines = "1.9.0"
 kotlinx-serialization-json = "1.8.0-RC"
 kotlinx-serialization-protobuf = "1.8.0-RC"
 kotlinx-datetime = "0.6.1"

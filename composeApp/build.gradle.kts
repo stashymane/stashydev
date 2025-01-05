@@ -33,7 +33,7 @@ kotlin {
         binaries.executable()
 
         compilerOptions {
-            freeCompilerArgs.add("-Xwasm-debugger-custom-formatters")
+            freeCompilerArgs.addAll("-Xwasm-debugger-custom-formatters")
         }
     }
 

@@ -20,7 +20,6 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
-import coil3.toUri
 import coil3.util.DebugLogger
 import components.nav.AppNavbar
 import dev.stashy.home.Res
@@ -53,7 +52,7 @@ fun App(vm: MainViewModel = koinViewModel()) {
     }
 
     val background = ImageRequest.Builder(LocalPlatformContext.current)
-        .data(Res.getUri("drawable/background.jpg").toUri())
+        .data(Res.getUri("drawable/background.jpg"))
         .crossfade(true)
         .build()
 
