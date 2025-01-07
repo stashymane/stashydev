@@ -1,11 +1,18 @@
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.decode.SkiaImageDecoder
@@ -40,11 +47,23 @@ fun App() {
             .build()
     }
 
+    val launchAnimation = remember { Animatable(0f) }
+
+    LaunchedEffect(Unit) {
+        launchAnimation.animateTo(1f, spring(Spring.DampingRatioNoBouncy, Spring.StiffnessVeryLow))
+    }
+
     AppTheme(Color.Blue, true) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         ) { contentPadding ->
-            Row {
+            Row(modifier = Modifier.graphicsLayer {
+                alpha = launchAnimation.value
+
+                val scale = 0.8f + (launchAnimation.value * 0.2f)
+                scaleX = scale
+                scaleY = scale
+            }) {
                 AppNavbar()
 
                 SharedTransitionLayout {
