@@ -54,7 +54,7 @@ fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
 
             Row {
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                     tooltip = {
                         PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
                             Text("GitHub")
@@ -70,7 +70,7 @@ fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
                 }
 
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                     tooltip = {
                         PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
                             Text("Twitter")
@@ -86,7 +86,7 @@ fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
                 }
 
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
                     tooltip = {
                         PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
                             Text("Email")
