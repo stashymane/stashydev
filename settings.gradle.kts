@@ -17,8 +17,11 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        create("ktor") {
+        create("ktorLibs") {
             from(files("gradle/ktor.versions.toml"))
+        }
+        create("composeLibs") {
+            from(files("gradle/compose.versions.toml"))
         }
     }
 }

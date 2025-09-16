@@ -19,12 +19,12 @@ kotlin {
             implementation(libs.kotlinx.coroutines)
             api(libs.kotlinx.datetime)
 
-            implementation(ktor.resources)
+            implementation(ktorLibs.resources)
         }
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(ktor.client.mock)
+            implementation(ktorLibs.client.mock)
         }
     }
 }

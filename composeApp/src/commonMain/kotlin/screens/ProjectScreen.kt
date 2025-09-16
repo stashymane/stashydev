@@ -29,7 +29,7 @@ fun ProjectScreen(project: GithubRepo, contentPadding: PaddingValues, animatedCo
             ),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(project.name, fontSize = 4.em, fontWeight = FontWeight.Bold)
+            Text(project.name, fontSize = 6.em, fontWeight = FontWeight.Bold)
         }
     }
 }

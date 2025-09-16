@@ -1,11 +1,12 @@
 package model
 
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @Serializable
-data class GithubRepo(
+data class GithubRepo @OptIn(ExperimentalTime::class) constructor(
     val id: Int,
     @SerialName("node_id") val nodeId: String,
     val name: String,

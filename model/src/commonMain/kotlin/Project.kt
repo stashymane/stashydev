@@ -1,8 +1,9 @@
-import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @Serializable
-data class Project(
+data class Project @OptIn(ExperimentalTime::class) constructor(
     val name: String,
     val url: String,
     val forks: Int,

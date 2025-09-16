@@ -6,10 +6,4 @@ import com.materialkolor.DynamicMaterialTheme
 
 @Composable
 fun AppTheme(seedColor: Color, isDark: Boolean, content: @Composable () -> Unit) =
-    DynamicMaterialTheme(
-        seedColor,
-        useDarkTheme = isDark,
-        animate = true,
-        content = content,
-        isExtendedFidelity = true
-    )
+    DynamicMaterialTheme(seedColor, isDark, animate = true, content = content)

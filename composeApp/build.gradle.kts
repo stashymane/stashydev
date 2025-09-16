@@ -7,9 +7,9 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeHotReload)
+    alias(composeLibs.plugins.multiplatform)
+    alias(composeLibs.plugins.hotReload)
 }
 
 kotlin {
@@ -48,20 +48,18 @@ kotlin {
 
             implementation(compose.runtime)
             implementation(compose.foundation)
-//            implementation(compose.material3)
-            // temporary override until material3 is updated to 1.4.0
-            implementation(libs.compose.material3)
+            implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
             implementation(libs.bundles.koin)
-            implementation(libs.bundles.coil)
-            implementation(libs.navigation)
-            implementation(libs.materialKolor)
+            implementation(composeLibs.bundles.coil)
+            implementation(composeLibs.navigation)
+            implementation(composeLibs.materialKolor)
 
-            implementation(ktor.bundles.client)
+            implementation(ktorLibs.bundles.client)
         }
 
         commonTest.dependencies {
@@ -73,7 +71,7 @@ kotlin {
                 exclude(compose.material)
             }
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(ktor.client.cio)
+            implementation(ktorLibs.client.cio)
             implementation(libs.slf4j.simple)
         }
 

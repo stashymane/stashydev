@@ -24,7 +24,6 @@ import coil3.util.DebugLogger
 import components.nav.AppNavbar
 import kotlinx.serialization.json.Json
 import locals.LocalSharedTransitionScope
-import org.jetbrains.compose.reload.DevelopmentEntryPoint
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import theme.AppTheme
 
@@ -61,13 +60,11 @@ fun App() {
             Row(modifier = Modifier.graphicsLayer {
                 alpha = launchAnimation.value
             }) {
-                DevelopmentEntryPoint {
-                    AppNavbar()
+                AppNavbar()
 
-                    SharedTransitionLayout {
-                        CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
-                            Navigation(contentPadding)
-                        }
+                SharedTransitionLayout {
+                    CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
+                        Navigation(contentPadding)
                     }
                 }
             }

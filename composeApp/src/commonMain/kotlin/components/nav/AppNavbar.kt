@@ -1,7 +1,5 @@
 package components.nav
 
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -13,11 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
-import components.util.AnimatedLaunch
 import icons.Briefcase
 import icons.LogoGithub
 import icons.LogoTwitter
@@ -40,23 +36,14 @@ fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
             modifier = Modifier.padding(16.dp)
         ) {
             Box(Modifier.height(46.dp).fillMaxWidth()) {
-                AnimatedLaunch(
-                    0f..1f,
-                    {
-                        alpha = it
-                        translationY = (1 - it) * 10
-                    },
-                    spec = tween(1000, easing = LinearOutSlowInEasing)
-                ) { modifier ->
-                    Text("stashymane", modifier = Modifier.align(Alignment.Center).then(modifier))
-                }
+                Text("stashymane", modifier = Modifier.align(Alignment.Center))
             }
 
             Row {
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
                     tooltip = {
-                        PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
+                        PlainTooltip(caretShape = TooltipDefaults.caretShape()) {
                             Text("GitHub")
                         }
                     },
@@ -70,9 +57,9 @@ fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
                 }
 
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
                     tooltip = {
-                        PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
+                        PlainTooltip(caretShape = TooltipDefaults.caretShape()) {
                             Text("Twitter")
                         }
                     },
@@ -86,9 +73,9 @@ fun AppNavbar(modifier: Modifier = Modifier.width(240.dp)) {
                 }
 
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
                     tooltip = {
-                        PlainTooltip(caretSize = DpSize(8.dp, 4.dp)) {
+                        PlainTooltip(caretShape = TooltipDefaults.caretShape()) {
                             Text("Email")
                         }
                     },
