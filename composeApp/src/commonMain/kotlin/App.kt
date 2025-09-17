@@ -1,6 +1,5 @@
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,17 +25,12 @@ import components.NavItem
 import components.SiteFooter
 import components.SiteHeader
 import dev.stashy.home.Res
-import dev.stashy.home.skroll
-import dev.stashy.home.spaceman
-import dev.stashy.home.wobble
 import icons.Icons
 import icons.outlinelarge.Cases
 import icons.outlinelarge.FitScreen
 import icons.outlinelarge.UserSearch
 import kotlinx.serialization.json.Json
 import locals.LocalSharedTransitionScope
-import org.jetbrains.compose.resources.imageResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import theme.AppTheme
 
@@ -90,36 +84,39 @@ fun App() {
                             ) {
                                 NavItem(
                                     Modifier.weight(1f),
+                                    Color.Blue,
                                     onClick = {},
                                     icon = Icons.OutlineLarge.Cases,
                                     text = "Projects",
                                     background = {
-                                        Image(
-                                            painterResource(Res.drawable.spaceman),
+                                        AsyncImage(
+                                            Res.getUri("drawable/spaceman.gif"),
                                             null,
                                             contentScale = ContentScale.Crop
                                         )
                                     })
                                 NavItem(
                                     Modifier.weight(1f),
+                                    Color.Red,
                                     onClick = {},
                                     icon = Icons.OutlineLarge.FitScreen,
                                     text = "Media",
                                     background = {
-                                        Image(
-                                            imageResource(Res.drawable.wobble),
+                                        AsyncImage(
+                                            Res.getUri("drawable/wobble.gif"),
                                             null,
                                             contentScale = ContentScale.Crop
                                         )
                                     })
                                 NavItem(
                                     Modifier.weight(1f),
+                                    Color.Magenta,
                                     onClick = {},
                                     icon = Icons.OutlineLarge.UserSearch,
                                     text = "About",
                                     background = {
-                                        Image(
-                                            painterResource(Res.drawable.skroll),
+                                        AsyncImage(
+                                            Res.getUri("drawable/skroll.gif"),
                                             null,
                                             contentScale = ContentScale.Crop
                                         )

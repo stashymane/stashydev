@@ -1,11 +1,15 @@
 package components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -14,9 +18,11 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.materialkolor.PaletteStyle
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import theme.AppTheme
 
 private val maskGradient =
     Brush.verticalGradient(
@@ -27,26 +33,37 @@ private val maskGradient =
         0.6f to Color.White.copy(alpha = 0f)
     )
 
+private val rippleAlpha = RippleAlpha(
+    pressedAlpha = 0.1f,
+    focusedAlpha = 0.1f,
+    draggedAlpha = 0.16f,
+    hoveredAlpha = 0f,
+)
+
 @Composable
 fun NavItem(
     modifier: Modifier = Modifier,
+    color: Color,
     onClick: () -> Unit,
     icon: ImageVector,
     text: String,
     background: @Composable (Modifier) -> Unit
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val hovered by interactionSource.collectIsHoveredAsState()
+) = AppTheme(seedColor = color, isDark = true, style = PaletteStyle.Neutral) {
+    CompositionLocalProvider(LocalRippleConfiguration provides RippleConfiguration(rippleAlpha = rippleAlpha)) {
+        val interactionSource = remember { MutableInteractionSource() }
+        val hovered by interactionSource.collectIsHoveredAsState()
+        val focused by interactionSource.collectIsFocusedAsState()
 
-    val backgroundAlpha = animateFloatAsState(if (hovered) 1f else 0f)
+        val backgroundAlpha = animateFloatAsState(if (hovered || focused) 1f else 0f)
+        val backgroundColor by animateColorAsState(if (hovered || focused) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
 
-    Box(modifier) {
         Surface(
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f),
             onClick = onClick,
-            interactionSource = interactionSource
+            modifier = Modifier.fillMaxWidth().aspectRatio(1f).then(modifier),
+            color = backgroundColor,
+            interactionSource = interactionSource,
         ) {
-            Box(Modifier.matchParentSize().graphicsLayer {
+            Box(Modifier.graphicsLayer {
                 alpha = backgroundAlpha.value
                 compositingStrategy = CompositingStrategy.Offscreen
             }.drawWithContent {
@@ -76,5 +93,5 @@ fun NavItem(
 @Preview
 @Composable
 private fun NavItemPreview() {
-    NavItem(onClick = {}, icon = Icons.OutlineLarge.CaptivePortal, text = "Test", background = {})
+    NavItem(color = Color.Red, onClick = {}, icon = Icons.OutlineLarge.CaptivePortal, text = "Test", background = {})
 }
