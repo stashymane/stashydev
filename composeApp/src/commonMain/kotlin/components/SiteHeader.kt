@@ -1,5 +1,7 @@
 package components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.MaterialTheme
@@ -96,7 +98,10 @@ fun HeaderLinkSection(title: String, content: @Composable () -> Unit) {
             Text(title, style = MaterialTheme.typography.labelSmall)
         }
 
-        Row(Modifier.height(IntrinsicSize.Min)) {
+        Row(
+            Modifier.height(IntrinsicSize.Min)
+                .border(BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)))
+        ) {
             content()
         }
     }

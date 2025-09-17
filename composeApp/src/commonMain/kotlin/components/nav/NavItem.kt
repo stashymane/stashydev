@@ -2,6 +2,7 @@ package components.nav
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -59,7 +60,7 @@ fun NavBlock(
         val backgroundAlpha by animateFloatAsState(if (hovered || focused) 1f else 0f)
         val backgroundColor by animateColorAsState(if (hovered || focused) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
         val scale by animateFloatAsState(
-            if (pressed) 1.0f else if (hovered || focused) 1.05f else 1f,
+            if (pressed) 1.0f else if (hovered) 1.05f else 1f,
             instantBezier(300)
         )
 
@@ -70,6 +71,7 @@ fun NavBlock(
                 scaleY = scale
             },
             color = backgroundColor,
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)),
             interactionSource = interactionSource,
         ) {
             Box(Modifier.graphicsLayer {
