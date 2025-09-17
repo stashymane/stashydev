@@ -2,15 +2,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.text.font.Font
 import dev.stashy.home.*
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.preloadFont
-import org.jetbrains.compose.resources.preloadImageBitmap
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun loadContent(): State<LoadingState> {
-    val fonts = listOf(
+    val fonts: List<State<Font?>> = listOf(
         preloadFont(Res.font.Tomorrow_Regular),
         preloadFont(Res.font.Tomorrow_Light),
         preloadFont(Res.font.Tomorrow_Italic),
@@ -19,8 +20,8 @@ actual fun loadContent(): State<LoadingState> {
         preloadFont(Res.font.PlayfairDisplay_Italic_VariableFont_wght),
     )
 
-    val images = listOf(
-        preloadImageBitmap(Res.drawable.background)
+    val images: List<State<ImageBitmap?>> = listOf(
+
     )
 
     val allResources = fonts + images
