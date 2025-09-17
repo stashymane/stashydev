@@ -1,29 +1,42 @@
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.decode.SkiaImageDecoder
 import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
-import components.nav.AppNavbar
+import components.NavItem
+import components.SiteFooter
+import components.SiteHeader
+import dev.stashy.home.Res
+import dev.stashy.home.skroll
+import dev.stashy.home.spaceman
+import dev.stashy.home.wobble
+import icons.Icons
+import icons.outlinelarge.Cases
+import icons.outlinelarge.FitScreen
+import icons.outlinelarge.UserSearch
 import kotlinx.serialization.json.Json
 import locals.LocalSharedTransitionScope
+import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import theme.AppTheme
 
@@ -47,24 +60,73 @@ fun App() {
             .build()
     }
 
-    val launchAnimation = remember { Animatable(0f) }
-
-    LaunchedEffect(Unit) {
-        launchAnimation.animateTo(1f, spring(Spring.DampingRatioNoBouncy, Spring.StiffnessVeryLow))
-    }
-
     AppTheme(Color.Blue, true) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         ) { contentPadding ->
-            Row(modifier = Modifier.graphicsLayer {
-                alpha = launchAnimation.value
-            }) {
-                AppNavbar()
+            val background =
+                ImageRequest.Builder(LocalPlatformContext.current).data(Res.getUri("drawable/background.jpg"))
+                    .crossfade(true).build()
 
-                SharedTransitionLayout {
-                    CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
-                        Navigation(contentPadding)
+            SharedTransitionLayout {
+                CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        AsyncImage(
+                            background,
+                            null,
+                            Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop,
+                            alpha = 0.15f
+                        )
+
+                        Column(
+                            Modifier.widthIn(max = 900.dp).heightIn(max = 720.dp).padding(contentPadding),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            SiteHeader()
+                            Row(
+                                Modifier.padding(horizontal = 16.dp),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                NavItem(
+                                    Modifier.weight(1f),
+                                    onClick = {},
+                                    icon = Icons.OutlineLarge.Cases,
+                                    text = "Projects",
+                                    background = {
+                                        Image(
+                                            painterResource(Res.drawable.spaceman),
+                                            null,
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    })
+                                NavItem(
+                                    Modifier.weight(1f),
+                                    onClick = {},
+                                    icon = Icons.OutlineLarge.FitScreen,
+                                    text = "Media",
+                                    background = {
+                                        Image(
+                                            imageResource(Res.drawable.wobble),
+                                            null,
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    })
+                                NavItem(
+                                    Modifier.weight(1f),
+                                    onClick = {},
+                                    icon = Icons.OutlineLarge.UserSearch,
+                                    text = "About",
+                                    background = {
+                                        Image(
+                                            painterResource(Res.drawable.skroll),
+                                            null,
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    })
+                            }
+                            SiteFooter()
+                        }
                     }
                 }
             }

@@ -1,3 +1,5 @@
 package icons
 
-object Icons
+object Icons {
+    object OutlineLarge
+}

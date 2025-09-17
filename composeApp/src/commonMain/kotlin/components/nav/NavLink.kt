@@ -50,14 +50,13 @@ fun NavLink(
     Surface(
         onClick,
         modifier = modifier.width(IntrinsicSize.Max),
-        shape = MaterialTheme.shapes.medium,
         color = backgroundColor,
         border = BorderStroke(1.dp, borderColor),
         interactionSource = interactionSource
     ) {
         Box {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 icon()
@@ -67,8 +66,8 @@ fun NavLink(
                 AnimatedVisibility(
                     isHovered,
                     modifier = Modifier.align(Alignment.TopEnd),
-                    enter = fadeIn() + slideIn { IntOffset(-5, 5) },
-                    exit = fadeOut() + slideOut { IntOffset(-5, 5) }
+                    enter = fadeIn() + slideIn { IntOffset(-2, 2) },
+                    exit = fadeOut() + slideOut { IntOffset(-2, 2) }
                 ) {
                     Icon(
                         icons.Icons.ArrowOutwardThick,
