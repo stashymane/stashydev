@@ -1,10 +1,13 @@
 package components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.*
@@ -18,18 +21,18 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.materialkolor.PaletteStyle
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import theme.AppTheme
 
 private val maskGradient =
     Brush.verticalGradient(
         0f to Color.White,
-        0.1f to Color.White.copy(alpha = 1f),
-        0.2f to Color.White.copy(alpha = 0.9f),
+        0.1f to Color.White.copy(alpha = 0.975f),
+        0.2f to Color.White.copy(alpha = 0.95f),
+        0.3f to Color.White.copy(alpha = 0.85f),
         0.4f to Color.White.copy(alpha = 0.6f),
+        0.5f to Color.White.copy(alpha = 0.3f),
         0.6f to Color.White.copy(alpha = 0f)
     )
 
@@ -43,29 +46,37 @@ private val rippleAlpha = RippleAlpha(
 @Composable
 fun NavItem(
     modifier: Modifier = Modifier,
-    color: Color,
     onClick: () -> Unit,
     icon: ImageVector,
     text: String,
     background: @Composable (Modifier) -> Unit
-) = AppTheme(seedColor = color, isDark = true, style = PaletteStyle.Neutral) {
+) {
     CompositionLocalProvider(LocalRippleConfiguration provides RippleConfiguration(rippleAlpha = rippleAlpha)) {
         val interactionSource = remember { MutableInteractionSource() }
         val hovered by interactionSource.collectIsHoveredAsState()
         val focused by interactionSource.collectIsFocusedAsState()
+        val pressed by interactionSource.collectIsPressedAsState()
 
-        val backgroundAlpha = animateFloatAsState(if (hovered || focused) 1f else 0f)
+        val backgroundAlpha by animateFloatAsState(if (hovered || focused) 1f else 0f)
         val backgroundColor by animateColorAsState(if (hovered || focused) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
+        val scale by animateFloatAsState(
+            if (pressed) 1.0f else if (hovered || focused) 1.05f else 1f,
+            tween(durationMillis = 250, easing = CubicBezierEasing(0f, 0.4f, 0.4f, 1f))
+        )
 
         Surface(
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f).then(modifier),
+            modifier = Modifier.fillMaxWidth().aspectRatio(1f).then(modifier).graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            },
             color = backgroundColor,
             interactionSource = interactionSource,
         ) {
             Box(Modifier.graphicsLayer {
-                alpha = backgroundAlpha.value
+                alpha = backgroundAlpha
                 compositingStrategy = CompositingStrategy.Offscreen
+                blendMode = BlendMode.Screen
             }.drawWithContent {
                 drawContent()
                 drawRect(maskGradient, blendMode = BlendMode.DstOut)
@@ -93,5 +104,5 @@ fun NavItem(
 @Preview
 @Composable
 private fun NavItemPreview() {
-    NavItem(color = Color.Red, onClick = {}, icon = Icons.OutlineLarge.CaptivePortal, text = "Test", background = {})
+    NavItem(onClick = {}, icon = Icons.OutlineLarge.CaptivePortal, text = "Test", background = {})
 }

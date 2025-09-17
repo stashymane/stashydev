@@ -84,7 +84,6 @@ fun App() {
                             ) {
                                 NavItem(
                                     Modifier.weight(1f),
-                                    Color.Blue,
                                     onClick = {},
                                     icon = Icons.OutlineLarge.Cases,
                                     text = "Projects",
@@ -97,7 +96,6 @@ fun App() {
                                     })
                                 NavItem(
                                     Modifier.weight(1f),
-                                    Color.Red,
                                     onClick = {},
                                     icon = Icons.OutlineLarge.FitScreen,
                                     text = "Media",
@@ -110,7 +108,6 @@ fun App() {
                                     })
                                 NavItem(
                                     Modifier.weight(1f),
-                                    Color.Magenta,
                                     onClick = {},
                                     icon = Icons.OutlineLarge.UserSearch,
                                     text = "About",
