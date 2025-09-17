@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ fun NavLink(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
+    val isPressed by interactionSource.collectIsPressedAsState()
 
     val backgroundColor by animateColorAsState(if (isActive) LocalContentColor.current.copy(alpha = 0.2f) else backgroundColor)
     val borderColor by animateColorAsState(if (isActive) MaterialTheme.colorScheme.outline.copy(alpha = 0.3f) else Color.Transparent)
@@ -69,7 +71,7 @@ fun NavLink(
             }
             if (isExternal) {
                 AnimatedVisibility(
-                    isHovered,
+                    isHovered || isPressed,
                     modifier = Modifier.align(Alignment.TopEnd),
                     enter = iconEnter,
                     exit = iconExit
