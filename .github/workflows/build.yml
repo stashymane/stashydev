@@ -47,7 +47,7 @@ jobs:
 
       - name: Fix Gradle permissions
         if: runner.os == 'Linux'
-        run: chmod +x ${{ inputs.gradlew-path }}
+        run: chmod +x ./gradlew
         shell: sh
 
       - name: Setup Gradle
