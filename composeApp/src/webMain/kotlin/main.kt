@@ -19,9 +19,6 @@ fun main() {
             CompositionLocalProvider(LocalNavController provides navController) {
                 App()
             }
-//            LaunchedEffect(Unit) {
-//                window.bindToNavigation(navController)
-//            }
         }
     }
 }

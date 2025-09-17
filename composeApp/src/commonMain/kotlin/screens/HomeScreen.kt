@@ -1,61 +1,90 @@
 package screens
 
-import Project
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import components.SiteFooter
+import components.SiteHeader
+import components.nav.NavBlock
+import dev.stashy.home.Res
+import icons.Icons
+import icons.outlinelarge.Cases
+import icons.outlinelarge.FitScreen
+import icons.outlinelarge.UserSearch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.koin.compose.viewmodel.koinViewModel
-import vm.HomeScreenViewmodel
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun HomeScreen(contentPadding: PaddingValues, vm: HomeScreenViewmodel = koinViewModel()) {
-    val state by vm.stateFlow.collectAsState()
-
-    LaunchedEffect(Unit) {
-        if (state !is HomeScreenViewmodel.State.Loaded) vm.load()
+fun HomeScreen(contentPadding: PaddingValues) {
+    val localPlatformContext = LocalPlatformContext.current
+    val background = remember {
+        ImageRequest.Builder(localPlatformContext).data(Res.getUri("drawable/background.jpg")).crossfade(true).build()
     }
 
-    AnimatedContent(state) { state ->
-        when (state) {
-            is HomeScreenViewmodel.State.Loading -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(Modifier.size(64.dp))
-                }
-            }
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        AsyncImage(
+            background,
+            null,
+            Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
+            alpha = 0.1f
+        )
 
-            is HomeScreenViewmodel.State.Error -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("An error has occurred.")
-                }
+        Column(
+            Modifier.widthIn(max = 900.dp).heightIn(max = 720.dp).padding(contentPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            SiteHeader()
+            Row(
+                Modifier.padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                NavBlock(
+                    Modifier.weight(1f),
+                    onClick = {},
+                    icon = Icons.OutlineLarge.Cases,
+                    text = "Projects",
+                    background = {
+                        AsyncImage(
+                            Res.getUri("drawable/spaceman.gif"),
+                            null,
+                            contentScale = ContentScale.Crop
+                        )
+                    })
+                NavBlock(
+                    Modifier.weight(1f),
+                    onClick = {},
+                    icon = Icons.OutlineLarge.FitScreen,
+                    text = "Media",
+                    background = {
+                        AsyncImage(
+                            Res.getUri("drawable/wobble.gif"),
+                            null,
+                            contentScale = ContentScale.Crop
+                        )
+                    })
+                NavBlock(
+                    Modifier.weight(1f),
+                    onClick = {},
+                    icon = Icons.OutlineLarge.UserSearch,
+                    text = "About",
+                    background = {
+                        AsyncImage(
+                            Res.getUri("drawable/skroll.gif"),
+                            null,
+                            contentScale = ContentScale.Crop
+                        )
+                    })
             }
-
-            is HomeScreenViewmodel.State.Loaded -> {
-                HomeScreenContent(contentPadding, state.projects)
-            }
-        }
-    }
-}
-
-@Composable
-private fun HomeScreenContent(contentPadding: PaddingValues, projects: List<Project>) {
-    LazyColumn {
-        items(projects) { project ->
-            Text(project.name)
+            SiteFooter()
         }
     }
 }
