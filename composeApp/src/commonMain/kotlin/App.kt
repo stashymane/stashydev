@@ -1,10 +1,14 @@
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.foundation.LocalScrollbarStyle
+import androidx.compose.foundation.ScrollbarStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.decode.SkiaImageDecoder
@@ -48,7 +52,17 @@ fun App() {
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         ) { contentPadding ->
             SharedTransitionLayout {
-                CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
+                CompositionLocalProvider(
+                    LocalSharedTransitionScope provides this@SharedTransitionLayout,
+                    LocalScrollbarStyle provides ScrollbarStyle(
+                        minimalHeight = 32.dp,
+                        thickness = 8.dp,
+                        shape = RectangleShape,
+                        hoverDurationMillis = 300,
+                        unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                        hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f)
+                    )
+                ) {
                     AnimatedContent(isComplete) {
                         when (it) {
                             true -> HomeScreen(contentPadding)

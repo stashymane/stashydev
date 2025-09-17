@@ -1,7 +1,9 @@
 package screens
 
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,42 +25,49 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 fun HomeScreen(contentPadding: PaddingValues) {
     val scrollState = rememberScrollState()
 
-    Box(Modifier.fillMaxSize().verticalScroll(scrollState), contentAlignment = Alignment.Center) {
-        Column(
-            Modifier.widthIn(max = WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND.dp).padding(contentPadding)
-                .padding(vertical = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            SiteHeader()
-
-            ResponsiveRow(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                arrangement = Arrangement.spacedBy(16.dp)
+    Box(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxSize().verticalScroll(scrollState), contentAlignment = Alignment.Center) {
+            Column(
+                Modifier.widthIn(max = WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND.dp).padding(contentPadding)
+                    .padding(vertical = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                val blockModifier =
-                    responsive(onRow = { Modifier.weight(1f) }, onColumn = { Modifier.fillMaxWidth() })
+                SiteHeader()
 
-                NavBlock(
-                    blockModifier,
-                    onClick = {},
-                    icon = Icons.OutlineLarge.Cases,
-                    text = "Projects",
-                    background = {})
-                NavBlock(
-                    blockModifier,
-                    onClick = {},
-                    icon = Icons.OutlineLarge.FitScreen,
-                    text = "Media",
-                    background = {})
-                NavBlock(
-                    blockModifier,
-                    onClick = {},
-                    icon = Icons.OutlineLarge.UserSearch,
-                    text = "About",
-                    background = {})
+                ResponsiveRow(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    arrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    val blockModifier =
+                        responsive(onRow = { Modifier.weight(1f) }, onColumn = { Modifier.fillMaxWidth() })
+
+                    NavBlock(
+                        blockModifier,
+                        onClick = {},
+                        icon = Icons.OutlineLarge.Cases,
+                        text = "Projects",
+                        background = {})
+                    NavBlock(
+                        blockModifier,
+                        onClick = {},
+                        icon = Icons.OutlineLarge.FitScreen,
+                        text = "Media",
+                        background = {})
+                    NavBlock(
+                        blockModifier,
+                        onClick = {},
+                        icon = Icons.OutlineLarge.UserSearch,
+                        text = "About",
+                        background = {})
+                }
+
+                SiteFooter()
             }
-
-            SiteFooter()
         }
+
+        VerticalScrollbar(
+            rememberScrollbarAdapter(scrollState),
+            Modifier.align(Alignment.CenterEnd).fillMaxHeight().padding(2.dp)
+        )
     }
 }
