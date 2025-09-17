@@ -54,7 +54,7 @@ fun HomeScreen(contentPadding: PaddingValues) {
                     text = "Projects",
                     background = {
                         AsyncImage(
-                            Res.getUri("drawable/spaceman.gif"),
+                            Res.getUri("drawable/block-projects.jpg"),
                             null,
                             contentScale = ContentScale.Crop
                         )
@@ -66,7 +66,7 @@ fun HomeScreen(contentPadding: PaddingValues) {
                     text = "Media",
                     background = {
                         AsyncImage(
-                            Res.getUri("drawable/wobble.gif"),
+                            Res.getUri("drawable/block-projects.jpg"),
                             null,
                             contentScale = ContentScale.Crop
                         )
@@ -78,7 +78,7 @@ fun HomeScreen(contentPadding: PaddingValues) {
                     text = "About",
                     background = {
                         AsyncImage(
-                            Res.getUri("drawable/skroll.gif"),
+                            Res.getUri("drawable/block-projects.jpg"),
                             null,
                             contentScale = ContentScale.Crop
                         )
