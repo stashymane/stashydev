@@ -1,9 +1,7 @@
-package components
+package components.nav
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -24,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import theme.instantBezier
 
 private val maskGradient =
     Brush.verticalGradient(
@@ -44,7 +43,7 @@ private val rippleAlpha = RippleAlpha(
 )
 
 @Composable
-fun NavItem(
+fun NavBlock(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     icon: ImageVector,
@@ -61,7 +60,7 @@ fun NavItem(
         val backgroundColor by animateColorAsState(if (hovered || focused) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
         val scale by animateFloatAsState(
             if (pressed) 1.0f else if (hovered || focused) 1.05f else 1f,
-            tween(durationMillis = 250, easing = CubicBezierEasing(0f, 0.4f, 0.4f, 1f))
+            instantBezier(300)
         )
 
         Surface(
@@ -104,5 +103,5 @@ fun NavItem(
 @Preview
 @Composable
 private fun NavItemPreview() {
-    NavItem(onClick = {}, icon = Icons.OutlineLarge.CaptivePortal, text = "Test", background = {})
+    NavBlock(onClick = {}, icon = Icons.OutlineLarge.CaptivePortal, text = "Test", background = {})
 }

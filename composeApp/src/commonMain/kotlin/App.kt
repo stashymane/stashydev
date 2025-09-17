@@ -21,9 +21,9 @@ import coil3.request.crossfade
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
-import components.NavItem
 import components.SiteFooter
 import components.SiteHeader
+import components.nav.NavBlock
 import dev.stashy.home.Res
 import icons.Icons
 import icons.outlinelarge.Cases
@@ -70,7 +70,7 @@ fun App() {
                             null,
                             Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop,
-                            alpha = 0.15f
+                            alpha = 0.1f
                         )
 
                         Column(
@@ -82,7 +82,7 @@ fun App() {
                                 Modifier.padding(horizontal = 16.dp),
                                 horizontalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
-                                NavItem(
+                                NavBlock(
                                     Modifier.weight(1f),
                                     onClick = {},
                                     icon = Icons.OutlineLarge.Cases,
@@ -94,7 +94,7 @@ fun App() {
                                             contentScale = ContentScale.Crop
                                         )
                                     })
-                                NavItem(
+                                NavBlock(
                                     Modifier.weight(1f),
                                     onClick = {},
                                     icon = Icons.OutlineLarge.FitScreen,
@@ -106,7 +106,7 @@ fun App() {
                                             contentScale = ContentScale.Crop
                                         )
                                     })
-                                NavItem(
+                                NavBlock(
                                     Modifier.weight(1f),
                                     onClick = {},
                                     icon = Icons.OutlineLarge.UserSearch,

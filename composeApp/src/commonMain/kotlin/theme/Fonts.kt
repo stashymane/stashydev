@@ -31,6 +31,9 @@ fun AppTypography(): Typography {
             headlineLarge = headlineLarge.copy(fontFamily = playfairFont),
             headlineMedium = headlineMedium.copy(fontFamily = playfairFont),
             headlineSmall = headlineSmall.copy(fontFamily = playfairFont),
+            labelLarge = labelLarge.copy(fontFamily = tomorrowFont),
+            labelMedium = labelMedium.copy(fontFamily = tomorrowFont),
+            labelSmall = labelSmall.copy(fontFamily = tomorrowFont),
         )
     }
 }

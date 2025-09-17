@@ -21,7 +21,7 @@ fun main() = application {
     val icon = rememberVectorPainter(Icons.Default.Web)
 
     Window(onCloseRequest = ::exitApplication, state = state, title = "stashydev", icon = icon) {
-        window.minimumSize = Dimension(800, 600)
+        window.minimumSize = Dimension(400, 400)
 
         val navController = rememberNavController()
         CompositionLocalProvider(LocalNavController provides navController) {
