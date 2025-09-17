@@ -38,9 +38,10 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(composeLibs.bundles.compose)
+
             implementation(libs.bundles.koin)
             implementation(composeLibs.bundles.coil)
-            implementation(composeLibs.navigation)
             implementation(composeLibs.materialKolor)
 
             implementation(ktorLibs.bundles.client)

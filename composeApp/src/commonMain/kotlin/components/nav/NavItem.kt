@@ -66,7 +66,7 @@ fun NavBlock(
 
         Surface(
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f).then(modifier).graphicsLayer {
+            modifier = modifier.sizeIn(minHeight = 300.dp).graphicsLayer {
                 scaleX = scale
                 scaleY = scale
             },
