@@ -11,9 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.nav.SocialIcon
 import icons.Icons
-import icons.LogoGithub
-import icons.LogoTwitter
+import icons.logos.GitHub
+import icons.logos.SoundCloud
+import icons.logos.Twitter
+import icons.logos.YouTube
 import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Composable
+private fun LinkDivider() {
+    VerticalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+}
 
 @Composable
 fun SiteHeader(modifier: Modifier = Modifier) {
@@ -34,19 +41,35 @@ fun SiteHeader(modifier: Modifier = Modifier) {
             HeaderLinkSection("content") {
                 SocialIcon(
                     url = "https://github.com/stashymane",
-                    icon = Icons.LogoGithub,
+                    icon = Icons.Logos.GitHub,
                     tooltip = "GitHub"
+                )
+
+                LinkDivider()
+
+                SocialIcon(
+                    url = "https://soundcloud.com/stashymane",
+                    icon = Icons.Logos.SoundCloud,
+                    tooltip = "SoundCloud"
+                )
+
+                LinkDivider()
+
+                SocialIcon(
+                    url = "https://youtube.com/@stashymane",
+                    icon = Icons.Logos.YouTube,
+                    tooltip = "YouTube"
                 )
             }
 
             HeaderLinkSection("social") {
                 SocialIcon(
                     url = "https://x.com/stashyymane",
-                    icon = Icons.LogoTwitter,
+                    icon = Icons.Logos.Twitter,
                     tooltip = "X/Twitter"
                 )
 
-                VerticalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                LinkDivider()
 
                 SocialIcon(
                     url = "mailto:me@stashy.dev",

@@ -1,24 +1,25 @@
-package icons
+package icons.logos
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import icons.Icons
 
-val Icons.LogoGithub: ImageVector
+val Icons.Logos.GitHub: ImageVector
     get() {
-        if (_LogoGithub != null) {
-            return _LogoGithub!!
+        if (_GitHub != null) {
+            return _GitHub!!
         }
-        _LogoGithub = ImageVector.Builder(
-            name = "LogoGithub",
+        _GitHub = ImageVector.Builder(
+            name = "Logos.GitHub",
             defaultWidth = 512.dp,
             defaultHeight = 512.dp,
             viewportWidth = 512f,
             viewportHeight = 512f
         ).apply {
-            path(fill = SolidColor(Color(0xFF000000))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveTo(256f, 32f)
                 curveTo(132.3f, 32f, 32f, 134.9f, 32f, 261.7f)
                 curveToRelative(0f, 101.5f, 64.2f, 187.5f, 153.2f, 217.9f)
@@ -55,8 +56,8 @@ val Icons.LogoGithub: ImageVector
             }
         }.build()
 
-        return _LogoGithub!!
+        return _GitHub!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _LogoGithub: ImageVector? = null
+private var _GitHub: ImageVector? = null

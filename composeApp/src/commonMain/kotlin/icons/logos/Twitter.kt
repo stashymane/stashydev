@@ -1,24 +1,25 @@
-package icons
+package icons.logos
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import icons.Icons
 
-val Icons.LogoTwitter: ImageVector
+val Icons.Logos.Twitter: ImageVector
     get() {
-        if (_LogoTwitter != null) {
-            return _LogoTwitter!!
+        if (_Twitter != null) {
+            return _Twitter!!
         }
-        _LogoTwitter = ImageVector.Builder(
-            name = "LogoTwitter",
+        _Twitter = ImageVector.Builder(
+            name = "Logos.Twitter",
             defaultWidth = 512.dp,
             defaultHeight = 512.dp,
             viewportWidth = 512f,
             viewportHeight = 512f
         ).apply {
-            path(fill = SolidColor(Color(0xFF000000))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveTo(496f, 109.5f)
                 arcToRelative(201.8f, 201.8f, 0f, isMoreThanHalf = false, isPositiveArc = true, -56.55f, 15.3f)
                 arcToRelative(97.51f, 97.51f, 0f, isMoreThanHalf = false, isPositiveArc = false, 43.33f, -53.6f)
@@ -45,8 +46,8 @@ val Icons.LogoTwitter: ImageVector
             }
         }.build()
 
-        return _LogoTwitter!!
+        return _Twitter!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _LogoTwitter: ImageVector? = null
+private var _Twitter: ImageVector? = null
