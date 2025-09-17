@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import dev.stashy.home.*
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.preloadFont
+import org.jetbrains.compose.resources.preloadImageBitmap
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -17,12 +18,19 @@ actual fun loadContent(): State<LoadingState> {
         preloadFont(Res.font.PlayfairDisplay_VariableFont_wght),
         preloadFont(Res.font.PlayfairDisplay_Italic_VariableFont_wght),
     )
+
+    val images = listOf(
+        preloadImageBitmap(Res.drawable.background)
+    )
+
+    val allResources = fonts + images
+
     return remember {
         derivedStateOf {
-            if (fonts.all { it.value != null })
+            if (allResources.all { it.value != null })
                 LoadingState.Complete
             else
-                LoadingState.Loading(fonts.count { it.value != null }.toFloat() / fonts.size)
+                LoadingState.Loading(allResources.count { it.value != null }.toFloat() / fonts.size)
         }
     }
 }
