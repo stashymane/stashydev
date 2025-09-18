@@ -23,18 +23,10 @@ import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import theme.exponentialVerticalGradient
 import theme.instantBezier
 
-private val maskGradient =
-    Brush.verticalGradient(
-        0f to Color.White,
-        0.1f to Color.White.copy(alpha = 0.975f),
-        0.2f to Color.White.copy(alpha = 0.95f),
-        0.3f to Color.White.copy(alpha = 0.85f),
-        0.4f to Color.White.copy(alpha = 0.6f),
-        0.5f to Color.White.copy(alpha = 0.3f),
-        0.6f to Color.White.copy(alpha = 0f)
-    )
+private val maskGradient = Brush.exponentialVerticalGradient(Color.White, 10, 0.7f)
 
 private val rippleAlpha = RippleAlpha(
     pressedAlpha = 0.1f,
