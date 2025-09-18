@@ -52,7 +52,7 @@ fun NavBlock(
         val backgroundAlpha by animateFloatAsState(if (hovered || focused || pressed) 1f else 0f)
         val backgroundColor by animateColorAsState(if (hovered || focused || pressed) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
         val scale by animateFloatAsState(
-            if (pressed) 1.0f else if (hovered) 1.05f else 1f,
+            if (pressed) 0.975f else 1f,
             instantBezier(300)
         )
 
