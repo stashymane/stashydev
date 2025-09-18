@@ -1,6 +1,5 @@
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.ScrollbarStyle
 import androidx.compose.material3.MaterialTheme
@@ -18,9 +17,7 @@ import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import kotlinx.serialization.json.Json
-import locals.LocalSharedTransitionScope
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import screens.HomeScreen
 import screens.LoadingScreen
 import theme.AppTheme
 
@@ -51,23 +48,20 @@ fun App() {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         ) { contentPadding ->
-            SharedTransitionLayout {
-                CompositionLocalProvider(
-                    LocalSharedTransitionScope provides this@SharedTransitionLayout,
-                    LocalScrollbarStyle provides ScrollbarStyle(
-                        minimalHeight = 32.dp,
-                        thickness = 8.dp,
-                        shape = RectangleShape,
-                        hoverDurationMillis = 300,
-                        unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                        hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f)
-                    )
-                ) {
-                    AnimatedContent(isComplete) {
-                        when (it) {
-                            true -> HomeScreen(contentPadding)
-                            false -> LoadingScreen(progress = (loadingState as? LoadingState.Loading)?.progress) { }
-                        }
+            CompositionLocalProvider(
+                LocalScrollbarStyle provides ScrollbarStyle(
+                    minimalHeight = 32.dp,
+                    thickness = 8.dp,
+                    shape = RectangleShape,
+                    hoverDurationMillis = 300,
+                    unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                    hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f)
+                )
+            ) {
+                AnimatedContent(isComplete) {
+                    when (it) {
+                        true -> Navigation(contentPadding)
+                        false -> LoadingScreen(progress = (loadingState as? LoadingState.Loading)?.progress) { }
                     }
                 }
             }

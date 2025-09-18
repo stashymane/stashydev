@@ -1,5 +1,6 @@
 package screens
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -26,14 +27,16 @@ import icons.Icons
 import icons.outlinelarge.Cases
 import icons.outlinelarge.FitScreen
 import icons.outlinelarge.UserSearch
+import locals.LocalBackStack
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.skia.RuntimeShaderBuilder
 import theme.Shaders
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun HomeScreen(contentPadding: PaddingValues) {
+    val backStack = LocalBackStack.current
     val scrollState = rememberScrollState()
     val backgroundEffect = remember { Shaders.Pattern }
 
@@ -78,7 +81,7 @@ fun HomeScreen(contentPadding: PaddingValues) {
 
                     NavBlock(
                         blockModifier,
-                        onClick = {},
+                        onClick = { backStack.add(Screen.Projects) },
                         icon = Icons.OutlineLarge.Cases,
                         text = "Projects",
                         background = {

@@ -3,7 +3,6 @@ package components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -13,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.nav.SocialIcon
 import icons.Icons
+import icons.filled.Mail
 import icons.logos.GitHub
 import icons.logos.SoundCloud
 import icons.logos.Twitter
@@ -75,7 +75,7 @@ fun SiteHeader(modifier: Modifier = Modifier) {
 
                 SocialIcon(
                     url = "mailto:me@stashy.dev",
-                    icon = androidx.compose.material.icons.Icons.Default.Mail,
+                    icon = Icons.Filled.Mail,
                     tooltip = "Mail"
                 )
             }

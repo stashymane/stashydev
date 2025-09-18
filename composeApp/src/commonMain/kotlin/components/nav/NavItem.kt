@@ -49,7 +49,7 @@ fun NavBlock(
         val focused by interactionSource.collectIsFocusedAsState()
         val pressed by interactionSource.collectIsPressedAsState()
 
-        val backgroundAlpha by animateFloatAsState(if (hovered || focused || pressed) 1f else 0f)
+        val backgroundAlpha by animateFloatAsState(if (pressed) 0.5f else if (hovered || focused) 1f else 0f)
         val backgroundColor by animateColorAsState(if (hovered || focused || pressed) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
         val scale by animateFloatAsState(
             if (pressed) 0.975f else 1f,

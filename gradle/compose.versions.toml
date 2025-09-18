@@ -3,6 +3,7 @@ composeHotReload = "1.0.0-beta07"
 composeMultiplatform = "1.10.0-alpha01"
 
 navigation = "2.9.0-rc01"
+navigation3 = "1.0.0-SNAPSHOT+default"
 adaptive = "1.2.0-alpha06"
 
 haze = "1.6.10"
@@ -16,6 +17,8 @@ coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 
 navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+androidx-navigation3-runtime = { module = "org.jetbrains.androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
 
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
@@ -25,6 +28,5 @@ hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHot
 multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 
 [bundles]
-compose = ["navigation", "adaptive"]
-app = ["materialKolor", "coil-main", "coil-compose", "coil-network", "coil-svg"]
+compose = ["navigation", "adaptive", "androidx-navigation3-runtime", "androidx-navigation3-ui"]
 coil = ["coil-main", "coil-network", "coil-compose", "coil-svg"]
