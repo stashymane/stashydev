@@ -1,11 +1,8 @@
 package screens
 
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
-import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
@@ -14,17 +11,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 import components.ResponsiveRow
 import components.SiteFooter
 import components.SiteHeader
 import components.nav.NavBlock
+import dev.stashy.home.Res
+import dev.stashy.home.block_about_1k
+import dev.stashy.home.block_media_1k
+import dev.stashy.home.block_projects_1k
 import icons.Icons
 import icons.outlinelarge.Cases
 import icons.outlinelarge.FitScreen
 import icons.outlinelarge.UserSearch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.skia.RuntimeShaderBuilder
 import theme.Shaders
 
@@ -78,19 +81,40 @@ fun HomeScreen(contentPadding: PaddingValues) {
                         onClick = {},
                         icon = Icons.OutlineLarge.Cases,
                         text = "Projects",
-                        background = {})
+                        background = {
+                            Image(
+                                imageResource(Res.drawable.block_projects_1k),
+                                null,
+                                it,
+                                contentScale = ContentScale.Crop
+                            )
+                        })
                     NavBlock(
                         blockModifier,
                         onClick = {},
                         icon = Icons.OutlineLarge.FitScreen,
                         text = "Media",
-                        background = {})
+                        background = {
+                            Image(
+                                imageResource(Res.drawable.block_media_1k),
+                                null,
+                                it,
+                                contentScale = ContentScale.Crop
+                            )
+                        })
                     NavBlock(
                         blockModifier,
                         onClick = {},
                         icon = Icons.OutlineLarge.UserSearch,
                         text = "About",
-                        background = {})
+                        background = {
+                            Image(
+                                imageResource(Res.drawable.block_about_1k),
+                                null,
+                                it,
+                                contentScale = ContentScale.Crop
+                            )
+                        })
                 }
 
                 SiteFooter()
