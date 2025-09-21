@@ -1,13 +1,9 @@
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
-import androidx.navigation.ExperimentalBrowserHistoryApi
-import androidx.navigation.compose.rememberNavController
 import kotlinx.browser.document
-import locals.LocalNavController
 import org.koin.compose.KoinApplication
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalBrowserHistoryApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     ComposeViewport(document.body!!) {
         KoinApplication(
@@ -15,10 +11,7 @@ fun main() {
                 modules(KoinModule)
             }
         ) {
-            val navController = rememberNavController()
-            CompositionLocalProvider(LocalNavController provides navController) {
-                App()
-            }
+            App()
         }
     }
 }
