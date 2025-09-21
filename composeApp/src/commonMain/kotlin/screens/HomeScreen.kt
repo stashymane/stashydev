@@ -1,17 +1,17 @@
 package screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
@@ -30,39 +30,24 @@ import icons.outlinelarge.UserSearch
 import locals.LocalBackStack
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.imageResource
-import org.jetbrains.skia.RuntimeShaderBuilder
-import theme.Shaders
+import theme.glorp
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun HomeScreen(contentPadding: PaddingValues) {
     val backStack = LocalBackStack.current
     val scrollState = rememberScrollState()
-    val backgroundEffect = remember { Shaders.Pattern }
+
+    val logoAnimation = remember { Animatable(0f) }
+    var middleVisible by remember { mutableStateOf(false) }
+
+    LaunchedEffect("launch animation") {
+        logoAnimation.animateTo(1f, tween(1000, 300))
+        middleVisible = true
+    }
 
     Box(Modifier.fillMaxSize()) {
-        val time by produceState(0f) {
-            while (true) {
-                withInfiniteAnimationFrameMillis { value = it / 1000f }
-            }
-        }
-
-        Box(Modifier.matchParentSize().drawWithCache {
-            val shader = RuntimeShaderBuilder(backgroundEffect).apply {
-                uniform("iTime", time)
-                uniform("iResolution", size.width, size.height)
-                uniform("Warp2X", 0.1f)
-                uniform("Warp2Y", 0f)
-                uniform("WarpSpeedX", 0f)
-                uniform("WarpSpeedY", 0.1f)
-                uniform("RingStrength", 2f)
-            }.makeShader()
-            val brush = ShaderBrush(shader)
-
-            onDrawBehind {
-                drawRect(brush)
-            }
-        })
+        Box(Modifier.matchParentSize().graphicsLayer { alpha = logoAnimation.value }.glorp())
 
         Box(Modifier.fillMaxSize().verticalScroll(scrollState), contentAlignment = Alignment.Center) {
             Column(
@@ -70,57 +55,66 @@ fun HomeScreen(contentPadding: PaddingValues) {
                     .padding(vertical = 32.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                SiteHeader()
+                SiteHeader(Modifier.graphicsLayer { alpha = logoAnimation.value })
 
-                ResponsiveRow(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    arrangement = Arrangement.spacedBy(16.dp)
+                AnimatedVisibility(
+                    middleVisible,
+                    enter = fadeIn() + expandVertically()
                 ) {
-                    val blockModifier =
-                        responsive(onRow = { Modifier.weight(1f) }, onColumn = { Modifier.fillMaxWidth() })
+                    ResponsiveRow(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        arrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        val blockModifier =
+                            responsive(onRow = { Modifier.weight(1f) }, onColumn = { Modifier.fillMaxWidth() })
 
-                    NavBlock(
-                        blockModifier,
-                        onClick = { backStack.add(Screen.Projects) },
-                        icon = Icons.OutlineLarge.Cases,
-                        text = "Projects",
-                        background = {
-                            Image(
-                                imageResource(Res.drawable.block_projects_1k),
-                                null,
-                                it,
-                                contentScale = ContentScale.Crop
-                            )
-                        })
-                    NavBlock(
-                        blockModifier,
-                        onClick = {},
-                        icon = Icons.OutlineLarge.FitScreen,
-                        text = "Media",
-                        background = {
-                            Image(
-                                imageResource(Res.drawable.block_media_1k),
-                                null,
-                                it,
-                                contentScale = ContentScale.Crop
-                            )
-                        })
-                    NavBlock(
-                        blockModifier,
-                        onClick = {},
-                        icon = Icons.OutlineLarge.UserSearch,
-                        text = "About",
-                        background = {
-                            Image(
-                                imageResource(Res.drawable.block_about_1k),
-                                null,
-                                it,
-                                contentScale = ContentScale.Crop
-                            )
-                        })
+                        NavBlock(
+                            blockModifier,
+                            onClick = { backStack.add(Screen.Projects) },
+                            icon = Icons.OutlineLarge.Cases,
+                            text = "Projects",
+                            background = {
+                                Image(
+                                    imageResource(Res.drawable.block_projects_1k),
+                                    null,
+                                    it,
+                                    contentScale = ContentScale.Crop
+                                )
+                            })
+                        NavBlock(
+                            blockModifier,
+                            onClick = {},
+                            icon = Icons.OutlineLarge.FitScreen,
+                            text = "Media",
+                            background = {
+                                Image(
+                                    imageResource(Res.drawable.block_media_1k),
+                                    null,
+                                    it,
+                                    contentScale = ContentScale.Crop
+                                )
+                            })
+                        NavBlock(
+                            blockModifier,
+                            onClick = {},
+                            icon = Icons.OutlineLarge.UserSearch,
+                            text = "About",
+                            background = {
+                                Image(
+                                    imageResource(Res.drawable.block_about_1k),
+                                    null,
+                                    it,
+                                    contentScale = ContentScale.Crop
+                                )
+                            })
+                    }
                 }
 
-                SiteFooter()
+                SiteFooter(
+                    Modifier.graphicsLayer {
+                        alpha = logoAnimation.value
+                    }
+                )
             }
         }
 

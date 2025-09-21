@@ -1,5 +1,4 @@
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.ScrollbarStyle
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +42,10 @@ fun App() {
 
     val loadingState by loadContent()
     val isComplete by remember { derivedStateOf { loadingState is LoadingState.Complete } }
+    val progress = when (loadingState) {
+        is LoadingState.Loading -> (loadingState as LoadingState.Loading).progress
+        is LoadingState.Complete -> 1f
+    }
 
     AppTheme(Color.Blue, true) {
         Scaffold(
@@ -58,10 +61,14 @@ fun App() {
                     hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f)
                 )
             ) {
-                AnimatedContent(isComplete) {
+                AnimatedContent(
+                    isComplete,
+                    transitionSpec = {
+                        fadeIn() togetherWith scaleOut(targetScale = 0.9f) + fadeOut()
+                    }) {
                     when (it) {
                         true -> Navigation(contentPadding)
-                        false -> LoadingScreen(progress = (loadingState as? LoadingState.Loading)?.progress) { }
+                        false -> LoadingScreen(progress = progress) { }
                     }
                 }
             }
