@@ -10,6 +10,7 @@ import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSe
 import locals.LocalBackStack
 import locals.LocalSharedTransitionScope
 import screens.*
+import theme.fastBezier
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -24,10 +25,16 @@ fun Navigation(contentPadding: PaddingValues) {
                 backStack,
                 onBack = { backStack.removeLastOrNull() },
                 transitionSpec = {
-                    fadeIn() + scaleIn(initialScale = 0.9f) togetherWith fadeOut() + scaleOut(targetScale = 1.1f)
+                    fadeIn(fastBezier()) + scaleIn(
+                        fastBezier(),
+                        initialScale = 0.9f
+                    ) togetherWith fadeOut(fastBezier()) + scaleOut(fastBezier(), targetScale = 1.1f)
                 },
                 popTransitionSpec = {
-                    fadeIn() + scaleIn(initialScale = 1.1f) togetherWith fadeOut() + scaleOut(targetScale = 0.9f)
+                    fadeIn(fastBezier()) + scaleIn(
+                        fastBezier(),
+                        initialScale = 1.1f
+                    ) togetherWith fadeOut(fastBezier()) + scaleOut(fastBezier(), targetScale = 0.9f)
                 },
                 entryProvider = { key ->
                     when (key) {
