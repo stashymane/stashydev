@@ -17,6 +17,9 @@ import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinMultiplatformApplication
+import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.dsl.koinConfiguration
 import screens.LoadingScreen
 import theme.AppTheme
 
@@ -24,7 +27,7 @@ val json = Json {
     ignoreUnknownKeys = true
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, KoinExperimentalAPI::class)
 @Composable
 fun App() {
     setSingletonImageLoaderFactory { context ->
@@ -40,35 +43,39 @@ fun App() {
             .build()
     }
 
-    val loadingState by loadContent()
-    val isComplete by remember { derivedStateOf { loadingState is LoadingState.Complete } }
-    val progress = when (loadingState) {
-        is LoadingState.Loading -> (loadingState as LoadingState.Loading).progress
-        is LoadingState.Complete -> 1f
-    }
+    KoinMultiplatformApplication(koinConfiguration {
+        modules(KoinModule)
+    }) {
+        val loadingState by loadContent()
+        val isComplete by remember { derivedStateOf { loadingState is LoadingState.Complete } }
+        val progress = when (loadingState) {
+            is LoadingState.Loading -> (loadingState as LoadingState.Loading).progress
+            is LoadingState.Complete -> 1f
+        }
 
-    AppTheme(Color.Blue, true) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-        ) { contentPadding ->
-            CompositionLocalProvider(
-                LocalScrollbarStyle provides ScrollbarStyle(
-                    minimalHeight = 32.dp,
-                    thickness = 8.dp,
-                    shape = RectangleShape,
-                    hoverDurationMillis = 300,
-                    unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                    hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f)
-                )
-            ) {
-                AnimatedContent(
-                    isComplete,
-                    transitionSpec = {
-                        fadeIn() togetherWith scaleOut(targetScale = 0.9f) + fadeOut()
-                    }) {
-                    when (it) {
-                        true -> Navigation(contentPadding)
-                        false -> LoadingScreen(progress = progress) { }
+        AppTheme(Color.Blue, true) {
+            Scaffold(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            ) { contentPadding ->
+                CompositionLocalProvider(
+                    LocalScrollbarStyle provides ScrollbarStyle(
+                        minimalHeight = 32.dp,
+                        thickness = 8.dp,
+                        shape = RectangleShape,
+                        hoverDurationMillis = 300,
+                        unhoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                        hoverColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.50f)
+                    )
+                ) {
+                    AnimatedContent(
+                        isComplete,
+                        transitionSpec = {
+                            fadeIn() togetherWith scaleOut(targetScale = 0.9f) + fadeOut()
+                        }) {
+                        when (it) {
+                            true -> Navigation(contentPadding)
+                            false -> LoadingScreen(progress = progress) { }
+                        }
                     }
                 }
             }

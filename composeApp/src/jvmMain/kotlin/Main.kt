@@ -6,14 +6,9 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import icons.Briefcase
 import icons.Icons
-import org.koin.core.context.startKoin
 import java.awt.Dimension
 
 fun main() = application {
-    startKoin {
-        modules(KoinModule)
-    }
-
     val state = rememberWindowState(size = DpSize(1000.dp, 800.dp))
     val icon = rememberVectorPainter(Icons.Briefcase)
 

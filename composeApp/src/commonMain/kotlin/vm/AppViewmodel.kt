@@ -2,5 +2,6 @@ package vm
 
 import androidx.lifecycle.ViewModel
 
-class HomeScreenViewmodel : ViewModel() {
+class AppViewmodel : ViewModel() {
+
 }

@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -30,20 +31,25 @@ import icons.outlinelarge.UserSearch
 import locals.LocalBackStack
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.imageResource
+import org.koin.compose.koinInject
 import theme.glorp
+import vm.HomeScreenViewmodel
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
-fun HomeScreen(contentPadding: PaddingValues) {
+fun HomeScreen(contentPadding: PaddingValues, vm: HomeScreenViewmodel = koinInject()) {
+    var firstScreen by rememberSerializable { mutableStateOf(true) }
+
+    val logoAnimation = Animatable(if (firstScreen) 0f else 1f)
+    var middleVisible by mutableStateOf(!firstScreen)
+
     val backStack = LocalBackStack.current
     val scrollState = rememberScrollState()
-
-    val logoAnimation = remember { Animatable(0f) }
-    var middleVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect("launch animation") {
         logoAnimation.animateTo(1f, tween(1000, 300))
         middleVisible = true
+        firstScreen = false
     }
 
     Box(Modifier.fillMaxSize()) {
@@ -83,7 +89,7 @@ fun HomeScreen(contentPadding: PaddingValues) {
                             })
                         NavBlock(
                             blockModifier,
-                            onClick = {},
+                            onClick = { backStack.add(Screen.Media) },
                             icon = Icons.OutlineLarge.FitScreen,
                             text = "Media",
                             background = {
@@ -96,7 +102,7 @@ fun HomeScreen(contentPadding: PaddingValues) {
                             })
                         NavBlock(
                             blockModifier,
-                            onClick = {},
+                            onClick = { backStack.add(Screen.About) },
                             icon = Icons.OutlineLarge.UserSearch,
                             text = "About",
                             background = {
