@@ -26,7 +26,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import theme.exponentialVerticalGradient
 import theme.instantBezier
 
-private val maskGradient = Brush.exponentialVerticalGradient(Color.White, 10, 0.7f)
+private val maskGradient =
+    Brush.exponentialVerticalGradient(Color.White, Color.White.copy(alpha = 0f), 10, curve = 1.25f)
 
 private val rippleAlpha = RippleAlpha(
     pressedAlpha = 0.1f,

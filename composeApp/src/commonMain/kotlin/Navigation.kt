@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.saveable.rememberSerializable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.compose.serialization.serializers.SnapshotStateListSerializer
@@ -20,7 +21,10 @@ fun Navigation(contentPadding: PaddingValues) {
     }
 
     SharedTransitionLayout {
-        CompositionLocalProvider(LocalSharedTransitionScope provides this, LocalBackStack provides backStack) {
+        CompositionLocalProvider(
+            LocalSharedTransitionScope provides this,
+            LocalBackStack provides backStack
+        ) {
             NavDisplay(
                 backStack,
                 onBack = { backStack.removeLastOrNull() },
@@ -62,3 +66,14 @@ fun Navigation(contentPadding: PaddingValues) {
         }
     }
 }
+
+fun SnapshotStateList<Screen>.navigateTo(screen: Screen) {
+    //TODO manage separate stacks
+    add(screen)
+}
+
+fun SnapshotStateList<Screen>.navigateBack() {
+    if (canGoBack()) removeLastOrNull()
+}
+
+fun SnapshotStateList<Screen>.canGoBack() = size > 1
