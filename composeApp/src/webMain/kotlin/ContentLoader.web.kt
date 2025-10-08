@@ -31,7 +31,7 @@ actual fun loadContent(): State<LoadingState> {
             if (allResources.all { it.value != null })
                 LoadingState.Complete
             else
-                LoadingState.Loading(allResources.count { it.value != null }.toFloat() / fonts.size)
+                LoadingState.Loading(allResources.count { it.value != null }.toFloat() / allResources.size)
         }
     }
 }

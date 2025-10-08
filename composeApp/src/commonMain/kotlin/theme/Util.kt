@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 fun exponentialGradient(color: Color, steps: Int, end: Float = 1f): List<Pair<Float, Color>> = buildList {
-    for (i in 0 until steps) {
+    for (i in 0..steps) {
         val pos = i / steps.toFloat() * end
         val normalizedPos = pos / end
         val alpha = (1f - normalizedPos * normalizedPos).coerceAtLeast(0f)
