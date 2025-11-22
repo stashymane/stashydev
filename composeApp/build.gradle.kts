@@ -27,6 +27,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.model)
             implementation(projects.modules.githubApi)
+            implementation(projects.composeApp.icons)
+            
             implementation(libs.kotlinx.serialization.json)
 
             implementation(composeLibs.bundles.jb)

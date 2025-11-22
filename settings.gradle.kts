@@ -32,6 +32,7 @@ plugins {
 
 include(
     "model",
+    ":modules:github-api",
     ":composeApp",
-    ":modules:github-api"
+    ":composeApp:icons",
 )
