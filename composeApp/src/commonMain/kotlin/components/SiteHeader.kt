@@ -2,7 +2,16 @@ package components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -17,7 +26,7 @@ import icons.logos.GitHub
 import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import preview.ComponentPreview
 
 @Composable
 private fun LinkDivider() {
@@ -90,10 +99,16 @@ fun HeaderLinkSection(title: String, content: @Composable () -> Unit) {
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        Row(
+            Modifier.height(IntrinsicSize.Min),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             Spacer(
                 Modifier.weight(1f).fillMaxHeight()
-                    .dottedLine(width = 1.dp, color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
+                    .dottedLine(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+                    )
             )
             Text(title, style = MaterialTheme.typography.labelSmall)
         }
@@ -107,7 +122,7 @@ fun HeaderLinkSection(title: String, content: @Composable () -> Unit) {
     }
 }
 
-@Preview
+@ComponentPreview
 @Composable
 private fun SiteHeaderPreview() {
     SiteHeader()

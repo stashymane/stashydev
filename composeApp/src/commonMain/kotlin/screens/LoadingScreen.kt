@@ -13,12 +13,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import preview.DevicePreview
 
 @Composable
 fun LoadingScreen(progress: Float? = null, description: @Composable () -> Unit) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             if (progress != null) {
                 val indicatorProgress by
                 animateFloatAsState(
@@ -36,7 +39,7 @@ fun LoadingScreen(progress: Float? = null, description: @Composable () -> Unit) 
     }
 }
 
-@Preview
+@DevicePreview
 @Composable
 private fun LoadingScreenPreview() {
     LoadingScreen {

@@ -6,8 +6,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.composeCompiler)
-    alias(composeLibs.plugins.multiplatform)
-    alias(composeLibs.plugins.hotReload)
+    alias(composeLibs.plugins.compose)
 }
 
 kotlin {
@@ -30,18 +29,13 @@ kotlin {
             implementation(projects.modules.githubApi)
             implementation(libs.kotlinx.serialization.json)
 
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-
-            implementation(composeLibs.bundles.compose)
+            implementation(composeLibs.bundles.jb)
+            implementation(composeLibs.bundles.lifecycle)
+            implementation(composeLibs.bundles.adaptive)
+            implementation(composeLibs.bundles.nav3)
+            implementation(composeLibs.bundles.app)
 
             implementation(libs.bundles.koin)
-            implementation(composeLibs.bundles.coil)
-            implementation(composeLibs.materialKolor)
 
             implementation(ktorLibs.bundles.client)
         }
@@ -51,10 +45,10 @@ kotlin {
         }
 
         jvmMain.dependencies {
-            implementation(compose.desktop.currentOs) {
-                exclude(compose.material)
-            }
+            implementation(composeLibs.jb.uiTooling)
+            implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
             implementation(ktorLibs.client.cio)
             implementation(libs.slf4j.simple)
         }

@@ -1,11 +1,8 @@
-package theme
+package preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.compose.ui.tooling.preview.Preview
-
-@Preview
-annotation class AppPreview()
+import theme.AppTheme
 
 @Composable
 fun PreviewHost(content: @Composable () -> Unit) {

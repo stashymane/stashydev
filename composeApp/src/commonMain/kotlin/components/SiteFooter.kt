@@ -1,6 +1,10 @@
 package components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -10,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import preview.ComponentPreview
 
 @Composable
 fun SiteFooter(modifier: Modifier = Modifier) {
@@ -26,8 +30,8 @@ fun SiteFooter(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
 @Composable
+@ComponentPreview
 private fun SiteFooterPreview() {
     SiteFooter()
 }
