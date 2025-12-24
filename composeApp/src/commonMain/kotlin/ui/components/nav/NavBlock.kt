@@ -1,6 +1,5 @@
 package ui.components.nav
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,6 +26,7 @@ import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import ui.preview.ComponentPreview
 import ui.theme.exponentialVerticalGradient
+import ui.theme.indication.EdgeIndication
 import ui.theme.indication.ScaleIndication
 
 private val maskGradient =
@@ -59,7 +59,6 @@ fun NavBlock(
         val pressed by interactionSource.collectIsPressedAsState()
 
         val backgroundAlpha by animateFloatAsState(if (pressed) 0.5f else if (hovered || focused) 1f else 0f)
-        val backgroundColor by animateColorAsState(if (hovered || focused || pressed) MaterialTheme.colorScheme.surfaceContainerLow else MaterialTheme.colorScheme.surface)
 
         Box(
             modifier.sizeIn(minHeight = 300.dp)
@@ -70,8 +69,9 @@ fun NavBlock(
                 )
                 .indication(interactionSource, ScaleIndication.Default)
                 .indication(interactionSource, ripple())
+                .indication(interactionSource, EdgeIndication)
                 .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
-                .background(backgroundColor)
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             Box(Modifier.graphicsLayer {
                 alpha = backgroundAlpha
