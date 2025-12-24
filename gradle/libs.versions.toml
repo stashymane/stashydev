@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.3.0-RC"
+kotlin = "2.3.0"
 jvm = "21"
 
 kotlinx-coroutines = "1.10.2"
