@@ -28,6 +28,7 @@ import model.Screen
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.imageResource
 import org.koin.compose.koinInject
+import ui.components.ResponsiveRow
 import ui.components.SiteFooter
 import ui.components.SiteHeader
 import ui.components.nav.NavBlock
@@ -76,7 +77,7 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
                     middleVisible,
                     enter = fadeIn() + expandVertically()
                 ) {
-                    _root_ide_package_.ui.components.ResponsiveRow(
+                    ResponsiveRow(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         arrangement = Arrangement.spacedBy(16.dp)
                     ) {
