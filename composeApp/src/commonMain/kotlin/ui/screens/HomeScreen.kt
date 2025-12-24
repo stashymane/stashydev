@@ -8,6 +8,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.ui.Alignment
@@ -57,7 +58,10 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
     }
 
     Box(Modifier.fillMaxSize()) {
-        Box(Modifier.matchParentSize().graphicsLayer { alpha = logoAnimation.value }.glorp())
+        Box(
+            Modifier.matchParentSize().background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                .graphicsLayer { alpha = logoAnimation.value }.glorp()
+        )
 
         Box(
             Modifier.fillMaxSize().verticalScroll(scrollState),
