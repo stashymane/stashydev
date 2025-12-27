@@ -11,6 +11,8 @@ import dev.stashy.home.Res
 import dev.stashy.home.block_projects_1k
 import icons.Icons
 import icons.outlinelarge.Cases
+import ui.components.ScreenBackground
+import ui.components.nav.NavBar
 import ui.locals.LocalScaffoldPadding
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
@@ -18,13 +20,13 @@ import ui.preview.PreviewHost
 @Composable
 fun ProjectsScreen() {
     Box(Modifier.fillMaxSize().padding(LocalScaffoldPadding.current)) {
-        _root_ide_package_.ui.components.ScreenBackground(
+        ScreenBackground(
             Res.drawable.block_projects_1k,
             Modifier.fillMaxWidth().height(300.dp)
         )
 
         Column {
-            _root_ide_package_.ui.components.nav.NavBar {
+            NavBar {
                 Icon(
                     Icons.OutlineLarge.Cases,
                     null,

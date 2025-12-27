@@ -12,6 +12,7 @@ import dev.stashy.home.block_media_1k
 import icons.Icons
 import icons.outlinelarge.FitScreen
 import ui.components.ScreenBackground
+import ui.components.nav.NavBar
 import ui.locals.LocalScaffoldPadding
 
 @Composable
@@ -23,7 +24,7 @@ fun MediaScreen() {
 
     Box(Modifier.fillMaxSize().padding(LocalScaffoldPadding.current)) {
         Column {
-            _root_ide_package_.ui.components.nav.NavBar {
+            NavBar {
                 Icon(
                     Icons.OutlineLarge.FitScreen,
                     null,
