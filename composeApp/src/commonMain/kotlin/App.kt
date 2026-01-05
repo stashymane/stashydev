@@ -1,16 +1,7 @@
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.togetherWith
+import androidx.compose.animation.*
 import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
@@ -76,9 +67,7 @@ fun App() {
                 ) {
                     AnimatedContent(
                         isComplete,
-                        transitionSpec = {
-                            fadeIn() togetherWith scaleOut(targetScale = 0.9f) + fadeOut()
-                        }) {
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }) {
                         when (it) {
                             true -> Navigation()
                             false -> LoadingScreen(progress = progress) { }

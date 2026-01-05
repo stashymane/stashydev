@@ -52,7 +52,7 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
     val scrollState = rememberScrollState()
 
     LaunchedEffect("launch animation") {
-        logoAnimation.animateTo(1f, tween(1000, 300))
+        logoAnimation.animateTo(1f, tween(1000))
         middleVisible = true
         firstScreen = false
     }
