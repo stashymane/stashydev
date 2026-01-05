@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.composeCompiler)
+    alias(composeLibs.plugins.hotReload)
     alias(composeLibs.plugins.compose)
 }
 
@@ -28,7 +29,7 @@ kotlin {
             implementation(projects.model)
             implementation(projects.modules.githubApi)
             implementation(projects.composeApp.icons)
-            
+
             implementation(libs.kotlinx.serialization.json)
 
             implementation(composeLibs.bundles.jb)

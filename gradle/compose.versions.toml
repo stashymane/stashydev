@@ -1,5 +1,6 @@
 [versions]
 composeMultiplatform = "1.11.0-alpha01"
+hotReload = "1.1.0-alpha03"
 
 material3 = "1.11.0-alpha01"
 material3-adaptive = "1.3.0-alpha03"
@@ -7,9 +8,10 @@ navigation3 = "1.1.0-alpha01"
 lifecycle = "2.10.0-alpha07"
 
 coil = "3.3.0"
-materialKolor = "4.0.3"
+materialKolor = "4.0.5"
 placeholder = "1.0.12"
-haze = "1.6.10"
+haze = "1.6.1"
+markdownRenderer = "0.39.0"
 
 [libraries]
 jb-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
@@ -39,9 +41,12 @@ coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 placeholder-material3 = { module = "com.eygraber:compose-placeholder-material3", version.ref = "placeholder" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+markdownRenderer-core = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "markdownRenderer" }
+markdownRenderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdownRenderer" }
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload" }
 
 [bundles]
 jb = ["jb-runtime", "jb-foundation", "jb-ui", "jb-uiToolingPreview",
