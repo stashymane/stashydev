@@ -8,10 +8,13 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(libs.versions.jvm.get().toInt())
+
+    jvm()
+
     wasmJs {
         browser()
     }
-    jvm()
 
     sourceSets {
         commonMain.dependencies {

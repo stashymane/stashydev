@@ -6,12 +6,14 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.composeCompiler)
-    alias(composeLibs.plugins.hotReload)
     alias(composeLibs.plugins.compose)
+    alias(composeLibs.plugins.hotReload)
 }
 
 kotlin {
-    jvm()
+    jvmToolchain(libs.versions.jvm.get().toInt())
+    
+    jvm("desktop")
 
     wasmJs {
         outputModuleName = "composeApp"
