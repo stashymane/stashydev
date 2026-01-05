@@ -3,8 +3,8 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinx.serialization)
+    alias(kotlinLibs.plugins.multiplatform)
+    alias(kotlinLibs.plugins.serialization)
 }
 
 kotlin {
@@ -18,12 +18,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
-            api(libs.kotlinx.datetime)
+            implementation(kotlinLibs.serialization.json)
+            api(kotlinLibs.datetime)
         }
 
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlinLibs.test)
         }
     }
 }

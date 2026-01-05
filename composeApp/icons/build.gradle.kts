@@ -4,9 +4,9 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    alias(kotlinLibs.plugins.multiplatform)
+    alias(kotlinLibs.plugins.composeCompiler)
     alias(composeLibs.plugins.compose)
-    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -29,7 +29,7 @@ kotlin {
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
+            implementation(kotlinLibs.coroutines.swing)
         }
     }
 }

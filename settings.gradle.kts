@@ -17,10 +17,13 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        create("ktorLibs") {
+        register("kotlinLibs") {
+            from(files("gradle/kotlin.versions.toml"))
+        }
+        register("ktorLibs") {
             from(files("gradle/ktor.versions.toml"))
         }
-        create("composeLibs") {
+        register("composeLibs") {
             from(files("gradle/compose.versions.toml"))
         }
     }

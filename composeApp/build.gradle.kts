@@ -3,16 +3,16 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.composeCompiler)
+    alias(kotlinLibs.plugins.multiplatform)
+    alias(kotlinLibs.plugins.serialization)
+    alias(kotlinLibs.plugins.composeCompiler)
     alias(composeLibs.plugins.compose)
     alias(composeLibs.plugins.hotReload)
 }
 
 kotlin {
     jvmToolchain(libs.versions.jvm.get().toInt())
-    
+
     jvm("desktop")
 
     wasmJs {
@@ -32,7 +32,7 @@ kotlin {
             implementation(projects.modules.githubApi)
             implementation(projects.composeApp.icons)
 
-            implementation(libs.kotlinx.serialization.json)
+            implementation(kotlinLibs.serialization.json)
 
             implementation(composeLibs.bundles.jb)
             implementation(composeLibs.bundles.lifecycle)
@@ -46,20 +46,20 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlinLibs.test)
         }
 
         jvmMain.dependencies {
             implementation(composeLibs.jb.uiTooling)
             implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
+            implementation(kotlinLibs.coroutines.swing)
 
             implementation(ktorLibs.client.cio)
             implementation(libs.slf4j.simple)
         }
 
         wasmJsMain.dependencies {
-            implementation(libs.kotlinx.browser)
+            implementation(kotlinLibs.browser)
         }
     }
 }

@@ -20,12 +20,6 @@ env:
 
 jobs:
   deploy:
-    strategy:
-      matrix:
-        jvm: [ 21 ]
-        jvm-distribution: [ temurin ]
-        os: [ ubuntu-latest ]
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -34,24 +28,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Set up JDK ${{ matrix.jvm }}
-        uses: actions/setup-java@v5
+      - name: Prepare Java & Gradle
+        uses: ./.github/actions/prepare-gradle
         with:
-          java-version: ${{ matrix.jvm }}
-          distribution: ${{ matrix.jvm-distribution }}
-
-      - name: Fix Gradle permissions
-        if: runner.os == 'Linux'
-        run: chmod +x ./gradlew
-        shell: sh
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          cache-overwrite-existing: 'true'
 
       - name: Production build with Gradle
         if: env.mode == 'production'
