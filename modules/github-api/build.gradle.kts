@@ -28,6 +28,8 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlinLibs.test)
             implementation(ktorLibs.client.mock)
+            implementation(libs.kotest.assertions)
+            implementation(libs.testResources)
         }
     }
 }
