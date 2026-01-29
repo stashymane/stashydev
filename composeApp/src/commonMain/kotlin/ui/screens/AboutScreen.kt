@@ -1,16 +1,6 @@
 package ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,13 +11,15 @@ import icons.Icons
 import icons.outlinelarge.UserSearch
 import ui.components.ScreenBackground
 import ui.components.nav.NavBar
-import ui.locals.LocalScaffoldPadding
+import ui.components.nav.NavTitle
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
+import ui.screens.generic.ScreenContainer
+import ui.screens.generic.ScreenHost
 
 @Composable
-fun AboutScreen() {
-    Box(Modifier.fillMaxSize().padding(LocalScaffoldPadding.current)) {
+fun AboutScreen() = ScreenHost {
+    ScreenContainer("about") {
         ScreenBackground(
             Res.drawable.block_about_1k,
             Modifier.fillMaxWidth().height(300.dp)
@@ -35,12 +27,7 @@ fun AboutScreen() {
 
         Column {
             NavBar {
-                Icon(
-                    Icons.OutlineLarge.UserSearch,
-                    null,
-                    Modifier.size(42.dp)
-                )
-                Text("About", style = MaterialTheme.typography.headlineLarge)
+                NavTitle(Icons.OutlineLarge.UserSearch, "About")
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

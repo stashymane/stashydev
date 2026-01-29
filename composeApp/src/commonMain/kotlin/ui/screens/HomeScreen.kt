@@ -1,14 +1,12 @@
 package ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.compose.ui.Alignment
@@ -16,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.window.core.layout.WindowSizeClass
 import dev.stashy.home.Res
 import dev.stashy.home.block_about_1k
 import dev.stashy.home.block_media_1k
@@ -26,7 +23,6 @@ import icons.outlinelarge.Cases
 import icons.outlinelarge.FitScreen
 import icons.outlinelarge.UserSearch
 import model.Screen
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.imageResource
 import org.koin.compose.koinInject
 import ui.components.ResponsiveRow
@@ -37,12 +33,14 @@ import ui.locals.LocalBackStack
 import ui.locals.LocalScaffoldPadding
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.theme.glorp
+import ui.theme.appWidth
+import ui.theme.navBlockSharedBounds
 import ui.vm.HomeScreenViewmodel
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
-fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
+fun HomeScreen(
+    vm: HomeScreenViewmodel = koinInject()
+) {
     var firstScreen by rememberSerializable { mutableStateOf(true) }
 
     val logoAnimation = Animatable(if (firstScreen) 0f else 1f)
@@ -59,16 +57,11 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
 
     Box(Modifier.fillMaxSize()) {
         Box(
-            Modifier.matchParentSize().background(MaterialTheme.colorScheme.surfaceContainerLowest)
-                .graphicsLayer { alpha = logoAnimation.value }.glorp()
-        )
-
-        Box(
             Modifier.fillMaxSize().verticalScroll(scrollState),
             contentAlignment = Alignment.Center
         ) {
             Column(
-                Modifier.widthIn(max = WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND.dp)
+                Modifier.widthIn(max = appWidth())
                     .padding(LocalScaffoldPadding.current)
                     .padding(vertical = 32.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -91,7 +84,7 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
                                 onColumn = { Modifier.fillMaxWidth() })
 
                         NavBlock(
-                            blockModifier,
+                            blockModifier.navBlockSharedBounds("projects"),
                             onClick = { backStack.add(Screen.Projects) },
                             icon = Icons.OutlineLarge.Cases,
                             text = "Projects",
@@ -104,7 +97,7 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
                                 )
                             })
                         NavBlock(
-                            blockModifier,
+                            blockModifier.navBlockSharedBounds("media"),
                             onClick = { backStack.add(Screen.Media) },
                             icon = Icons.OutlineLarge.FitScreen,
                             text = "Media",
@@ -117,7 +110,7 @@ fun HomeScreen(vm: HomeScreenViewmodel = koinInject()) {
                                 )
                             })
                         NavBlock(
-                            blockModifier,
+                            blockModifier.navBlockSharedBounds("about"),
                             onClick = { backStack.add(Screen.About) },
                             icon = Icons.OutlineLarge.UserSearch,
                             text = "About",

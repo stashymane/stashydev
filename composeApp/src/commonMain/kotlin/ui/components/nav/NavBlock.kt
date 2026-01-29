@@ -9,14 +9,16 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.*
@@ -28,6 +30,7 @@ import ui.preview.ComponentPreview
 import ui.theme.exponentialVerticalGradient
 import ui.theme.indication.EdgeIndication
 import ui.theme.indication.ScaleIndication
+import ui.theme.navTitleSharedElement
 
 private val maskGradient =
     Brush.exponentialVerticalGradient(
@@ -84,19 +87,7 @@ fun NavBlock(
                 background(Modifier.matchParentSize())
             }
 
-            ProvideTextStyle(MaterialTheme.typography.headlineLarge) {
-                Column {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(icon, null, Modifier.size(42.dp))
-
-                        Text(text)
-                    }
-                }
-            }
+            NavTitle(icon, text, Modifier.padding(16.dp).navTitleSharedElement("title-$text"))
         }
     }
 }
