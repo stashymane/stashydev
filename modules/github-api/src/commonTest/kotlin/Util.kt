@@ -9,5 +9,5 @@ fun loadResource(path: String): Resource {
 }
 
 inline fun <reified T> String.shouldDecodeTo(): T = shouldNotThrowAny {
-    json.decodeFromString<T>(this)
+    githubJson.decodeFromString<T>(this)
 }

@@ -1,3 +1,3 @@
 import kotlinx.serialization.json.Json
 
-val json = Json { ignoreUnknownKeys = true }
+val githubJson = Json { ignoreUnknownKeys = true }
