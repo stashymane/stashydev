@@ -1,24 +1,13 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
-
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-
 plugins {
     alias(kotlinLibs.plugins.multiplatform)
     alias(kotlinLibs.plugins.composeCompiler)
     alias(composeLibs.plugins.compose)
+
+    id("multiplatform.target.jvmDesktop")
+    id("multiplatform.target.wasmJs")
 }
 
 kotlin {
-    jvmToolchain(libs.versions.jvm.get().toInt())
-
-    jvm()
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(composeLibs.jb.runtime)
@@ -27,7 +16,7 @@ kotlin {
             implementation(composeLibs.jb.uiToolingPreview)
         }
 
-        jvmMain.dependencies {
+        desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(kotlinLibs.coroutines.swing)
         }

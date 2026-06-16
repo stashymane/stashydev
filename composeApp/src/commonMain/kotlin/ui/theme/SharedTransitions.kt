@@ -10,6 +10,16 @@ import ui.locals.LocalSharedTransitionScope
 
 
 @Composable
+fun Modifier.headerSharedBounds(): Modifier =
+    this then with(LocalSharedTransitionScope.current) {
+        Modifier.sharedBounds(
+            rememberSharedContentState("header"),
+            LocalNavAnimatedContentScope.current,
+            resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.Center),
+        )
+    }
+
+@Composable
 fun Modifier.navBlockSharedBounds(type: String): Modifier =
     this then with(LocalSharedTransitionScope.current) {
         Modifier.sharedBounds(

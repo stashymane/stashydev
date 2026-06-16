@@ -7,6 +7,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
+    includeBuild("build-util")
 }
 
 dependencyResolutionManagement {
@@ -17,6 +18,9 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
+        register("androidLibs") {
+            from(files("gradle/android.versions.toml"))
+        }
         register("kotlinLibs") {
             from(files("gradle/kotlin.versions.toml"))
         }
@@ -35,7 +39,7 @@ plugins {
 
 include(
     "model",
-    ":modules:github-api",
     ":composeApp",
     ":composeApp:icons",
+    ":composeApp:shaders",
 )

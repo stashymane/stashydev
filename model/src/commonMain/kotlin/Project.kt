@@ -1,22 +1,28 @@
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
 @Serializable
-data class Project @OptIn(ExperimentalTime::class) constructor(
+data class Project(
     val name: String,
-    val url: String,
-    val forks: Int,
-    val stars: Int,
-    val watchers: Int,
-    val lastUpdate: Instant,
-    val wikiUrl: String? = null,
-    val releases: List<Release> = emptyList(),
+    val description: String?,
+
+    val status: Status,
+    val created: LocalDate,
+    val languages: List<Language>,
+
+    val urls: List<String>,
 ) {
     @Serializable
-    data class Release(
-        val name: String,
-        val url: String,
-        val description: String
-    )
+    enum class Status {
+        Active,
+        Unmaintained,
+        Archived
+    }
+
+    @Serializable
+    enum class Language {
+        Kotlin,
+        Rust,
+        CSharp
+    }
 }

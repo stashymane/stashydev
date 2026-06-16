@@ -1,66 +1,96 @@
 [
   {
-    "name": "Project 1",
-    "url": "google.com",
-    "forks": 9,
-    "stars": 10,
-    "watchers": 21,
-    "lastUpdate": "2020-12-09T09:16:56.000124Z",
-    "wikiUrl": "google.com",
-    "releases": [
-      {
-        "name": "1.0.0",
-        "url": "google.com",
-        "description": "An release"
-      }
+    "name": "taxipatch",
+    "description": "Patch for Crazy Taxi 3.\nIncludes fixes to resolution, frame rate, rendering, as well as other improvements.",
+    "status": "Active",
+    "created": "2026-05-05",
+    "languages": [
+      "Rust"
+    ],
+    "urls": [
+      "github.com/stashymane/taxipatch"
     ]
   },
   {
-    "name": "Project 2",
-    "url": "google.com",
-    "forks": 9,
-    "stars": 10,
-    "watchers": 21,
-    "lastUpdate": "2020-12-09T09:16:56.000124Z",
-    "wikiUrl": "google.com",
-    "releases": [
-      {
-        "name": "1.0.0",
-        "url": "google.com",
-        "description": "An release"
-      }
+    "name": "ct3lib",
+    "description": "Library & CLI for decoding and encoding Crazy Taxi 3 assets.",
+    "status": "Active",
+    "created": "2026-06-12",
+    "languages": [
+      "Rust"
+    ],
+    "urls": [
+      "github.com/stashymane/ct3lib"
     ]
   },
   {
-    "name": "Project 3",
-    "url": "google.com",
-    "forks": 9,
-    "stars": 10,
-    "watchers": 21,
-    "lastUpdate": "2020-12-09T09:16:56.000124Z",
-    "wikiUrl": "google.com",
-    "releases": [
-      {
-        "name": "1.0.0",
-        "url": "google.com",
-        "description": "An release"
-      }
+    "name": "swarmbox",
+    "description": "CLI to simplify management of Docker Swarm clusters.\nParses modern Docker Compose features and transforms them into Swarm-compatible definitions.",
+    "status": "Active",
+    "created": "2026-03-01",
+    "languages": [
+      "Rust"
+    ],
+    "urls": [
+      "github.com/stashymane/swarmbox"
     ]
   },
   {
-    "name": "Project 4",
-    "url": "google.com",
-    "forks": 9,
-    "stars": 10,
-    "watchers": 21,
-    "lastUpdate": "2020-12-09T09:16:56.000124Z",
-    "wikiUrl": "google.com",
-    "releases": [
-      {
-        "name": "1.0.0",
-        "url": "google.com",
-        "description": "An release"
-      }
+    "name": "ktgrants",
+    "description": "Experimental easy-to-use, readable permission modelling and management library.\nAs easy as `user.hasPermission { Read on post }`",
+    "status": "Active",
+    "created": "2026-02-27",
+    "languages": [
+      "Kotlin"
+    ],
+    "urls": [
+      "github.com/stashymane/ktgrants"
     ]
+  },
+  {
+    "name": "stashydev",
+    "description": "This very website.",
+    "status": "Active",
+    "created": "2026-01-29",
+    "languages": [
+      "Kotlin"
+    ],
+    "urls": [
+      "github.com/stashymane/stashydev"
+    ]
+  },
+  {
+    "name": "ftprox",
+    "description": "FTP proxy service that allows exposing servers hosted on cloud infrastructure, which may not have a static IP address.",
+    "status": "Unmaintained",
+    "created": "2024-07-16",
+    "languages": [
+      "Kotlin"
+    ],
+    "urls": []
+  },
+  {
+    "name": "ExtraSounds",
+    "description": "Minecraft mod that adds sound effects for UI interactions and more.\n**1M+ downloads** on Modrinth.\nOriginally created by me, maintainership handed over to community developers.",
+    "status": "Unmaintained",
+    "created": "2021-04-28",
+    "languages": [
+      "Java",
+      "Kotlin"
+    ],
+    "urls": [
+      "github.com/extrasounds/extra-sounds",
+      "modrinth.com/mod/extrasounds"
+    ]
+  },
+  {
+    "name": "CT3Tweaks",
+    "description": "GUI for patching the Crazy Taxi 3 executable. Allows modifying the game's resolution, frame rate and FOV. Superseded by `taxipatch`.",
+    "status": "Archived",
+    "created": "2019-05-11",
+    "languages": [
+      "CSharp"
+    ],
+    "urls": []
   }
 ]

@@ -9,6 +9,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import coil3.ImageLoader
+import model.Settings
 
 val LocalBackStack: ProvidableCompositionLocal<AppBackStack> =
     staticCompositionLocalOf { error("LocalBackStack not initialized.") }
@@ -25,3 +26,5 @@ val LocalScrollConnection: ProvidableCompositionLocal<NestedScrollConnection?> =
 
 val LocalScaffoldPadding: ProvidableCompositionLocal<PaddingValues> =
     compositionLocalOf { PaddingValues() }
+
+val LocalSettings = compositionLocalOf { Settings() }

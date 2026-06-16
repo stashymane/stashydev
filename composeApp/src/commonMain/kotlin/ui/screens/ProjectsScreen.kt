@@ -1,41 +1,53 @@
 package ui.screens
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
+import Project
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.stashy.home.Res
-import dev.stashy.home.block_projects_1k
 import icons.Icons
 import icons.outlinelarge.Cases
-import ui.components.ScreenBackground
+import kotlinx.datetime.LocalDate
 import ui.components.nav.NavBar
 import ui.components.nav.NavTitle
+import ui.components.project.ProjectCard
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.screens.generic.ScreenContainer
+import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
 @Composable
 fun ProjectsScreen() = ScreenHost {
-    ScreenContainer("projects") {
-        ScreenBackground(
-            Res.drawable.block_projects_1k,
-            Modifier.fillMaxWidth().height(300.dp)
-        )
+//        ScreenBackground(
+//            Res.drawable.block_projects_1k,
+//            Modifier.fillMaxWidth().height(300.dp)
+//        )
 
+    ScreenContent("projects") {
         Column {
             NavBar {
                 NavTitle(Icons.OutlineLarge.Cases, "Projects")
             }
 
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("todo")
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                ProjectCard(project, Modifier.fillMaxWidth())
+                ProjectCard(project, Modifier.fillMaxWidth())
+                ProjectCard(project, Modifier.fillMaxWidth())
             }
         }
     }
 }
+
+val project = Project(
+    name = "vintage-story-runner",
+    description = "Docker image to download & run a Vintage Story server (x64 & arm64)",
+    status = Unmaintained,
+    urls = listOf("https://github.com/stashymane/vintage-story-runner"),
+    created = LocalDate(2026, 1, 1),
+    languages = listOf(Kotlin)
+)
 
 @DevicePreview
 @Composable

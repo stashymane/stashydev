@@ -8,29 +8,29 @@ plugins {
     alias(kotlinLibs.plugins.composeCompiler)
     alias(composeLibs.plugins.compose)
     alias(composeLibs.plugins.hotReload)
+    alias(androidLibs.plugins.library)
+
+    id("multiplatform.target.jvmDesktop")
+    id("multiplatform.target.wasmJs")
+    id("multiplatform.target.androidLibrary")
 }
 
 kotlin {
-    jvmToolchain(libs.versions.jvm.get().toInt())
+    androidLibrary {
+        namespace = "dev.stashy.home"
 
-    jvm("desktop")
+        withJava()
+    }
 
     wasmJs {
-        outputModuleName = "composeApp"
-
-        browser()
         binaries.executable()
-
-        compilerOptions {
-            freeCompilerArgs.addAll("-Xwasm-debugger-custom-formatters")
-        }
     }
 
     sourceSets {
         commonMain.dependencies {
             implementation(projects.model)
-            implementation(projects.modules.githubApi)
             implementation(projects.composeApp.icons)
+            implementation(projects.composeApp.shaders)
 
             implementation(kotlinLibs.serialization.json)
 
@@ -49,8 +49,7 @@ kotlin {
             implementation(kotlinLibs.test)
         }
 
-        jvmMain.dependencies {
-            implementation(composeLibs.jb.uiTooling)
+        desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(kotlinLibs.coroutines.swing)
 
@@ -62,6 +61,10 @@ kotlin {
             implementation(kotlinLibs.browser)
         }
     }
+}
+
+dependencies {
+    androidRuntimeClasspath(composeLibs.jb.uiTooling)
 }
 
 compose {

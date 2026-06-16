@@ -1,7 +1,7 @@
 package ui.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.window.core.layout.WindowSizeClass
@@ -12,7 +12,7 @@ fun ResponsiveRow(
     arrangement: Arrangement.HorizontalOrVertical? = null,
     content: @Composable ResponsiveScope.() -> Unit
 ) {
-    val sizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val sizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
 
     if (sizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)) {
         Row(modifier, arrangement ?: Arrangement.Start) {

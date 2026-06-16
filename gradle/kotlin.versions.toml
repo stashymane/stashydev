@@ -1,10 +1,10 @@
 [versions]
-kotlin = "2.3.20-Beta1"
+kotlin = "2.4.0"
 
-coroutines = "1.10.2"
-serialization = "1.10.0"
-datetime = "0.7.1"
-io = "0.8.2"
+coroutines = "1.11.0"
+serialization = "1.11.0"
+datetime = "0.8.0"
+io = "0.9.0"
 browser = "0.3"
 
 [libraries]
@@ -20,6 +20,8 @@ coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", 
 io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "io" }
 browser = { module = "org.jetbrains.kotlinx:kotlinx-browser", version.ref = "browser" }
 #benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinx-benchmark" }
+
+gradle-plugin = { module = "org.jetbrains.kotlin.multiplatform:org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

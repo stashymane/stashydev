@@ -13,12 +13,12 @@ import ui.components.ScreenBackground
 import ui.components.nav.NavBar
 import ui.components.nav.NavTitle
 import ui.locals.LocalScaffoldPadding
-import ui.screens.generic.ScreenContainer
+import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
 @Composable
 fun MediaScreen() = ScreenHost {
-    ScreenContainer("media") {
+    ScreenContent("media") {
         ScreenBackground(
             Res.drawable.block_media_1k,
             Modifier.fillMaxWidth().height(300.dp)

@@ -1,31 +1,23 @@
 package ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import icons.Icons
+import icons.filled.ArrowBack
 import icons.filled.Mail
 import icons.logos.GitHub
 import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
 import ui.components.nav.SocialIcon
+import ui.locals.LocalBackStack
 import ui.preview.ComponentPreview
 
 @Composable
@@ -34,59 +26,82 @@ private fun LinkDivider() {
 }
 
 @Composable
-fun SiteHeader(modifier: Modifier = Modifier) {
+fun SiteHeader(
+    modifier: Modifier = Modifier,
+    showLinks: Boolean = true
+) {
+    val backStack = LocalBackStack.current
+
     FlowRow(
-        Modifier.padding(horizontal = 16.dp).then(modifier),
+        Modifier
+            .padding(horizontal = 16.dp)
+            .heightIn(min = 64.dp)
+            .fillMaxWidth()
+            .then(modifier),
         horizontalArrangement = Arrangement.spacedBy(32.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         itemVerticalAlignment = Alignment.CenterVertically
     ) {
-        Row(Modifier.weight(1f)) {
+        Row(
+            Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AnimatedVisibility(
+                visible = backStack.isNotEmpty()
+            ) {
+                IconButton({ backStack.removeLast() }, enabled = backStack.isNotEmpty()) {
+                    Icon(ArrowBack, "Back")
+                }
+            }
+
             Text(
                 "stashymane",
                 style = MaterialTheme.typography.displaySmall,
             )
         }
 
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)) {
-            HeaderLinkSection("content") {
-                SocialIcon(
-                    url = "https://github.com/stashymane",
-                    icon = Icons.Logos.GitHub,
-                    tooltip = "GitHub"
-                )
+        AnimatedVisibility(visible = showLinks) {
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)) {
+                HeaderLinkSection("content") {
+                    SocialIcon(
+                        url = "https://github.com/stashymane",
+                        icon = Icons.Logos.GitHub,
+                        tooltip = "GitHub"
+                    )
 
-                LinkDivider()
+                    LinkDivider()
 
-                SocialIcon(
-                    url = "https://soundcloud.com/stashymane",
-                    icon = Icons.Logos.SoundCloud,
-                    tooltip = "SoundCloud"
-                )
+                    SocialIcon(
+                        url = "https://soundcloud.com/stashymane",
+                        icon = Icons.Logos.SoundCloud,
+                        tooltip = "SoundCloud"
+                    )
 
-                LinkDivider()
+                    LinkDivider()
 
-                SocialIcon(
-                    url = "https://youtube.com/@stashymane",
-                    icon = Icons.Logos.YouTube,
-                    tooltip = "YouTube"
-                )
-            }
+                    SocialIcon(
+                        url = "https://youtube.com/@stashymane",
+                        icon = Icons.Logos.YouTube,
+                        tooltip = "YouTube"
+                    )
+                }
 
-            HeaderLinkSection("social") {
-                SocialIcon(
-                    url = "https://x.com/stashyymane",
-                    icon = Icons.Logos.Twitter,
-                    tooltip = "X/Twitter"
-                )
+                HeaderLinkSection("social") {
+                    SocialIcon(
+                        url = "https://x.com/stashyymane",
+                        icon = Icons.Logos.Twitter,
+                        tooltip = "X/Twitter"
+                    )
 
-                LinkDivider()
+                    LinkDivider()
 
-                SocialIcon(
-                    url = "mailto:me@stashy.dev",
-                    icon = Icons.Filled.Mail,
-                    tooltip = "Mail"
-                )
+                    SocialIcon(
+                        url = "mailto:me@stashy.dev",
+                        icon = Icons.Filled.Mail,
+                        tooltip = "Mail"
+                    )
+                }
             }
         }
     }
@@ -103,13 +118,7 @@ fun HeaderLinkSection(title: String, content: @Composable () -> Unit) {
             Modifier.height(IntrinsicSize.Min),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(
-                Modifier.weight(1f).fillMaxHeight()
-                    .dottedLine(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
-                    )
-            )
+            Spacer(Modifier.weight(1f).fillMaxHeight().dottedLine())
             Text(title, style = MaterialTheme.typography.labelSmall)
         }
 

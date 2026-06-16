@@ -14,12 +14,13 @@ import ui.components.nav.NavBar
 import ui.components.nav.NavTitle
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.screens.generic.ScreenContainer
+import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
 @Composable
 fun AboutScreen() = ScreenHost {
-    ScreenContainer("about") {
+
+    ScreenContent("about") {
         ScreenBackground(
             Res.drawable.block_about_1k,
             Modifier.fillMaxWidth().height(300.dp)
