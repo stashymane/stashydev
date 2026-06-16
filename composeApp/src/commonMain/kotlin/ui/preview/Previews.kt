@@ -1,5 +1,6 @@
 package ui.preview
 
+import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
 
 
@@ -8,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
     group = "Component",
     backgroundColor = 0xFF000000,
     showBackground = true,
-    uiMode = 0x20
+    uiMode = UI_MODE_NIGHT_YES
 )
 @Preview(
     name = "Light",
@@ -21,7 +22,7 @@ annotation class ComponentPreview()
 @Preview(
     name = "Phone Dark",
     group = "Phone",
-    uiMode = 0x20,
+    uiMode = UI_MODE_NIGHT_YES,
     device = "spec:width=411dp,height=891dp"
 )
 @Preview(
@@ -32,7 +33,7 @@ annotation class ComponentPreview()
 @Preview(
     name = "Tablet Dark",
     group = "Tablet",
-    uiMode = 0x20,
+    uiMode = UI_MODE_NIGHT_YES,
     device = "spec:width=1280dp,height=800dp,dpi=240"
 )
 @Preview(

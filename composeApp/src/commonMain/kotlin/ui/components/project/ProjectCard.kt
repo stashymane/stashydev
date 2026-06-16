@@ -15,6 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.logos.Kotlin
+import ui.preview.ComponentPreview
+import ui.preview.PreviewData
+import ui.preview.PreviewHost
 
 @Composable
 fun ProjectCard(
@@ -66,4 +69,10 @@ private fun ProjectLanguageRow(
 private fun Project.Language.icon(): ImageVector? = when (this.name) {
     "Kotlin" -> Icons.Logos.Kotlin
     else -> null
+}
+
+@ComponentPreview
+@Composable
+private fun ProjectCardPreview() = PreviewHost {
+    ProjectCard(PreviewData.project)
 }

@@ -1,6 +1,7 @@
 package ui.components.nav
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,4 +28,7 @@ fun NavBar(
 @ComponentPreview
 @Composable
 private fun NavBarPreview() = PreviewHost {
+    NavBar(title = {
+        Text("Hello")
+    })
 }

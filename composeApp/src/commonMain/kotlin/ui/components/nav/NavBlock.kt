@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import ui.preview.ComponentPreview
+import ui.preview.PreviewHost
 import ui.theme.exponentialVerticalGradient
 import ui.theme.indication.EdgeIndication
 import ui.theme.indication.ScaleIndication
@@ -95,7 +96,7 @@ fun NavBlock(
 
 @ComponentPreview
 @Composable
-private fun NavBlockPreview() {
+private fun NavBlockPreview() = PreviewHost {
     NavBlock(
         onClick = {},
         icon = Icons.OutlineLarge.CaptivePortal,

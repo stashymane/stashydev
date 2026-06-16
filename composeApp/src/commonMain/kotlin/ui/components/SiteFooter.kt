@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
+import ui.preview.ComponentPreview
+import ui.preview.PreviewHost
 
 @Composable
 fun SiteFooter(modifier: Modifier = Modifier) {
@@ -32,7 +34,7 @@ fun SiteFooter(modifier: Modifier = Modifier) {
 }
 
 @Composable
-@ui.preview.ComponentPreview
-private fun SiteFooterPreview() {
+@ComponentPreview
+private fun SiteFooterPreview() = PreviewHost {
     SiteFooter()
 }

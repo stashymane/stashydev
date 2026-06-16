@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outline.ArrowOutwardThick
+import icons.outlinelarge.UserSearch
+import ui.preview.ComponentPreview
+import ui.preview.PreviewHost
 import ui.theme.fastBezier
 
 private val iconEnter = fadeIn(fastBezier(200)) + slideIn(
@@ -113,5 +116,22 @@ fun SocialIcon(url: String, icon: ImageVector, tooltip: String) {
             isActive = false,
             isExternal = true
         ) { uriHandler.openUri(url) }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun NavLinkPreview() = PreviewHost {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        NavLink(
+            title = { Text("Hello") },
+            icon = { Icon(Icons.OutlineLarge.UserSearch, null) },
+            isActive = false,
+        ) {}
+        NavLink(
+            title = { Text("Hello") },
+            icon = { Icon(Icons.OutlineLarge.UserSearch, null) },
+            isActive = true,
+        ) {}
     }
 }

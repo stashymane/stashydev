@@ -19,6 +19,7 @@ import icons.logos.YouTube
 import ui.components.nav.SocialIcon
 import ui.locals.LocalBackStack
 import ui.preview.ComponentPreview
+import ui.preview.PreviewHost
 
 @Composable
 private fun LinkDivider() {
@@ -133,6 +134,6 @@ fun HeaderLinkSection(title: String, content: @Composable () -> Unit) {
 
 @ComponentPreview
 @Composable
-private fun SiteHeaderPreview() {
+private fun SiteHeaderPreview() = PreviewHost {
     SiteHeader()
 }

@@ -12,6 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import icons.Icons
+import icons.outlinelarge.CaptivePortal
+import ui.preview.ComponentPreview
+import ui.preview.PreviewHost
 import ui.theme.navTitleSharedElement
 
 @Composable
@@ -31,4 +35,13 @@ fun NavTitle(
             Text(text)
         }
     }
+}
+
+@ComponentPreview
+@Composable
+private fun NavTitlePreview() = PreviewHost {
+    NavTitle(
+        Icons.OutlineLarge.CaptivePortal,
+        "Search"
+    )
 }

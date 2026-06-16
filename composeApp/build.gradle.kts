@@ -20,6 +20,7 @@ kotlin {
         namespace = "dev.stashy.home"
 
         withJava()
+        androidResources.enable = true
     }
 
     wasmJs {

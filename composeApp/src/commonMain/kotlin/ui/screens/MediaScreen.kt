@@ -13,6 +13,8 @@ import ui.components.ScreenBackground
 import ui.components.nav.NavBar
 import ui.components.nav.NavTitle
 import ui.locals.LocalScaffoldPadding
+import ui.preview.DevicePreview
+import ui.preview.PreviewHost
 import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
@@ -36,4 +38,10 @@ fun MediaScreen() = ScreenHost {
             }
         }
     }
+}
+
+@DevicePreview
+@Composable
+private fun MediaScreenPreview() = PreviewHost {
+    MediaScreen()
 }
