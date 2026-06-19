@@ -40,14 +40,6 @@ private val maskGradient =
         curve = 1.25f
     )
 
-private val overlayGradient =
-    Brush.exponentialVerticalGradient(
-        Color.White.copy(alpha = 0.02f),
-        Color.White.copy(alpha = 0f),
-        10,
-        curve = 1.25f
-    )
-
 @Composable
 fun NavBlock(
     modifier: Modifier = Modifier,
@@ -78,10 +70,6 @@ fun NavBlock(
             .indication(interactionSource, ripple())
             .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
             .background(MaterialTheme.colorScheme.surface)
-            .drawWithContent {
-                drawContent()
-                drawRect(overlayGradient)
-            }
     ) {
         Box(Modifier.graphicsLayer {
             alpha = backgroundAlpha

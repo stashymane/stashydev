@@ -14,13 +14,11 @@ import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
 import model.Screen
 import ui.components.SiteFooter
-import ui.components.SiteHeader
 import ui.locals.LocalBackStack
 import ui.locals.LocalSharedTransitionScope
 import ui.nav.navTransition
 import ui.nav.scenes.PageSceneStrategy
 import ui.screens.*
-import ui.screens.generic.ScreenContainer
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -35,12 +33,6 @@ fun Navigation() {
             LocalSharedTransitionScope provides this
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                ScreenContainer {
-                    SiteHeader(
-                        showLinks = backStack.isEmpty()
-                    )
-                }
-
                 NavDisplay(
                     backStack.backStack,
                     onBack = backStack::removeLast,

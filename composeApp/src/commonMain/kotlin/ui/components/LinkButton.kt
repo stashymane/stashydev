@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.platform.LocalUriHandler
@@ -21,10 +20,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import icons.Icons
-import icons.logos.GitHub
 import icons.outline.ArrowOutwardThick
-import icons.outline.CaptivePortal
 import io.ktor.http.*
+import model.getIcon
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.inDp
@@ -64,7 +62,7 @@ fun LinkButton(
         ) {
             CompositionLocalProvider(LocalContentColor provides currentColor) {
                 if (prefixIcon)
-                    Icon(url.icon(), null, Modifier.size(iconSize))
+                    Icon(url.getIcon(), null, Modifier.size(iconSize))
                 Text(
                     "${url.host}${url.encodedPathAndQuery}",
                     textDecoration = decoration,
@@ -93,11 +91,6 @@ fun LinkButton(
             Icon(Icons.Outline.ArrowOutwardThick, null, Modifier.size(16.dp))
         }
     }
-}
-
-private fun Url.icon(): ImageVector = when (this.host) {
-    "github.com" -> Icons.Logos.GitHub
-    else -> Icons.Outline.CaptivePortal
 }
 
 @ComponentPreview
