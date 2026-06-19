@@ -10,6 +10,7 @@ kotlin {
         commonMain.dependencies {
             implementation(kotlinLibs.serialization.json)
             api(kotlinLibs.datetime)
+            api(ktorLibs.http)
         }
 
         commonTest.dependencies {

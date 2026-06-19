@@ -1,3 +1,4 @@
+import io.ktor.http.Url
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
@@ -10,7 +11,7 @@ data class Project(
     val created: LocalDate,
     val languages: List<Language>,
 
-    val urls: List<String>,
+    val urls: List<Url>,
 ) {
     @Serializable
     enum class Status {
