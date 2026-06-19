@@ -15,11 +15,8 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        register("androidLibs") {
-            from(files("../gradle/android.versions.toml"))
-        }
-        register("kotlinLibs") {
-            from(files("../gradle/kotlin.versions.toml"))
+        register("buildLibs") {
+            from(files("../gradle/build.versions.toml"))
         }
     }
 }

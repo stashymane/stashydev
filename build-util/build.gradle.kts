@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    compileOnly(kotlinLibs.gradle.plugin)
-    compileOnly(androidLibs.gradlePlugin.library)
+    compileOnly(buildLibs.kmp.gradlePlugin)
+    compileOnly(buildLibs.android.library.gradlePlugin)
 }
