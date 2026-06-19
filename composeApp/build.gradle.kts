@@ -43,7 +43,12 @@ kotlin {
 
             implementation(libs.bundles.koin)
 
-            implementation(ktorLibs.bundles.client)
+            implementation(ktorLibs.client.core)
+            implementation(ktorLibs.client.contentNegotiation)
+            implementation(ktorLibs.client.resources)
+            implementation(ktorLibs.client.logging)
+            implementation(ktorLibs.client.serialization)
+            implementation(ktorLibs.serialization.kotlinx.json)
         }
 
         commonTest.dependencies {

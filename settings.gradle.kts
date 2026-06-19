@@ -25,7 +25,7 @@ dependencyResolutionManagement {
             from(files("gradle/kotlin.versions.toml"))
         }
         register("ktorLibs") {
-            from(files("gradle/ktor.versions.toml"))
+            from("io.ktor:ktor-version-catalog:3.5.0")
         }
         register("composeLibs") {
             from(files("gradle/compose.versions.toml"))
