@@ -45,7 +45,10 @@ fun LinkButton(
 
     val decoration: TextDecoration by derivedStateOf { if (hovered) Underline else None }
     val currentColor by animateColorAsState(if (hovered) hoverColor else color)
-    val hoverProgress by animateFloatAsState(if (hovered) 1f else 0f)
+    val hoverProgress by animateFloatAsState(
+        if (hovered) 1f else 0f,
+        MaterialTheme.motionScheme.fastEffectsSpec()
+    )
 
     Box {
         Row(

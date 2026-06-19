@@ -21,14 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.exponentialVerticalGradient
-import ui.theme.indication.EdgeIndication
-import ui.theme.indication.ScaleIndication
+import ui.theme.indication.scale
 import ui.theme.navTitleSharedElement
 
 private val maskGradient =
@@ -60,7 +61,10 @@ fun NavBlock(
     val focused by interactionSource.collectIsFocusedAsState()
     val pressed by interactionSource.collectIsPressedAsState()
 
-    val backgroundAlpha by animateFloatAsState(if (pressed) 0.5f else if (hovered || focused) 1f else 0f)
+    val backgroundAlpha by animateFloatAsState(
+        targetValue = if (pressed) 0.5f else if (hovered || focused) 1f else 0f,
+        animationSpec = MaterialTheme.motionScheme.fastEffectsSpec()
+    )
 
     Box(
         modifier.sizeIn(minHeight = 300.dp)
@@ -69,9 +73,9 @@ fun NavBlock(
                 interactionSource = interactionSource,
                 indication = null
             )
-            .indication(interactionSource, ScaleIndication.Default)
+            .pointerHoverIcon(PointerIcon.Hand)
+            .indication(interactionSource, scale())
             .indication(interactionSource, ripple())
-            .indication(interactionSource, EdgeIndication)
             .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
             .background(MaterialTheme.colorScheme.surface)
             .drawWithContent {
