@@ -28,10 +28,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Prepare Java & Gradle
         uses: ./.github/actions/prepare-gradle
@@ -48,10 +48,10 @@ jobs:
         run: ./gradlew wasmJsBrowserDevelopmentExecutableDistribution
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: './composeApp/build/dist/wasmJs/${{ env.mode }}Executable/'
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
