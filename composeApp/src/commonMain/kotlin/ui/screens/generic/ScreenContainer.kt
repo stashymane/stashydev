@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ui.theme.appWidth
+import ui.theme.narrowWidth
 import ui.theme.navBlockSharedBounds
 
 @Composable
@@ -14,7 +14,7 @@ fun ScreenContainer(
 ) {
     Column(
         Modifier
-            .widthIn(max = appWidth())
+            .widthIn(max = narrowWidth())
     ) {
         content()
     }

@@ -26,7 +26,7 @@ import ui.locals.LocalBackStack
 import ui.locals.LocalScaffoldPadding
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.theme.appWidth
+import ui.theme.narrowWidth
 import ui.theme.navBlockSharedBounds
 import ui.vm.HomeScreenViewmodel
 
@@ -39,11 +39,11 @@ fun HomeScreen(
     val scrollState = rememberScrollState()
 
     val windowInfo = currentWindowAdaptiveInfoV2()
-    val expanded = windowInfo.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_LARGE_LOWER_BOUND)
+    val expanded = windowInfo.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)
 
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = appWidth())
+            Modifier.widthIn(max = narrowWidth())
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(LocalScaffoldPadding.current)

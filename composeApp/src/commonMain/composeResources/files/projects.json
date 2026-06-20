@@ -8,7 +8,7 @@
       "Rust"
     ],
     "urls": [
-      "github.com/stashymane/taxipatch"
+      "https://github.com/stashymane/taxipatch"
     ]
   },
   {
@@ -20,7 +20,7 @@
       "Rust"
     ],
     "urls": [
-      "github.com/stashymane/ct3lib"
+      "https://github.com/stashymane/ct3lib"
     ]
   },
   {
@@ -32,7 +32,7 @@
       "Rust"
     ],
     "urls": [
-      "github.com/stashymane/swarmbox"
+      "https://github.com/stashymane/swarmbox"
     ]
   },
   {
@@ -44,7 +44,7 @@
       "Kotlin"
     ],
     "urls": [
-      "github.com/stashymane/ktgrants"
+      "https://github.com/stashymane/ktgrants"
     ]
   },
   {
@@ -56,7 +56,7 @@
       "Kotlin"
     ],
     "urls": [
-      "github.com/stashymane/stashydev"
+      "https://github.com/stashymane/stashydev"
     ]
   },
   {
@@ -79,8 +79,8 @@
       "Kotlin"
     ],
     "urls": [
-      "github.com/extrasounds/extra-sounds",
-      "modrinth.com/mod/extrasounds"
+      "https://github.com/extrasounds/extra-sounds",
+      "https://modrinth.com/mod/extrasounds"
     ]
   },
   {

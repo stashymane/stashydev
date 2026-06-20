@@ -1,4 +1,4 @@
-import io.ktor.http.Url
+import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
@@ -23,6 +23,7 @@ data class Project(
     @Serializable
     enum class Language {
         Kotlin,
+        Java,
         Rust,
         CSharp
     }

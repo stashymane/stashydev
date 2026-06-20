@@ -15,7 +15,10 @@ fun ScreenHost(
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
-        Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.6f))
-            .then(modifier), contentAlignment = Alignment.TopCenter, content = content
+        Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.6f))
+            .then(modifier),
+        contentAlignment = Alignment.TopCenter,
+        content = content
     )
 }

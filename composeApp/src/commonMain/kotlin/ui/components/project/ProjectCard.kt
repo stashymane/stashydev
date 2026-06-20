@@ -27,7 +27,7 @@ fun ProjectCard(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier.background(MaterialTheme.colorScheme.surfaceContainerLowest).padding(16.dp).height(IntrinsicSize.Min),
+        modifier.background(MaterialTheme.colorScheme.surfaceContainer).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row {

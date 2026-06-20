@@ -6,4 +6,4 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 
 @Composable
-fun appWidth(): Dp = WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND.dp
+fun narrowWidth(): Dp = WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND.dp

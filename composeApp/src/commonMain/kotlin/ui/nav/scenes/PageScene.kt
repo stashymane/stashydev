@@ -2,6 +2,7 @@ package ui.nav.scenes
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -9,7 +10,6 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
-import ui.screens.generic.ScreenContainer
 
 data class PageScene<T : Any>(
     override val key: Any,
@@ -18,10 +18,12 @@ data class PageScene<T : Any>(
 ) : Scene<T> {
     override val entries: List<NavEntry<T>> = listOf(entry)
     override val content: @Composable () -> Unit = {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            ScreenContainer {
-                entry.Content()
-            }
+        Box(
+            Modifier.fillMaxSize()
+                .widthIn(),
+            contentAlignment = Alignment.Center
+        ) {
+            entry.Content()
         }
     }
 }
@@ -30,8 +32,8 @@ data class PageScene<T : Any>(
  * A [SceneStrategy] that always creates a 1-entry [Scene] simply displaying the last entry in the
  * list.
  */
-public class PageSceneStrategy<T : Any> : SceneStrategy<T> {
-    override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? =
+class PageSceneStrategy<T : Any> : SceneStrategy<T> {
+    override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T> =
         PageScene(
             key = entries.last().contentKey,
             entry = entries.last(),

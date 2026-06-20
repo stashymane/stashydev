@@ -11,8 +11,10 @@ import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import kotlinx.serialization.json.Json
+import model.AppState
 import model.Screen
 import org.koin.compose.KoinApplication
+import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.koinConfiguration
 import ui.LoadingState
@@ -56,6 +58,12 @@ fun App() {
             is LoadingState.Complete -> 1f
         }
         val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
+
+        val state: AppState = koinInject()
+
+        LaunchedEffect(Unit) {
+            state.loadProjects()
+        }
 
         AppTheme(Color(0xFFc27aff), !LocalSettings.current.lightMode) {
             Surface {
