@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mikepenz.markdown.m3.Markdown
 import icons.Icons
 import icons.logos.GitHub
 import icons.logos.Kotlin
@@ -27,7 +28,7 @@ fun ProjectCard(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier.background(MaterialTheme.colorScheme.surfaceContainer).padding(16.dp),
+        modifier.background(MaterialTheme.colorScheme.surfaceContainerLow).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row {
@@ -37,9 +38,11 @@ fun ProjectCard(
 
         project.description?.let { description ->
             Row(Modifier.weight(1f)) {
-                Text(description, style = MaterialTheme.typography.bodyLarge)
+                Markdown(description)
             }
         }
+
+        Spacer(Modifier.height(16.dp))
 
         Column {
             ProvideTextStyle(
@@ -50,10 +53,8 @@ fun ProjectCard(
                 }
 
                 if (project.urls.isNotEmpty()) {
-                    Column(modifier) {
-                        project.urls.forEach { url ->
-                            LinkButton(url)
-                        }
+                    project.urls.forEach { url ->
+                        LinkButton(url)
                     }
                 }
             }

@@ -57,4 +57,4 @@ adaptive = ["material3-adaptive-core", "material3-adaptive-layout", "material3-a
 nav3 = ["androidx-navigation3-ui"]
 
 app = ["coil-main", "coil-compose", "coil-network", "coil-svg",
-    "materialKolor", "placeholder-material3", "haze"]
+    "materialKolor", "placeholder-material3", "haze", "markdownRenderer-core", "markdownRenderer-m3"]
