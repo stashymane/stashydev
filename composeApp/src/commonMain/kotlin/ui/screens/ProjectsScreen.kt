@@ -30,9 +30,7 @@ fun ProjectsScreen(
 ) = ScreenHost {
     val state by appState.projectState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        Modifier.widthIn(max = WindowSizeClass.WIDTH_DP_LARGE_LOWER_BOUND.dp)
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         AnimatedContent(state) {
             when (it) {
                 is ProjectState.Loading -> {

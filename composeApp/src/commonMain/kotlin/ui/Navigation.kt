@@ -7,18 +7,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
 import model.Screen
 import ui.components.SiteFooter
 import ui.locals.LocalBackStack
 import ui.locals.LocalSharedTransitionScope
+import ui.nav.decorators.ResponsiveNavEntryDecorator
 import ui.nav.navTransition
 import ui.nav.scenes.PageSceneStrategy
-import ui.screens.*
+import ui.screens.BackgroundScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -39,25 +41,11 @@ fun Navigation() {
                     transitionSpec = AnimatedContentTransitionScope<Scene<Screen>>::navTransition,
                     popTransitionSpec = AnimatedContentTransitionScope<Scene<Screen>>::navTransition,
                     sceneStrategies = strategies,
-                    entryProvider = { key ->
-                        when (key) {
-                            is Screen.Home -> NavEntry(key) {
-                                HomeScreen()
-                            }
-
-                            is Screen.Projects -> NavEntry(key) {
-                                ProjectsScreen()
-                            }
-
-                            is Screen.Media -> NavEntry(key) {
-                                MediaScreen()
-                            }
-
-                            is Screen.About -> NavEntry(key) {
-                                AboutScreen()
-                            }
-                        }
-                    })
+                    entryDecorators = listOf(
+                        rememberSaveableStateHolderNavEntryDecorator(),
+                        remember { ResponsiveNavEntryDecorator() }),
+                    entryProvider = Screen::provideEntry
+                )
 
                 SiteFooter()
             }

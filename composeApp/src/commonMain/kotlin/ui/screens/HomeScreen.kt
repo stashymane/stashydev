@@ -26,7 +26,6 @@ import ui.locals.LocalBackStack
 import ui.locals.LocalScaffoldPadding
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.theme.narrowWidth
 import ui.theme.navBlockSharedBounds
 import ui.vm.HomeScreenViewmodel
 
@@ -43,8 +42,7 @@ fun HomeScreen(
 
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
-            Modifier.widthIn(max = narrowWidth())
-                .fillMaxSize()
+            Modifier.fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(LocalScaffoldPadding.current)
                 .padding(vertical = 32.dp, horizontal = 16.dp),

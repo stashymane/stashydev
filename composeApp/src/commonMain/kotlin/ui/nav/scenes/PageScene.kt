@@ -2,7 +2,6 @@ package ui.nav.scenes
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,8 +18,7 @@ data class PageScene<T : Any>(
     override val entries: List<NavEntry<T>> = listOf(entry)
     override val content: @Composable () -> Unit = {
         Box(
-            Modifier.fillMaxSize()
-                .widthIn(),
+            Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             entry.Content()

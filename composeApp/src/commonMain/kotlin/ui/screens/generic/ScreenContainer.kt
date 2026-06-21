@@ -5,17 +5,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ui.theme.narrowWidth
 import ui.theme.navBlockSharedBounds
 
 @Composable
 fun ScreenContainer(
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Column(
-        Modifier
-            .widthIn(max = narrowWidth())
-    ) {
+    Column() {
         content()
     }
 }
