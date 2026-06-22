@@ -16,7 +16,6 @@ import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
-import ui.theme.navTitleSharedElement
 
 @Composable
 fun NavTitle(

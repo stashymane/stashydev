@@ -24,13 +24,13 @@ import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
 import ui.screens.generic.ScreenContent
-import ui.screens.generic.ScreenHost
+
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun ProjectsScreen(
     appState: AppState = koinInject()
-) = ScreenHost {
+) {
     val state by appState.projectState.collectAsStateWithLifecycle()
 
     AnimatedContent(state) {
@@ -70,7 +70,7 @@ private fun ProjectScreenContent(
 
             gap(8.dp)
         },
-        Modifier.padding(8.dp).fillMaxSize()
+        Modifier.padding(horizontal = 8.dp).padding(bottom = 16.dp)
     ) {
         projects.forEach {
             ProjectCard(it, Modifier.fillMaxSize())

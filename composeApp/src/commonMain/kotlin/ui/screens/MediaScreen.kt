@@ -11,7 +11,7 @@ import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
 @Composable
-fun MediaScreen() = ScreenHost {
+fun MediaScreen() {
     ScreenContent {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("todo")

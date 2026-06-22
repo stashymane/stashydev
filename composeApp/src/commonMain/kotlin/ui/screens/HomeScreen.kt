@@ -28,7 +28,6 @@ import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.theme.navBlockSharedBounds
 import viewmodel.HomeScreenViewmodel
 
 @OptIn(ExperimentalGridApi::class)
@@ -116,7 +115,7 @@ fun HomeScreen(
 
             vm.cards.forEach { card ->
                 NavBlock(
-                    Modifier.navBlockSharedBounds(card.id).fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                     onClick = { backStack.add(card.screen) },
                     icon = card.icon,
                     text = stringResource(card.title),

@@ -10,7 +10,7 @@ lifecycle = "2.11.0-beta01"
 coil = "3.5.0"
 materialKolor = "4.1.1"
 placeholder = "1.0.12"
-haze = "1.7.2"
+haze = "2.0.0-alpha03"
 markdownRenderer = "0.41.0"
 
 [libraries]
@@ -40,7 +40,8 @@ coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 placeholder-material3 = { module = "com.eygraber:compose-placeholder-material3", version.ref = "placeholder" }
-haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-core = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-blur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
 markdownRenderer-core = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "markdownRenderer" }
 markdownRenderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdownRenderer" }
 
@@ -57,4 +58,5 @@ adaptive = ["material3-adaptive-core", "material3-adaptive-layout", "material3-a
 nav3 = ["androidx-navigation3-ui"]
 
 app = ["coil-main", "coil-compose", "coil-network", "coil-svg",
-    "materialKolor", "placeholder-material3", "haze", "markdownRenderer-core", "markdownRenderer-m3"]
+    "materialKolor", "placeholder-material3", "haze-core", "haze-blur",
+    "markdownRenderer-core", "markdownRenderer-m3"]

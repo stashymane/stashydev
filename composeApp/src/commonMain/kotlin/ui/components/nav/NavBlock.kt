@@ -30,7 +30,6 @@ import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.exponentialVerticalGradient
 import ui.theme.indication.scale
-import ui.theme.navTitleSharedElement
 
 private val maskGradient =
     Brush.exponentialVerticalGradient(
@@ -82,7 +81,7 @@ fun NavBlock(
             background(Modifier.matchParentSize())
         }
 
-        NavTitle(icon, text, Modifier.padding(16.dp).navTitleSharedElement("title-$text"))
+        NavTitle(icon, text, Modifier.padding(16.dp))
     }
 }
 

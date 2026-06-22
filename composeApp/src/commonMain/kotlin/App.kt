@@ -70,7 +70,8 @@ fun App() {
                 ) {
                     AnimatedContent(
                         isComplete,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }) {
+                        transitionSpec = { fadeIn() togetherWith fadeOut() }
+                    ) {
                         when (it) {
                             true -> Navigation()
                             false -> LoadingScreen(progress = progress) {

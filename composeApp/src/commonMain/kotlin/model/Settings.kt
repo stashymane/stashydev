@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Settings(
     val themeMode: ThemeMode = ThemeMode.Auto,
+    val bottomNav: Boolean = false
 )
 
 @Serializable

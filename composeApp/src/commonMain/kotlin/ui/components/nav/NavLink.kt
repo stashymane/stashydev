@@ -59,7 +59,7 @@ fun NavLink(
     Box {
         Surface(
             onClick,
-            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).then(modifier),
+            modifier = modifier.pointerHoverIcon(PointerIcon.Hand),
             color = backgroundColor,
             border = BorderStroke(1.dp, borderColor),
             interactionSource = interactionSource

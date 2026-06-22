@@ -13,11 +13,12 @@ import ui.LocalBackStack
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.inDp
+import ui.theme.navigationSharedElement
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun NavBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.height(80.dp)
 ) {
     val backStack = LocalBackStack.current
 
@@ -29,13 +30,11 @@ fun NavBar(
             column(1.fr)
             column(1.fr)
 
-            row(GridTrackSize.Auto)
+            row(1.fr)
 
             gap(8.dp)
         },
-        Modifier.padding(8.dp)
-            .height(64.dp)
-            .then(modifier)
+        modifier.padding(8.dp)
     ) {
         ProvideTextStyle(MaterialTheme.typography.headlineSmall) {
             val iconSize = LocalTextStyle.current.lineHeight.inDp()
@@ -44,7 +43,7 @@ fun NavBar(
                 title = {},
                 icon = { Icon(Icons.Filled.ChevronBackward, "back", Modifier.size(iconSize)) },
                 isActive = false,
-                modifier = Modifier.fillMaxHeight().aspectRatio(1f, true)
+                modifier = Modifier.fillMaxSize().aspectRatio(1f, true)
             ) {
                 backStack.removeLast()
             }
@@ -59,7 +58,7 @@ fun NavBar(
                         Icon(entry.icon, null, Modifier.size(iconSize))
                     },
                     isActive = backStack.currentGroup == entry.screen.group,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     backStack.add(entry.screen)
                 }

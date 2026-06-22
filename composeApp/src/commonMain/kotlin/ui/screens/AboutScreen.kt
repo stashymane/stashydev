@@ -18,7 +18,7 @@ import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
 @Composable
-fun AboutScreen() = ScreenHost {
+fun AboutScreen() {
     ScreenContent {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("todo")

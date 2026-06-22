@@ -12,7 +12,7 @@ fun ScreenContent(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Column(Modifier.padding(LocalScaffoldPadding.current).then(modifier)) {
+    Column(modifier.padding(LocalScaffoldPadding.current)) {
         content()
     }
 }
