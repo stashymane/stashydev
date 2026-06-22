@@ -2,9 +2,9 @@
 agp = "9.0.1"
 
 jvm = "17"
-compileSdk = "37"
+compileSdk = "36"
 minSdk = "24"
-targetSdk = "37"
+targetSdk = "36"
 
 androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
