@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
@@ -51,9 +49,7 @@ fun ProjectsScreen(
 @Composable
 private fun ProjectScreenContent(
     projects: List<Project>
-) = ScreenContent(
-    Modifier.verticalScroll(rememberScrollState())
-) {
+) = ScreenContent {
     val sizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
     val columns = if (sizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND))
         3
