@@ -65,9 +65,9 @@ private fun ProjectScreenContent(
                 column(1 / columns.toFloat())
             }
 
-            gap(16.dp)
+            gap(8.dp)
         },
-        Modifier.padding(16.dp)
+        Modifier.padding(8.dp).fillMaxSize()
     ) {
         projects.forEach {
             ProjectCard(it, Modifier.fillMaxWidth())

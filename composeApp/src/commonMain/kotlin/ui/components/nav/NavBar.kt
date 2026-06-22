@@ -31,9 +31,10 @@ fun NavBar(
 
             row(GridTrackSize.Auto)
 
-            gap(16.dp)
+            gap(8.dp)
         },
-        Modifier.height(64.dp)
+        Modifier.padding(8.dp)
+            .height(64.dp)
             .then(modifier)
     ) {
         ProvideTextStyle(MaterialTheme.typography.headlineSmall) {
@@ -52,6 +53,7 @@ fun NavBar(
                 NavLink(
                     title = {
                         Text(stringResource(entry.title))
+                        Spacer(Modifier.fillMaxWidth())
                     },
                     icon = {
                         Icon(entry.icon, null, Modifier.size(iconSize))

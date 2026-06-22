@@ -13,6 +13,7 @@ import coil3.util.DebugLogger
 import kotlinx.serialization.json.Json
 import model.AppState
 import model.Screen
+import model.isDark
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -65,7 +66,7 @@ fun App() {
             state.loadProjects()
         }
 
-        AppTheme(Color(0xFFc27aff), !LocalSettings.current.lightMode) {
+        AppTheme(Color(0xFFc27aff), LocalSettings.current.themeMode.isDark()) {
             Surface {
                 CompositionLocalProvider(
 //                    LocalScrollbarStyle provides scrollbarStyle(),
