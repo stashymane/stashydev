@@ -19,21 +19,9 @@ import ui.screens.generic.ScreenHost
 
 @Composable
 fun AboutScreen() = ScreenHost {
-
-    ScreenContent("about") {
-        ScreenBackground(
-            Res.drawable.block_about_1k,
-            Modifier.fillMaxWidth().height(300.dp)
-        )
-
-        Column {
-            NavBar {
-                NavTitle(Icons.OutlineLarge.UserSearch, "About")
-            }
-
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("todo")
-            }
+    ScreenContent {
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Text("todo")
         }
     }
 }

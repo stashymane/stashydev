@@ -67,7 +67,7 @@ fun NavBlock(
             )
             .pointerHoverIcon(PointerIcon.Hand)
             .indication(interactionSource, scale())
-            .indication(interactionSource, ripple())
+            .indication(interactionSource, ripple(enableHoverIndication = false))
             .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
             .background(MaterialTheme.colorScheme.surface)
     ) {

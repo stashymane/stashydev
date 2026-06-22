@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import ui.components.project.ProjectCard
 import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
+import ui.screens.generic.ScreenContent
 import ui.screens.generic.ScreenHost
 
 @OptIn(ExperimentalGridApi::class)
@@ -30,17 +30,15 @@ fun ProjectsScreen(
 ) = ScreenHost {
     val state by appState.projectState.collectAsStateWithLifecycle()
 
-    Scaffold { paddingValues ->
-        AnimatedContent(state) {
-            when (it) {
-                is ProjectState.Loading -> {
-                    LoadingScreen {}
-                }
+    AnimatedContent(state) {
+        when (it) {
+            is ProjectState.Loading -> {
+                LoadingScreen {}
+            }
 
-                is ProjectState.Loaded -> ProjectScreenContent(paddingValues, it.projects)
-                is ProjectState.Failed -> {
-                    Text("Failed to load projects.")
-                }
+            is ProjectState.Loaded -> ProjectScreenContent(it.projects)
+            is ProjectState.Failed -> {
+                Text("Failed to load projects.")
             }
         }
     }
@@ -49,8 +47,9 @@ fun ProjectsScreen(
 @OptIn(ExperimentalGridApi::class)
 @Composable
 private fun ProjectScreenContent(
-    paddingValues: PaddingValues,
     projects: List<Project>
+) = ScreenContent(
+    Modifier.verticalScroll(rememberScrollState())
 ) {
     val sizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
     val columns = if (sizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND))
@@ -68,10 +67,7 @@ private fun ProjectScreenContent(
 
             gap(16.dp)
         },
-        Modifier.verticalScroll(rememberScrollState())
-            .padding(paddingValues)
-            .padding(16.dp)
-            .fillMaxSize()
+        Modifier.padding(16.dp)
     ) {
         projects.forEach {
             ProjectCard(it, Modifier.fillMaxWidth())

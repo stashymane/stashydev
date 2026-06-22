@@ -16,8 +16,7 @@ class ResponsiveNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
                 entry.Content()
             }
         } ?: entry.Content()
-    },
-    onPop = { contentKey -> }
+    }
 ) {
     object MetadataKey : NavMetadataKey<Dp>
 }

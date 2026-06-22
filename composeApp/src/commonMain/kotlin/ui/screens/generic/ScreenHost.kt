@@ -16,7 +16,7 @@ fun ScreenHost(
 ) {
     Box(
         Modifier.fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.6f))
+            .background(MaterialTheme.colorScheme.surface)
             .then(modifier),
         contentAlignment = Alignment.TopCenter,
         content = content

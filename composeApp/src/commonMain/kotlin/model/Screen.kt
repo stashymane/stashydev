@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.metadata
 import kotlinx.serialization.Serializable
 import ui.nav.MultiBackStack
 import ui.nav.decorators.ResponsiveNavEntryDecorator
+import ui.nav.decorators.TopBarEntryDecorator
 import ui.screens.AboutScreen
 import ui.screens.HomeScreen
 import ui.screens.MediaScreen
@@ -17,6 +18,7 @@ sealed class Screen(
     override val group: Group? = null
 ) : MultiBackStack.Entry<Screen.Group> {
     open val size: ContainerSize? = null
+    open val showNavigation: Boolean = false
 
     fun provideEntry(): NavEntry<Screen> = NavEntry(
         this,
@@ -24,13 +26,16 @@ sealed class Screen(
             size?.let { size ->
                 put(ResponsiveNavEntryDecorator.MetadataKey, size.value)
             }
+            if (showNavigation) {
+                put(TopBarEntryDecorator.MetadataKey, true)
+            }
         }
     ) {
-        content()
+        Content()
     }
 
     @Composable
-    abstract fun content()
+    abstract fun Content()
 
     @Serializable
     data class Group(
@@ -64,30 +69,33 @@ sealed class Screen(
         override val size: ContainerSize = ContainerSize.Regular
 
         @Composable
-        override fun content() = HomeScreen()
+        override fun Content() = HomeScreen()
     }
 
     @Serializable
     data object Projects : Screen(Group.Projects) {
         override val size: ContainerSize = ContainerSize.Wide
+        override val showNavigation: Boolean = true
 
         @Composable
-        override fun content() = ProjectsScreen()
+        override fun Content() = ProjectsScreen()
     }
 
     @Serializable
     data object Media : Screen(Group.Media) {
         override val size: ContainerSize = ContainerSize.Wide
+        override val showNavigation: Boolean = true
 
         @Composable
-        override fun content() = MediaScreen()
+        override fun Content() = MediaScreen()
     }
 
     @Serializable
     data object About : Screen(Group.About) {
         override val size: ContainerSize = ContainerSize.Wide
+        override val showNavigation: Boolean = true
 
         @Composable
-        override fun content() = AboutScreen()
+        override fun Content() = AboutScreen()
     }
 }

@@ -19,7 +19,9 @@ import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
 import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import ui.components.SiteFooter
 import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
 import ui.locals.LocalBackStack
@@ -40,102 +42,102 @@ fun HomeScreen(
     val windowInfo = currentWindowAdaptiveInfoV2()
     val expanded = windowInfo.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)
 
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(
-            Modifier.fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(LocalScaffoldPadding.current)
-                .padding(vertical = 32.dp, horizontal = 16.dp),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Grid(
-                {
-                    if (expanded) {
-                        column(1f / 3f)
-                        column(1f / 3f)
-                        column(1f / 3f)
-                    } else {
-                        column(1.fr)
-                    }
-
-                    gap(16.dp)
-                },
-                Modifier.fillMaxSize()
-            ) {
-                Text(
-                    "stashymane",
-                    Modifier.padding(vertical = 8.dp).gridItem(columnSpan = 1),
-                    style = MaterialTheme.typography.displaySmall,
-                )
-
-                Row(
-                    Modifier.gridItem(columnSpan = if (expanded) 2 else 1).fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
-                ) {
-                    HeaderLinkSection("content") {
-                        SocialIcon(
-                            url = "https://github.com/stashymane",
-                            icon = Icons.Logos.GitHub,
-                            tooltip = "GitHub"
-                        )
-
-                        LinkDivider()
-
-                        SocialIcon(
-                            url = "https://soundcloud.com/stashymane",
-                            icon = Icons.Logos.SoundCloud,
-                            tooltip = "SoundCloud"
-                        )
-
-                        LinkDivider()
-
-                        SocialIcon(
-                            url = "https://youtube.com/@stashymane",
-                            icon = Icons.Logos.YouTube,
-                            tooltip = "YouTube"
-                        )
-                    }
-
-                    HeaderLinkSection("social") {
-                        SocialIcon(
-                            url = "https://x.com/stashyymane",
-                            icon = Icons.Logos.Twitter,
-                            tooltip = "X/Twitter"
-                        )
-
-                        LinkDivider()
-
-                        SocialIcon(
-                            url = "mailto:me@stashy.dev",
-                            icon = Icons.Filled.Mail,
-                            tooltip = "Mail"
-                        )
-                    }
+    Column(
+        Modifier.fillMaxSize()
+            .verticalScroll(scrollState)
+            .padding(LocalScaffoldPadding.current)
+            .padding(vertical = 32.dp, horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+    ) {
+        Grid(
+            {
+                if (expanded) {
+                    column(1f / 3f)
+                    column(1f / 3f)
+                    column(1f / 3f)
+                } else {
+                    column(1.fr)
                 }
 
-                vm.cards.forEach { card ->
-                    NavBlock(
-                        Modifier.navBlockSharedBounds(card.id).fillMaxWidth(),
-                        onClick = { backStack.add(card.screen) },
-                        icon = card.icon,
-                        text = card.title,
-                        background = {
-                            Image(
-                                imageResource(card.background),
-                                null,
-                                it,
-                                contentScale = ContentScale.Crop
-                            )
-                        })
+                gap(16.dp)
+            },
+            Modifier.fillMaxSize()
+        ) {
+            Text(
+                "stashymane",
+                Modifier.padding(vertical = 8.dp).gridItem(columnSpan = 1),
+                style = MaterialTheme.typography.displaySmall,
+            )
+
+            Row(
+                Modifier.gridItem(columnSpan = if (expanded) 2 else 1).fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+            ) {
+                HeaderLinkSection("content") {
+                    SocialIcon(
+                        url = "https://github.com/stashymane",
+                        icon = Icons.Logos.GitHub,
+                        tooltip = "GitHub"
+                    )
+
+                    LinkDivider()
+
+                    SocialIcon(
+                        url = "https://soundcloud.com/stashymane",
+                        icon = Icons.Logos.SoundCloud,
+                        tooltip = "SoundCloud"
+                    )
+
+                    LinkDivider()
+
+                    SocialIcon(
+                        url = "https://youtube.com/@stashymane",
+                        icon = Icons.Logos.YouTube,
+                        tooltip = "YouTube"
+                    )
+                }
+
+                HeaderLinkSection("social") {
+                    SocialIcon(
+                        url = "https://x.com/stashyymane",
+                        icon = Icons.Logos.Twitter,
+                        tooltip = "X/Twitter"
+                    )
+
+                    LinkDivider()
+
+                    SocialIcon(
+                        url = "mailto:me@stashy.dev",
+                        icon = Icons.Filled.Mail,
+                        tooltip = "Mail"
+                    )
                 }
             }
+
+            vm.cards.forEach { card ->
+                NavBlock(
+                    Modifier.navBlockSharedBounds(card.id).fillMaxWidth(),
+                    onClick = { backStack.add(card.screen) },
+                    icon = card.icon,
+                    text = stringResource(card.title),
+                    background = {
+                        Image(
+                            imageResource(card.background),
+                            null,
+                            it,
+                            contentScale = ContentScale.Crop
+                        )
+                    })
+            }
         }
+
+        SiteFooter()
+    }
 
 //        VerticalScrollbar(
 //            rememberScrollbarAdapter(scrollState),
 //            Modifier.align(Alignment.CenterEnd).fillMaxHeight().padding(2.dp)
 //        )
-    }
 }
 
 @Composable

@@ -26,7 +26,7 @@ fun NavTitle(
 ) {
     ProvideTextStyle(MaterialTheme.typography.headlineLarge) {
         Row(
-            modifier = modifier.navTitleSharedElement("title-$text"),
+            modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

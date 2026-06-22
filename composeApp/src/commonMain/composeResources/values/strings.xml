@@ -1,0 +1,6 @@
+<resources>
+    <string name="nav-home">Home</string>
+    <string name="nav-projects">Projects</string>
+    <string name="nav-media">Media</string>
+    <string name="nav-about">About</string>
+</resources>

@@ -37,11 +37,11 @@ private val iconExit = fadeOut(fastBezier(200)) + slideOut(
 
 @Composable
 fun NavLink(
-    modifier: Modifier = Modifier,
-    title: @Composable () -> Unit = {},
-    icon: @Composable () -> Unit = {},
-    backgroundColor: Color = Color.Transparent,
+    title: @Composable () -> Unit,
+    icon: @Composable () -> Unit,
     isActive: Boolean,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Color.Transparent,
     isExternal: Boolean = false,
     onClick: () -> Unit
 ) {
@@ -56,35 +56,37 @@ fun NavLink(
         ) else Color.Transparent
     )
 
-    Surface(
-        onClick,
-        modifier = modifier.width(IntrinsicSize.Max).pointerHoverIcon(PointerIcon.Hand),
-        color = backgroundColor,
-        border = BorderStroke(1.dp, borderColor),
-        interactionSource = interactionSource
-    ) {
-        Box {
+    Box {
+        Surface(
+            onClick,
+            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand).then(modifier),
+            color = backgroundColor,
+            border = BorderStroke(1.dp, borderColor),
+            interactionSource = interactionSource
+        ) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 icon()
                 title()
             }
-            if (isExternal) {
-                AnimatedVisibility(
-                    isHovered || isPressed,
-                    modifier = Modifier.align(Alignment.TopEnd),
-                    enter = iconEnter,
-                    exit = iconExit
-                ) {
-                    Icon(
-                        Icons.Outline.ArrowOutwardThick,
-                        null,
-                        Modifier.padding(2.dp).size(12.dp),
-                        tint = LocalContentColor.current.copy(alpha = 0.6f)
-                    )
-                }
+        }
+
+        if (isExternal) {
+            AnimatedVisibility(
+                isHovered || isPressed,
+                Modifier.align(Alignment.TopEnd).padding(2.dp),
+                enter = iconEnter,
+                exit = iconExit
+            ) {
+                Icon(
+                    Icons.Outline.ArrowOutwardThick,
+                    null,
+                    Modifier.size(12.dp),
+                    tint = LocalContentColor.current.copy(alpha = 0.6f)
+                )
             }
         }
     }
@@ -116,7 +118,8 @@ fun SocialIcon(url: String, icon: ImageVector, tooltip: String) {
             icon = { Icon(icon, null, Modifier.size(24.dp)) },
             backgroundColor = MaterialTheme.colorScheme.surface,
             isActive = false,
-            isExternal = true
+            isExternal = true,
+            title = {}
         ) { uriHandler.openUri(url) }
     }
 }
