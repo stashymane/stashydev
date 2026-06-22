@@ -6,18 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
-import ui.locals.LocalSharedTransitionScope
+import ui.LocalSharedTransitionScope
 
-
-@Composable
-fun Modifier.headerSharedBounds(): Modifier =
-    this then with(LocalSharedTransitionScope.current) {
-        Modifier.sharedBounds(
-            rememberSharedContentState("header"),
-            LocalNavAnimatedContentScope.current,
-            resizeMode = scaleToBounds(ContentScale.FillWidth, Alignment.Center),
-        )
-    }
 
 @Composable
 fun Modifier.navBlockSharedBounds(type: String): Modifier =

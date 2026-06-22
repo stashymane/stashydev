@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import model.Screen
-import ui.locals.LocalBackStack
-import ui.locals.LocalSharedTransitionScope
+import ui.LocalBackStack
+import ui.LocalSharedTransitionScope
 import ui.theme.AppTheme
 
 @Composable

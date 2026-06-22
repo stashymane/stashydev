@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ui.locals.LocalScaffoldPadding
+import ui.LocalScaffoldPadding
 
 @Composable
 fun ScreenContent(

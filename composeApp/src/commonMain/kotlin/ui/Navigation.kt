@@ -12,8 +12,6 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
 import model.Screen
-import ui.locals.LocalBackStack
-import ui.locals.LocalSharedTransitionScope
 import ui.nav.decorators.ResponsiveNavEntryDecorator
 import ui.nav.decorators.TopBarEntryDecorator
 import ui.nav.navTransition

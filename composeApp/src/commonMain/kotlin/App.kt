@@ -18,11 +18,7 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.koinConfiguration
-import ui.LoadingState
-import ui.Navigation
-import ui.loadContent
-import ui.locals.LocalBackStack
-import ui.locals.LocalSettings
+import ui.*
 import ui.nav.MultiBackStack
 import ui.preview.DevicePreview
 import ui.screens.LoadingScreen

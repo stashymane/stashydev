@@ -9,7 +9,7 @@ import icons.Icons
 import icons.filled.ChevronBackward
 import model.NavEntry
 import org.jetbrains.compose.resources.stringResource
-import ui.locals.LocalBackStack
+import ui.LocalBackStack
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.inDp

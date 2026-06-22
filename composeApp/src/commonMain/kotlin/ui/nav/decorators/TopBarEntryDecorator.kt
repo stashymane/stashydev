@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.get
+import ui.LocalScaffoldPadding
 import ui.components.nav.NavBar
-import ui.locals.LocalScaffoldPadding
 
 class TopBarEntryDecorator<T : Any> : NavEntryDecorator<T>(
     decorate = { entry ->

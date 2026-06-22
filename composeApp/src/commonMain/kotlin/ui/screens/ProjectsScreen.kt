@@ -2,7 +2,10 @@ package ui.screens
 
 import Project
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ExperimentalGridApi
+import androidx.compose.foundation.layout.Grid
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -70,7 +73,7 @@ private fun ProjectScreenContent(
         Modifier.padding(8.dp).fillMaxSize()
     ) {
         projects.forEach {
-            ProjectCard(it, Modifier.fillMaxWidth())
+            ProjectCard(it, Modifier.fillMaxSize())
         }
     }
 }

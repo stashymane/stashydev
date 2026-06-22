@@ -1,4 +1,4 @@
-package ui.vm
+package viewmodel
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel

@@ -1,8 +1,8 @@
 [versions]
 jvm = "25"
 
-koin = "4.2.1"
-slf4j-simple = "2.0.17"
+koin = "4.2.2"
+slf4j-simple = "2.0.18"
 
 kotest = "6.2.0"
 testResources = "0.15.0"

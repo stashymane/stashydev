@@ -11,10 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import icons.Icons
-import icons.logos.GitHub
 import icons.logos.Kotlin
-import icons.outline.CaptivePortal
-import io.ktor.http.*
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
@@ -27,21 +24,25 @@ fun ProjectCard(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier.background(MaterialTheme.colorScheme.surfaceContainerLow).padding(16.dp),
+        modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row {
             Text(project.name, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         }
 
-
         project.description?.let { description ->
-            Row(Modifier.weight(1f)) {
-                Text(description, style = MaterialTheme.typography.bodyLarge)
+            Row {
+                Text(
+                    description,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = LocalContentColor.current.copy(alpha = 0.8f)
+                )
             }
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.heightIn(min = 32.dp).weight(1f))
 
         Column {
             ProvideTextStyle(
@@ -85,11 +86,6 @@ private fun ProjectLanguageRow(
 private fun Project.Language.icon(): ImageVector? = when (this.name) {
     "Kotlin" -> Icons.Logos.Kotlin
     else -> null
-}
-
-private fun Url.icon(): ImageVector = when (this.host) {
-    "github.com" -> Icons.Logos.GitHub
-    else -> Icons.Outline.CaptivePortal
 }
 
 @ComponentPreview

@@ -1,4 +1,4 @@
-package ui.locals
+package ui
 
 import AppBackStack
 import androidx.compose.animation.ExperimentalSharedTransitionApi

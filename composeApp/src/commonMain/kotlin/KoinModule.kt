@@ -1,8 +1,8 @@
 import model.AppState
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
-import ui.vm.AppViewmodel
-import ui.vm.HomeScreenViewmodel
+import viewmodel.AppViewmodel
+import viewmodel.HomeScreenViewmodel
 
 val KoinModule = module {
     viewModelOf(::AppViewmodel)

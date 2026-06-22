@@ -21,15 +21,15 @@ import icons.logos.YouTube
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import ui.LocalBackStack
+import ui.LocalScaffoldPadding
 import ui.components.SiteFooter
 import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
-import ui.locals.LocalBackStack
-import ui.locals.LocalScaffoldPadding
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
 import ui.theme.navBlockSharedBounds
-import ui.vm.HomeScreenViewmodel
+import viewmodel.HomeScreenViewmodel
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
