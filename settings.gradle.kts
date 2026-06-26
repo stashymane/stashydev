@@ -7,7 +7,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-    includeBuild("build-util")
+    includeBuild("conventions")
 }
 
 dependencyResolutionManagement {

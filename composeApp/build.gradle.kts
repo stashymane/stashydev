@@ -16,7 +16,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "dev.stashy.home"
 
         withJava()

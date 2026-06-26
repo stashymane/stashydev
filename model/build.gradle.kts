@@ -2,7 +2,8 @@ plugins {
     alias(kotlinLibs.plugins.multiplatform)
     alias(kotlinLibs.plugins.serialization)
 
-    id("multiplatform.target.common")
+    id("multiplatform.target.jvm")
+    id("multiplatform.target.wasmJs")
 }
 
 kotlin {
