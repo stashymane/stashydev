@@ -13,6 +13,10 @@ pluginManagement {
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
+        maven { //temporary, until ktor fixes wasm compilation https://youtrack.jetbrains.com/issue/KTOR-9681/Update-kotlinx-io-to-0.9.1
+            url = uri("https://redirector.kotlinlang.org/maven/ktor-eap")
+        }
+
         google()
         mavenCentral()
     }
@@ -25,7 +29,7 @@ dependencyResolutionManagement {
             from(files("gradle/kotlin.versions.toml"))
         }
         register("ktorLibs") {
-            from("io.ktor:ktor-version-catalog:3.5.0")
+            from("io.ktor:ktor-version-catalog:3.5.1-eap-1639")
         }
         register("composeLibs") {
             from(files("gradle/compose.versions.toml"))

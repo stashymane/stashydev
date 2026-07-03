@@ -9,9 +9,11 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(kotlinLibs.serialization.json)
             api(kotlinLibs.datetime)
             api(ktorLibs.http)
+
+            implementation(kotlinLibs.serialization.json)
+            implementation(kotlinLibs.io)
         }
 
         commonTest.dependencies {
