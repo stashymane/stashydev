@@ -20,5 +20,3 @@ jobs:
     needs: build
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
-    with:
-      production: ${{ github.ref_name == github.event.repository.default_branch }}
