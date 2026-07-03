@@ -4,7 +4,7 @@ jvm = "25"
 koin = "4.2.2"
 slf4j-simple = "2.0.18"
 
-kotest = "6.2.0"
+kotest = "6.2.1"
 testResources = "0.15.0"
 
 [libraries]

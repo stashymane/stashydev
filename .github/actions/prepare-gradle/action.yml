@@ -27,11 +27,6 @@ runs:
         distribution: ${{ inputs.jvm-distribution }}
         java-version: ${{ inputs.jvm-version }}
 
-    - name: Fix Gradle permissions
-      if: runner.os == 'Linux'
-      run: chmod +x ./gradlew
-      shell: sh
-
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v6
       with:
@@ -41,5 +36,5 @@ runs:
         build-scan-terms-of-use-url: 'https://gradle.com/terms-of-service'
         build-scan-terms-of-use-agree: 'yes'
 
-    - name: Cache build tooling
-      uses: ./.github/actions/cache-konan
+#    - name: Cache build tooling
+#      uses: ./.github/actions/cache-konan

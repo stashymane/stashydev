@@ -1,39 +1,32 @@
-name: Deploy to Pages
-
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+name: Build project
 
 concurrency:
-  group: "pages"
+  group: "build"
   cancel-in-progress: false
 
-env:
-  # production/development
-  mode: development
+on:
+  workflow_call:
+    inputs:
+      production:
+        type: boolean
+        default: false
+        description: Whether to deploy to production or preview
+
+    secrets:
+      GRADLE_ENCRYPTION_KEY:
+        required: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
+  build:
     runs-on: ubuntu-latest
+    env:
+      DIST_PATH: "composeApp/build/dist/wasmJs/${{ (inputs.production == true && 'production') || 'development' }}Executable/"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           submodules: true
-          
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
 
       - name: Prepare Java & Gradle
         uses: ./.github/actions/prepare-gradle
@@ -42,18 +35,16 @@ jobs:
           cache-overwrite-existing: 'true'
 
       - name: Production build with Gradle
-        if: env.mode == 'production'
+        if: inputs.production == true
         run: ./gradlew :composeApp:wasmJsBrowserDistribution
 
       - name: Development build with Gradle
-        if: env.mode == 'development'
-        run: ./gradlew wasmJsBrowserDevelopmentExecutableDistribution
+        if: inputs.production == false
+        run: ./gradlew :composeApp:wasmJsBrowserDevelopmentExecutableDistribution
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+        id: upload
+        uses: actions/upload-artifact@v7
         with:
-          path: './composeApp/build/dist/wasmJs/${{ env.mode }}Executable/'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          name: web-${{ (inputs.production == true && 'release') || 'debug' }}
+          path: ${{ env.DIST_PATH }}

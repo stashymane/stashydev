@@ -1,0 +1,37 @@
+name: Deploy
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+on:
+  workflow_call:
+    inputs:
+      production:
+        type: boolean
+        default: false
+        description: Whether to deploy to production or preview
+
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PAGES_ENV: "${{ (inputs.production == true && 'production') || 'preview' }}"
+
+    steps:
+      - name: Download package artifacts
+        uses: actions/download-artifact@v8
+        with:
+          pattern: 'web-*'
+          path: artifacts
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          command: pages deploy "./artifacts/" --project-name=stashydev --branch=${{ env.PAGES_ENV }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
