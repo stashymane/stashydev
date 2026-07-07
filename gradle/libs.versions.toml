@@ -1,5 +1,6 @@
 [versions]
 jvm = "25"
+jvm-target = "17"
 
 koin = "4.2.2"
 slf4j-simple = "2.0.18"
