@@ -10,6 +10,7 @@ import dev.stashy.home.block_about_1k
 import icons.Icons
 import icons.outlinelarge.UserSearch
 import ui.components.ScreenBackground
+import ui.components.UnderConstruction
 import ui.components.nav.NavBar
 import ui.components.nav.NavTitle
 import ui.preview.DevicePreview
@@ -21,7 +22,7 @@ import ui.screens.generic.ScreenHost
 fun AboutScreen() {
     ScreenContent {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Text("todo")
+            UnderConstruction()
         }
     }
 }

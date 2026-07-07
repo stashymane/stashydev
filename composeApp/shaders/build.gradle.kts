@@ -31,7 +31,7 @@ kotlin {
         }
     }
 
-    androidLibrary {
+    android {
         namespace = "dev.stashy.home.shaders"
     }
 
