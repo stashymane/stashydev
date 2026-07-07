@@ -8,29 +8,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import icons.Icons
-import icons.logos.CSharp
-import icons.logos.Java
-import icons.logos.Kotlin
-import icons.logos.Rust
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
-import ui.theme.inDp
 
 @Composable
 fun ProjectCard(
@@ -87,35 +77,15 @@ private fun ProjectLanguageRow(
     languages: List<Project.Language>,
     modifier: Modifier = Modifier,
 ) {
-    val iconSize = LocalTextStyle.current.lineHeight.inDp() * 0.8f
-
     Row(
         modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         languages.forEach { language ->
-            Row(
-                Modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    .padding(horizontal = 6.dp, vertical = 2.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                language.icon()?.let { icon ->
-                    Icon(icon, contentDescription = language.name, Modifier.size(iconSize))
-                }
-                Text(language.name, fontWeight = FontWeight.Bold)
-            }
+            LanguageBadge(language)
         }
     }
-}
-
-private fun Project.Language.icon(): ImageVector? = when (this.name) {
-    "Kotlin" -> Icons.Logos.Kotlin
-    "Java" -> Icons.Logos.Java
-    "Rust" -> Icons.Logos.Rust
-    "CSharp" -> Icons.Logos.CSharp
-    else -> null
 }
 
 @ComponentPreview
