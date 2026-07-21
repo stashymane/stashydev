@@ -13,6 +13,8 @@ plugins {
     id("multiplatform.target.jvmDesktop")
     id("multiplatform.target.wasmJs")
     id("multiplatform.target.androidLibrary")
+
+    id("multiplatform.plugin.composeWasm")
 }
 
 kotlin {
