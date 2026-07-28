@@ -13,7 +13,6 @@ import coil3.util.DebugLogger
 import kotlinx.serialization.json.Json
 import model.AppState
 import model.Screen
-import model.isDark
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -23,6 +22,7 @@ import ui.nav.MultiBackStack
 import ui.preview.DevicePreview
 import ui.screens.LoadingScreen
 import ui.theme.AppTheme
+import ui.theme.currentContainerSize
 
 val json = Json {
     ignoreUnknownKeys = true
@@ -48,15 +48,16 @@ fun App() {
     KoinApplication(koinConfiguration {
         modules(KoinModule)
     }) {
+        val state: AppState = koinInject()
+        val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
+        val containerSize = currentContainerSize()
+
         val loadingState by loadContent()
         val isComplete by remember { derivedStateOf { loadingState is LoadingState.Complete } }
         val progress = when (loadingState) {
             is LoadingState.Loading -> (loadingState as LoadingState.Loading).progress
             is LoadingState.Complete -> 1f
         }
-        val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
-
-        val state: AppState = koinInject()
 
         LaunchedEffect(Unit) {
             state.loadProjects()
@@ -65,8 +66,8 @@ fun App() {
         AppTheme(Color(0xFFc27aff)) {
             Surface {
                 CompositionLocalProvider(
-//                    LocalScrollbarStyle provides scrollbarStyle(),
-                    LocalBackStack provides backStack
+                    LocalBackStack provides backStack,
+                    LocalContainerSize provides containerSize
                 ) {
                     AnimatedContent(
                         isComplete,

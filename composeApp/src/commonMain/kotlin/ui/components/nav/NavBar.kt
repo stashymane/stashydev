@@ -29,8 +29,10 @@ import model.NavEntry
 import model.Screen
 import org.jetbrains.compose.resources.stringResource
 import ui.LocalBackStack
+import ui.LocalContainerSize
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
+import ui.theme.ContainerSize
 import ui.theme.inDp
 
 @OptIn(ExperimentalGridApi::class)
@@ -39,6 +41,7 @@ fun NavBar(
     modifier: Modifier = Modifier.height(80.dp)
 ) {
     val backStack = LocalBackStack.current
+    val containerSize = LocalContainerSize.current
 
     Grid(
         {
@@ -69,8 +72,10 @@ fun NavBar(
             NavEntry.All.forEach { entry ->
                 NavLink(
                     title = {
-                        Text(stringResource(entry.title), fontWeight = FontWeight.Bold)
-                        Spacer(Modifier.fillMaxWidth())
+                        if (containerSize > ContainerSize.Small) {
+                            Text(stringResource(entry.title), fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.fillMaxWidth())
+                        }
                     },
                     icon = {
                         Icon(entry.icon, null, Modifier.size(iconSize))
