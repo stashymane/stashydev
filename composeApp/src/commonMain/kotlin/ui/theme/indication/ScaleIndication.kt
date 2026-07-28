@@ -6,6 +6,8 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
@@ -74,6 +76,7 @@ class ScaleIndication(
     override fun equals(other: Any?): Boolean = other === this
 }
 
+@Composable
 fun scale(
     pressedScale: Float? = null,
     pivot: Boolean? = null
@@ -81,9 +84,11 @@ fun scale(
     return if (pressedScale == null && pivot == null) {
         ScaleIndication.Default
     } else {
-        ScaleIndication(
-            pressedScale ?: 0.95f,
-            pivot ?: false
-        )
+        remember {
+            ScaleIndication(
+                pressedScale ?: 0.95f,
+                pivot ?: false
+            )
+        }
     }
 }
