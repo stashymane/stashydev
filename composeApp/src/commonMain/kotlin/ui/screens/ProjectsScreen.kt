@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -111,7 +112,7 @@ private fun MoreProjectsButton(
             .pointerHoverIcon(PointerIcon.Hand),
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
-        Box(Modifier.padding(16.dp)) {
+        Box(Modifier.padding(16.dp).heightIn(min = 200.dp)) {
             Column(
                 Modifier.align(Alignment.BottomStart),
                 verticalArrangement = Arrangement.spacedBy(8.dp)

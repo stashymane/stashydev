@@ -125,22 +125,6 @@ fun ProjectCard(
     }
 }
 
-@Composable
-private fun ProjectLanguageRow(
-    languages: List<Project.Language>,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        languages.forEach { language ->
-            LanguageBadge(language)
-        }
-    }
-}
-
 @ComponentPreview
 @Composable
 private fun ProjectCardPreview() = PreviewHost {
