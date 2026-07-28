@@ -1,19 +1,36 @@
 package ui.components.nav
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import AppBackStack
+import androidx.compose.foundation.layout.ExperimentalGridApi
+import androidx.compose.foundation.layout.Grid
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.chrisbanes.haze.HazeEffectScope
+import dev.chrisbanes.haze.blur.HazeProgressive
+import dev.chrisbanes.haze.blur.blurEffect
 import icons.Icons
 import icons.filled.ChevronBackward
 import model.NavEntry
+import model.Screen
 import org.jetbrains.compose.resources.stringResource
 import ui.LocalBackStack
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.inDp
-import ui.theme.navigationSharedElement
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
@@ -67,8 +84,21 @@ fun NavBar(
     }
 }
 
+fun HazeEffectScope.navHazeEffect() {
+    blurEffect {
+        noiseFactor = 0f
+        progressive = HazeProgressive.verticalGradient(
+            startIntensity = 1f,
+            endIntensity = 0f
+        )
+    }
+}
+
 @ComponentPreview
 @Composable
 private fun NavBarPreview() = PreviewHost {
-    NavBar()
+    val backStack = AppBackStack(initial = Screen.Projects)
+    CompositionLocalProvider(LocalBackStack provides backStack) {
+        NavBar()
+    }
 }

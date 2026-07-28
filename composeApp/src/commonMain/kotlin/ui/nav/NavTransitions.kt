@@ -22,11 +22,11 @@ val navExitBackward = fadeOut(instantBezier()) + scaleOut(instantBezier(), 0.95f
 val navForward = ContentTransform(navEnterForward, navExitForward)
 val navBackward = ContentTransform(navEnterBackward, navExitBackward)
 
-val navGroupEnterRight = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { -it / 8 }
-val navGroupEnterLeft = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { it / 8 }
+val navGroupEnterRight = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { -it / 16 }
+val navGroupEnterLeft = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { it / 16 }
 
-val navGroupExitRight = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { it / 8 }
-val navGroupExitLeft = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { -it / 8 }
+val navGroupExitRight = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { it / 16 }
+val navGroupExitLeft = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { -it / 16 }
 
 fun AnimatedContentTransitionScope<Scene<Screen>>.navPopTransition(): ContentTransform =
     navTransition(back = true)

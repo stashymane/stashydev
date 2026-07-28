@@ -19,15 +19,16 @@ import androidx.navigation3.runtime.metadata
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
-import dev.chrisbanes.haze.blur.HazeProgressive
-import dev.chrisbanes.haze.blur.blurEffect
+import dev.chrisbanes.haze.HazeEffectScope
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import ui.LocalScaffoldPadding
 import ui.components.nav.NavBar
+import ui.components.nav.navHazeEffect
 import ui.nav.scenes.ResponsiveScene.MetadataKey
 import ui.theme.ContainerSize
+import ui.theme.navigationSharedElement
 
 data class LayoutConfig(
     var size: ContainerSize? = null,
@@ -56,15 +57,11 @@ class ResponsiveScene<T : Any>(
                 containerColor = config.backgroundColor(),
                 topBar = {
                     if (config.showNavigation) {
-                        NavBar(Modifier.height(80.dp).hazeEffect(hazeState) {
-                            blurEffect {
-                                noiseFactor = 0f
-                                progressive = HazeProgressive.verticalGradient(
-                                    startIntensity = 1f,
-                                    endIntensity = 0f
-                                )
-                            }
-                        })
+                        NavBar(
+                            Modifier.height(80.dp)
+                                .hazeEffect(hazeState, HazeEffectScope::navHazeEffect)
+                                .navigationSharedElement()
+                        )
                     }
                 }
             ) {
