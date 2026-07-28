@@ -1,6 +1,13 @@
 package ui.nav
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation3.runtime.get
 import androidx.navigation3.scene.Scene
 import model.Screen
@@ -15,11 +22,11 @@ val navExitBackward = fadeOut(instantBezier()) + scaleOut(instantBezier(), 0.95f
 val navForward = ContentTransform(navEnterForward, navExitForward)
 val navBackward = ContentTransform(navEnterBackward, navExitBackward)
 
-val navGroupEnterRight = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { -it / 4 }
-val navGroupEnterLeft = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { it / 4 }
+val navGroupEnterRight = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { -it / 8 }
+val navGroupEnterLeft = fadeIn(instantBezier()) + slideInHorizontally(instantBezier()) { it / 8 }
 
-val navGroupExitRight = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { it / 4 }
-val navGroupExitLeft = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { -it / 4 }
+val navGroupExitRight = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { it / 8 }
+val navGroupExitLeft = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { -it / 8 }
 
 fun AnimatedContentTransitionScope<Scene<Screen>>.navPopTransition(): ContentTransform =
     navTransition(back = true)

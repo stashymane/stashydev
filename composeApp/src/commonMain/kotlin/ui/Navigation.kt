@@ -14,12 +14,9 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
 import model.Screen
-import ui.nav.decorators.BackgroundEntryDecorator
-import ui.nav.decorators.NavigationEntryDecorator
-import ui.nav.decorators.ResponsiveNavEntryDecorator
 import ui.nav.navPopTransition
 import ui.nav.navTransition
-import ui.nav.scenes.PageSceneStrategy
+import ui.nav.scenes.ResponsiveSceneStrategy
 import ui.screens.BackgroundScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -41,13 +38,10 @@ fun Navigation() {
                     transitionSpec = AnimatedContentTransitionScope<Scene<Screen>>::navTransition,
                     popTransitionSpec = AnimatedContentTransitionScope<Scene<Screen>>::navPopTransition,
                     sceneStrategies = listOf(
-                        remember { PageSceneStrategy() }
+                        remember { ResponsiveSceneStrategy() }
                     ),
                     entryDecorators = listOf(
-                        rememberSaveableStateHolderNavEntryDecorator(),
-                        remember { ResponsiveNavEntryDecorator() },
-                        remember { BackgroundEntryDecorator() },
-                        remember { NavigationEntryDecorator() }
+                        rememberSaveableStateHolderNavEntryDecorator()
                     ),
                     entryProvider = Screen::provideEntry
                 )

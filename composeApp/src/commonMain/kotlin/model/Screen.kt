@@ -2,40 +2,27 @@ package model
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.metadata
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import ui.nav.MultiBackStack
-import ui.nav.decorators.NavigationEntryDecorator
-import ui.nav.decorators.ResponsiveNavEntryDecorator
+import ui.nav.scenes.ResponsiveScene
 import ui.screens.AboutScreen
 import ui.screens.HomeScreen
 import ui.screens.MediaScreen
 import ui.screens.ProjectsScreen
-import ui.theme.ContainerSize
 
 @Serializable
 sealed class Screen(
     override val group: Group? = null,
     val name: String? = null,
 ) : MultiBackStack.Entry<Screen.Group> {
-    @Transient
-    open val size: ContainerSize? = null
-
-    @Transient
-    open val showNavigation: Boolean = false
-
-    @Transient
-    open val backgroundColor: (@Composable () -> Color)? = null
+    open fun metadata(): Map<String, Any> = metadata { }
 
     fun provideEntry(): NavEntry<Screen> = NavEntry(
         this,
-        metadata = metadata {
-            put(NavigationEntryDecorator.MetadataKey, showNavigation)
-            size?.let { put(ResponsiveNavEntryDecorator.MetadataKey, it.value) }
+        metadata = metadata() + metadata {
             group?.let { put(Group.MetaKey, it) }
         }
     ) {
@@ -74,39 +61,48 @@ sealed class Screen(
 
     @Serializable
     data object Home : Screen(Group.Home) {
-        override val size: ContainerSize = ContainerSize.Regular
-
         @Composable
         override fun Content() = HomeScreen()
+
+        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
+            size = Regular
+            showNavigation = false
+        }
     }
 
     @Serializable
     data object Projects : Screen(Group.Projects, "projects") {
-        override val size: ContainerSize = ContainerSize.Wide
-        override val showNavigation: Boolean = true
-        override val backgroundColor: @Composable (() -> Color) = { MaterialTheme.colorScheme.surface }
-
         @Composable
         override fun Content() = ProjectsScreen()
+
+        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
+            size = Wide
+            backgroundColor = { MaterialTheme.colorScheme.surface }
+            showNavigation = true
+        }
     }
 
     @Serializable
     data object Media : Screen(Group.Media, "media") {
-        override val size: ContainerSize = ContainerSize.Wide
-        override val showNavigation: Boolean = true
-        override val backgroundColor: @Composable (() -> Color) = { MaterialTheme.colorScheme.surface }
-
         @Composable
         override fun Content() = MediaScreen()
+
+        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
+            size = Wide
+            backgroundColor = { MaterialTheme.colorScheme.surface }
+            showNavigation = true
+        }
     }
 
     @Serializable
     data object About : Screen(Group.About, "about") {
-        override val size: ContainerSize = ContainerSize.Wide
-        override val showNavigation: Boolean = true
-        override val backgroundColor: @Composable (() -> Color) = { MaterialTheme.colorScheme.surface }
-
         @Composable
         override fun Content() = AboutScreen()
+
+        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
+            size = Wide
+            backgroundColor = { MaterialTheme.colorScheme.surface }
+            showNavigation = true
+        }
     }
 }
