@@ -13,8 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,26 +42,20 @@ fun ProjectCard(
 ) {
     val defaultColor = MaterialTheme.colorScheme.primary
     val containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-    val languageColor by remember {
-        derivedStateOf {
-            project.languages.firstOrNull()?.getColor() ?: defaultColor
-        }
+    val languageColor = remember(project.languages, defaultColor) {
+        project.languages.firstOrNull()?.getColor() ?: defaultColor
     }
 
     AppTheme(languageColor) {
-        val innerContainerColor by remember {
-            derivedStateOf {
-                languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
-            }
+        val innerContainerColor = remember(languageColor, containerColor) {
+            languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
         }
-        val backgroundGradient by remember {
-            derivedStateOf {
-                easeGradientBetween(
-                    innerContainerColor,
-                    containerColor,
-                    easing = EaseOut
-                )
-            }
+        val backgroundGradient = remember(innerContainerColor, containerColor) {
+            easeGradientBetween(
+                innerContainerColor,
+                containerColor,
+                easing = EaseOut
+            )
         }
 
         Column(
