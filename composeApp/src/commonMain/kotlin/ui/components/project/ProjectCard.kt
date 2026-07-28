@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.github.ajalt.colormath.extensions.android.composecolor.toComposeColor
 import icons.Icons
 import icons.outline.Briefcases
-import model.getColor
 import ui.components.Badge
 import ui.components.InlineIcon
 import ui.components.LinkButton
@@ -43,7 +43,7 @@ fun ProjectCard(
     val defaultColor = MaterialTheme.colorScheme.primary
     val containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     val languageColor = remember(project.languages, defaultColor) {
-        project.languages.firstOrNull()?.getColor() ?: defaultColor
+        project.languages.firstOrNull()?.color?.toComposeColor() ?: defaultColor
     }
 
     AppTheme(languageColor) {

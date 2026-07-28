@@ -14,6 +14,7 @@ kotlin {
 
             implementation(kotlinLibs.serialization.json)
             implementation(kotlinLibs.io)
+            implementation(libs.colormath.core)
         }
 
         commonTest.dependencies {

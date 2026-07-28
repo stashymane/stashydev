@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import model.getColor
+import com.github.ajalt.colormath.extensions.android.composecolor.toComposeColor
 import model.getIcon
 import ui.components.Badge
 import ui.components.InlineIcon
@@ -26,11 +26,8 @@ private data class LanguageBadgeMeta(
     val color: Color
 ) {
     companion object {
-        fun from(language: Project.Language): LanguageBadgeMeta {
-            val icon = language.getIcon()
-            val color = language.getColor()
-            return LanguageBadgeMeta(icon, color)
-        }
+        fun from(language: Project.Language): LanguageBadgeMeta =
+            LanguageBadgeMeta(language.getIcon(), language.color.toComposeColor())
     }
 }
 
