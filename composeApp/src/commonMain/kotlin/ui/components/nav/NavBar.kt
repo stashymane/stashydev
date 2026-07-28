@@ -1,6 +1,7 @@
 package ui.components.nav
 
 import AppBackStack
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeEffectScope
@@ -90,13 +92,15 @@ fun NavBar(
     }
 }
 
-fun HazeEffectScope.navHazeEffect() {
+fun HazeEffectScope.navHazeEffect(backgroundColor: Color = Color.Unspecified) {
     blurEffect {
         noiseFactor = 0f
         progressive = HazeProgressive.verticalGradient(
+            easing = LinearEasing,
             startIntensity = 1f,
             endIntensity = 0f
         )
+        this.backgroundColor = backgroundColor
     }
 }
 
