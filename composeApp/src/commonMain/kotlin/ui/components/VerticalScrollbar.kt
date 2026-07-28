@@ -2,17 +2,28 @@ package ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +35,7 @@ import kotlinx.coroutines.launch
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 
-private val ScrollbarWidthCollapsed = 2.dp
+private val ScrollbarWidthCollapsed = 4.dp
 private val ScrollbarWidthExpanded = 6.dp
 
 private fun computeThumb(
@@ -35,7 +46,8 @@ private fun computeThumb(
 ): Pair<Int, Int> {
     val effectiveContentSize = contentSize.takeIf { it > 0 } ?: 1
     val effectiveViewport = viewportSize.coerceAtMost(effectiveContentSize)
-    val thumbHeight = (trackHeight * effectiveViewport.toFloat() / effectiveContentSize).toInt().coerceAtLeast(16)
+    val thumbHeight =
+        (trackHeight * effectiveViewport.toFloat() / effectiveContentSize).toInt().coerceAtLeast(16)
     val scrollRange = (effectiveContentSize - effectiveViewport).coerceAtLeast(1)
     val thumbOffset = ((trackHeight - thumbHeight) * (scrollOffset.toFloat() / scrollRange))
         .toInt().coerceIn(0, trackHeight - thumbHeight)
@@ -53,8 +65,9 @@ fun VerticalScrollbar(
     val scope = rememberCoroutineScope()
 
     val hovered by interactionSource.collectIsHoveredAsState()
-    val width by animateDpAsState(if (hovered) expandedWidth else collapsedWidth)
-    val color by animateColorAsState(MaterialTheme.colorScheme.outline.copy(alpha = if (hovered) 0.4f else 0.2f))
+    var dragging by remember { mutableStateOf(false) }
+    val width by animateDpAsState(if (hovered || dragging) expandedWidth else collapsedWidth)
+    val color by animateColorAsState(MaterialTheme.colorScheme.outline.copy(alpha = if (hovered || dragging) 0.4f else 0.2f))
 
     if (scrollState.maxValue <= 0) return
 
@@ -64,7 +77,10 @@ fun VerticalScrollbar(
             .fillMaxHeight()
             .hoverable(interactionSource)
             .pointerInput(scrollState) {
-                detectVerticalDragGestures { _, dragAmount ->
+                detectVerticalDragGestures(
+                    onDragStart = { dragging = true },
+                    onDragEnd = { dragging = false }
+                ) { _, dragAmount ->
                     val contentSize = scrollState.maxValue + scrollState.viewportSize
                     val (thumbHeight, _) = computeThumb(
                         size.height,
@@ -73,9 +89,11 @@ fun VerticalScrollbar(
                         scrollState.value
                     )
                     val effectiveContentSize = contentSize.takeIf { it > 0 } ?: 1
-                    val effectiveViewport = scrollState.viewportSize.coerceAtMost(effectiveContentSize)
+                    val effectiveViewport =
+                        scrollState.viewportSize.coerceAtMost(effectiveContentSize)
                     val scrollRange = (effectiveContentSize - effectiveViewport).coerceAtLeast(1)
-                    val scrollDelta = dragAmount / (size.height - thumbHeight).coerceAtLeast(1) * scrollRange
+                    val scrollDelta =
+                        dragAmount / (size.height - thumbHeight).coerceAtLeast(1) * scrollRange
                     scope.launch { scrollState.scrollTo((scrollState.value + scrollDelta).toInt()) }
                 }
             },
@@ -99,7 +117,10 @@ fun VerticalScrollbar(
                 constraints.copy(minHeight = thumbHeight, maxHeight = thumbHeight)
             )
             layout(constraints.maxWidth, constraints.maxHeight) {
-                thumbPlaceable.placeRelative(constraints.maxWidth - thumbPlaceable.width, thumbOffset)
+                thumbPlaceable.placeRelative(
+                    constraints.maxWidth - thumbPlaceable.width,
+                    thumbOffset
+                )
             }
         }
     }
