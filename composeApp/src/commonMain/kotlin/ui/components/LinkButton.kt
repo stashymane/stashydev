@@ -37,6 +37,7 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.materialkolor.ktx.darken
 import icons.Icons
 import icons.outline.ArrowOutwardThick
 import io.ktor.http.Url
@@ -51,8 +52,8 @@ fun LinkButton(
     modifier: Modifier = Modifier,
     prefixIcon: Boolean = true,
     color: Color = LocalContentColor.current,
-    hoverContainerColor: Color = MaterialTheme.colorScheme.onSurface,
-    hoverContentColor: Color = MaterialTheme.colorScheme.primaryContainer
+    hoverContainerColor: Color = MaterialTheme.colorScheme.inverseSurface,
+    hoverContentColor: Color = MaterialTheme.colorScheme.inversePrimary
 ) {
     val uriHandler = LocalUriHandler.current
     val lineHeightDp = LocalTextStyle.current.lineHeight.inDp()
@@ -67,7 +68,7 @@ fun LinkButton(
         MaterialTheme.motionScheme.fastEffectsSpec()
     )
     val containerColor by animateColorAsState(
-        if (hovered || pressed) hoverContainerColor else Color.Transparent,
+        if (pressed) hoverContainerColor.darken(1.25f) else if (hovered) hoverContainerColor else Color.Transparent,
         MaterialTheme.motionScheme.fastEffectsSpec()
     )
     val hoverProgress by animateFloatAsState(
