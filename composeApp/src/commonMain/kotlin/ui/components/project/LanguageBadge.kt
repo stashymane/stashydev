@@ -2,14 +2,19 @@ package ui.components.project
 
 import Project
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -19,6 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.logos.CSharp
@@ -36,23 +42,38 @@ private class LanguageBadgeMeta(
 
 @Composable
 fun LanguageBadge(language: Project.Language) {
-    val iconSize = LocalTextStyle.current.lineHeight.inDp() * 0.8f
     val meta = remember(language) { language.getMeta() }
+    val containerColor = MaterialTheme.colorScheme.inverseSurface
     val gradient = meta?.color?.let { color ->
-        Brush.verticalGradient(listOf(color.copy(alpha = 0.25f), color.copy(alpha = 0.05f)))
-    } ?: Brush.verticalGradient(listOf(MaterialTheme.colorScheme.surfaceContainerHigh))
+        Brush.verticalGradient(listOf(color.copy(alpha = 0.3f), color.copy(alpha = 0.1f)))
+    } ?: Brush.verticalGradient(listOf(containerColor))
 
-    Row(
-        Modifier.background(gradient)
-            .padding(horizontal = 6.dp, vertical = 2.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalAlignment = Alignment.CenterVertically
+    ProvideTextStyle(
+        MaterialTheme.typography.labelLarge.copy(
+            lineHeightStyle = LineHeightStyle.Default.copy(
+                trim = LineHeightStyle.Trim.Both
+            )
+        )
     ) {
-        meta?.icon?.let { icon ->
-            Icon(icon, contentDescription = language.name, Modifier.size(iconSize))
-        }
+        val iconSize = LocalTextStyle.current.lineHeight.inDp() * 0.7f
 
-        Text(language.name, fontWeight = FontWeight.Bold)
+        Surface(
+            color = containerColor,
+            contentColor = MaterialTheme.colorScheme.surface
+        ) {
+            Row(
+                Modifier.background(gradient)
+                    .padding(horizontal = 6.dp, vertical = 2.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                meta?.icon?.let { icon ->
+                    Icon(icon, contentDescription = language.name, Modifier.size(iconSize))
+                }
+
+                Text(language.name, fontWeight = FontWeight.Black, color = LocalContentColor.current)
+            }
+        }
     }
 }
 

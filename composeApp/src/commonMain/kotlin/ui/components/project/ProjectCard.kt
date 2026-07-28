@@ -40,6 +40,12 @@ fun ProjectCard(
             )
         }
 
+        Row {
+            if (project.languages.isNotEmpty()) {
+                ProjectLanguageRow(project.languages)
+            }
+        }
+
         project.description?.let { description ->
             Row {
                 Text(
@@ -53,15 +59,7 @@ fun ProjectCard(
         Spacer(Modifier.heightIn(min = 32.dp).weight(1f))
 
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            ProvideTextStyle(
-                MaterialTheme.typography.bodyMedium.merge(
-                    color = LocalContentColor.current.copy(alpha = 0.8f)
-                )
-            ) {
-                if (project.languages.isNotEmpty()) {
-                    ProjectLanguageRow(project.languages)
-                }
-
+            ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
                 if (project.urls.isNotEmpty()) {
                     project.urls.forEach { url ->
                         LinkButton(url, Modifier.padding(horizontal = 6.dp))
