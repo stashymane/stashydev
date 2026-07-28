@@ -10,6 +10,8 @@ import coil3.request.crossfade
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
+import dev.stashy.navigation.MultiBackStack
+import dev.stashy.navigation.SyncBrowserHistory
 import kotlinx.serialization.json.Json
 import model.AppState
 import model.Screen
@@ -18,7 +20,6 @@ import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.koinConfiguration
 import ui.*
-import ui.nav.MultiBackStack
 import ui.preview.DevicePreview
 import ui.screens.LoadingScreen
 import ui.theme.AppTheme
@@ -69,6 +70,12 @@ fun App() {
                     LocalBackStack provides backStack,
                     LocalContainerSize provides containerSize
                 ) {
+                    SyncBrowserHistory(
+                        backStack,
+                        pathOf = Screen::toPath,
+                        parsePath = { Screen.fromPath(it) ?: Screen.Home },
+                    )
+
                     AnimatedContent(
                         isComplete,
                         transitionSpec = { fadeIn() togetherWith fadeOut() }

@@ -5,8 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.metadata
+import dev.stashy.navigation.MultiBackStack
+import dev.stashy.navigation.fromResourcePath
+import dev.stashy.navigation.toResourcePath
+import io.ktor.resources.Resource
 import kotlinx.serialization.Serializable
-import ui.nav.MultiBackStack
+import kotlinx.serialization.Transient
 import ui.nav.scenes.ResponsiveScene
 import ui.screens.AboutScreen
 import ui.screens.HomeScreen
@@ -15,8 +19,8 @@ import ui.screens.ProjectsScreen
 
 @Serializable
 sealed class Screen(
+    @Transient
     override val group: Group? = null,
-    val name: String? = null,
 ) : MultiBackStack.Entry<Screen.Group> {
     open fun metadata(): Map<String, Any> = metadata { }
 
@@ -60,6 +64,7 @@ sealed class Screen(
     }
 
     @Serializable
+    @Resource("/")
     data object Home : Screen(Group.Home) {
         @Composable
         override fun Content() = HomeScreen()
@@ -71,7 +76,8 @@ sealed class Screen(
     }
 
     @Serializable
-    data object Projects : Screen(Group.Projects, "projects") {
+    @Resource("/projects")
+    data object Projects : Screen(Group.Projects) {
         @Composable
         override fun Content() = ProjectsScreen()
 
@@ -83,7 +89,8 @@ sealed class Screen(
     }
 
     @Serializable
-    data object Media : Screen(Group.Media, "media") {
+    @Resource("/media")
+    data object Media : Screen(Group.Media) {
         @Composable
         override fun Content() = MediaScreen()
 
@@ -95,7 +102,8 @@ sealed class Screen(
     }
 
     @Serializable
-    data object About : Screen(Group.About, "about") {
+    @Resource("/about")
+    data object About : Screen(Group.About) {
         @Composable
         override fun Content() = AboutScreen()
 
@@ -104,5 +112,11 @@ sealed class Screen(
             backgroundColor = { MaterialTheme.colorScheme.surface }
             showNavigation = true
         }
+    }
+
+    fun toPath(): String = toResourcePath()
+
+    companion object {
+        fun fromPath(path: String): Screen? = fromResourcePath(path)
     }
 }

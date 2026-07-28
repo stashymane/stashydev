@@ -46,4 +46,5 @@ include(
     ":composeApp",
     ":composeApp:icons",
     ":composeApp:shaders",
+    ":composeApp:navigation",
 )

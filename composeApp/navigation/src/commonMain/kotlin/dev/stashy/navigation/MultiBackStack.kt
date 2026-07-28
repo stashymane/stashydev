@@ -1,4 +1,4 @@
-package ui.nav
+package dev.stashy.navigation
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -22,14 +22,16 @@ class MultiBackStack<Entry : MultiBackStack.Entry<Group>, Group : Any>(
 
     val backStack = mutableStateListOf(initial)
 
-    fun add(entry: Entry) {
-        if (currentStack.lastOrNull() == entry) return
+    val current: Entry
+        get() = backStack.last()
 
+    fun add(entry: Entry) {
         val group = entry.group
         if (group != null && group != currentGroup)
             swapTo(group)
 
-        currentStack.add(entry)
+        if (currentStack.lastOrNull() != entry)
+            currentStack.add(entry)
 
         update()
     }
@@ -63,6 +65,22 @@ class MultiBackStack<Entry : MultiBackStack.Entry<Group>, Group : Any>(
             currentStack.add(root)
 
         update()
+    }
+
+    /**
+     * Move the stack to [entry] the way browser history would:
+     * pop until it is current when it already exists, otherwise push it.
+     */
+    fun syncTo(entry: Entry) {
+        if (current == entry) return
+
+        if (backStack.lastIndexOf(entry) >= 0) {
+            while (current != entry && isNotEmpty())
+                removeLast()
+            return
+        }
+
+        add(entry)
     }
 
     private fun swapTo(group: Group) {

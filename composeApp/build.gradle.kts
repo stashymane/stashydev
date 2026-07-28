@@ -34,6 +34,7 @@ kotlin {
             implementation(projects.model)
             implementation(projects.composeApp.icons)
             implementation(projects.composeApp.shaders)
+            implementation(projects.composeApp.navigation)
 
             implementation(kotlinLibs.serialization.json)
 
@@ -53,6 +54,7 @@ kotlin {
             implementation(ktorLibs.client.logging)
             implementation(ktorLibs.client.serialization)
             implementation(ktorLibs.serialization.kotlinx.json)
+            implementation(ktorLibs.resources)
         }
 
         commonTest.dependencies {
