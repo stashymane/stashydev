@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Settings(
-    val themeMode: ThemeMode = ThemeMode.Auto,
+    val themeMode: ThemeMode = ThemeMode.Dark,
     val bottomNav: Boolean = false
 )
 
@@ -14,7 +14,9 @@ data class Settings(
 enum class ThemeMode {
     Auto,
     Dark,
-    Light
+    Light;
+
+    fun next(): ThemeMode = ThemeMode.entries.getOrElse(ordinal + 1) { Auto }
 }
 
 @Composable
