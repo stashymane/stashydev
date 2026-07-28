@@ -46,7 +46,7 @@ fun ProjectCard(
         project.languages.firstOrNull()?.color?.toComposeColor() ?: defaultColor
     }
 
-    AppTheme(languageColor) {
+    AppTheme(languageColor, animate = false) {
         val innerContainerColor = remember(languageColor, containerColor) {
             languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
         }

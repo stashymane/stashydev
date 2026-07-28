@@ -12,13 +12,14 @@ fun AppTheme(
     color: Color,
     isDark: Boolean = LocalSettings.current.themeMode.isDark(),
     style: PaletteStyle = PaletteStyle.TonalSpot,
+    animate: Boolean = true,
     content: @Composable () -> Unit
 ) =
     DynamicMaterialTheme(
         color,
         isDark,
         style = style,
-        animate = true,
+        animate = animate,
         typography = AppTypography(),
         content = content
     )
