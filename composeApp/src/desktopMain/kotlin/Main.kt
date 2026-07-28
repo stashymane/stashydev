@@ -6,10 +6,11 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import icons.Icons
 import icons.outline.Briefcase
+import ui.theme.ContainerSize
 import java.awt.Dimension
 
 fun main() = application {
-    val state = rememberWindowState(size = DpSize(1000.dp, 800.dp))
+    val state = rememberWindowState(size = DpSize(ContainerSize.Wide.value + 200.dp, 800.dp))
     val icon = rememberVectorPainter(Icons.Outline.Briefcase)
 
     Window(onCloseRequest = ::exitApplication, state = state, title = "stashydev", icon = icon) {

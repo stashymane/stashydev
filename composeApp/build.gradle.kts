@@ -44,6 +44,8 @@ kotlin {
             implementation(composeLibs.bundles.app)
 
             implementation(libs.bundles.koin)
+            implementation(libs.colormath.core)
+            implementation(libs.colormath.compose)
 
             implementation(ktorLibs.client.core)
             implementation(ktorLibs.client.contentNegotiation)

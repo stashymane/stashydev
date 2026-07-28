@@ -1,7 +1,7 @@
 package ui.components.project
 
 import Project
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,73 +13,119 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outline.Briefcases
+import model.getColor
 import ui.components.Badge
 import ui.components.InlineIcon
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
+import ui.theme.AppTheme
+import ui.theme.easeGradientBetween
+import kotlin.math.hypot
 
 @Composable
 fun ProjectCard(
     project: Project,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Row {
-            Text(
-                project.name,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
+    val defaultColor = MaterialTheme.colorScheme.primary
+    val containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+    val languageColor by remember {
+        derivedStateOf {
+            project.languages.firstOrNull()?.getColor() ?: defaultColor
         }
+    }
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            project.languages.forEach { language ->
-                LanguageBadge(language)
+    AppTheme(languageColor) {
+        val innerContainerColor by remember {
+            derivedStateOf {
+                languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
             }
         }
-
-        project.description?.let { description ->
-            Row {
-                Text(
-                    description,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = LocalContentColor.current.copy(alpha = 0.8f)
+        val backgroundGradient by remember {
+            derivedStateOf {
+                easeGradientBetween(
+                    innerContainerColor,
+                    containerColor,
+                    easing = EaseOut
                 )
             }
         }
 
-        Spacer(Modifier.heightIn(min = 32.dp).weight(1f))
+        Column(
+            modifier.drawWithCache {
+                val radius = hypot(size.width, size.height)
+                val brush = Brush.radialGradient(
+                    *backgroundGradient.toTypedArray(),
+                    center = Offset(size.width / 2f, size.height),
+                    radius = radius
+                )
 
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            project.license?.let { license ->
-                Badge(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                ) {
-                    InlineIcon(Icons.Outline.Briefcases, null)
-                    Text(license)
+                onDrawBehind {
+                    drawRect(brush)
+                }
+            }.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row {
+                Text(
+                    project.name,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                project.languages.forEach { language ->
+                    LanguageBadge(language)
                 }
             }
 
-            ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
-                if (project.urls.isNotEmpty()) {
-                    project.urls.forEach { url ->
-                        LinkButton(url, Modifier.padding(horizontal = 6.dp))
+            project.description?.let { description ->
+                Row {
+                    Text(
+                        description,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = LocalContentColor.current.copy(alpha = 0.8f)
+                    )
+                }
+            }
+
+            Spacer(Modifier.heightIn(min = 32.dp).weight(1f))
+
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                project.license?.let { license ->
+                    Badge(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    ) {
+                        InlineIcon(Icons.Outline.Briefcases, null)
+                        Text(license)
+                    }
+                }
+
+                ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
+                    if (project.urls.isNotEmpty()) {
+                        project.urls.forEach { url ->
+                            LinkButton(url, Modifier.padding(horizontal = 6.dp))
+                        }
                     }
                 }
             }

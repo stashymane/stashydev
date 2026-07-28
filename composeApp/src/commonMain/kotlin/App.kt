@@ -62,7 +62,7 @@ fun App() {
             state.loadProjects()
         }
 
-        AppTheme(Color(0xFFc27aff), LocalSettings.current.themeMode.isDark()) {
+        AppTheme(Color(0xFFc27aff)) {
             Surface {
                 CompositionLocalProvider(
 //                    LocalScrollbarStyle provides scrollbarStyle(),

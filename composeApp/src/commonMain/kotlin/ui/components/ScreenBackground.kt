@@ -1,5 +1,6 @@
 package ui.components
 
+import androidx.compose.animation.core.EaseOutQuad
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
@@ -16,14 +17,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
-import ui.theme.exponentialVerticalGradient
+import ui.theme.easeVerticalGradient
 
 private val maskGradient =
-    Brush.exponentialVerticalGradient(
+    Brush.easeVerticalGradient(
         Color.White.copy(alpha = 0.75f),
         Color.White.copy(alpha = 0f),
         20,
-        curve = 0.4f
+        easing = EaseOutQuad
     )
 
 @Composable

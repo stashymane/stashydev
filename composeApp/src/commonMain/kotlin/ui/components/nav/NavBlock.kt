@@ -1,5 +1,6 @@
 package ui.components.nav
 
+import androidx.compose.animation.core.EaseInCubic
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,7 +20,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -28,15 +33,15 @@ import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
-import ui.theme.exponentialVerticalGradient
+import ui.theme.easeVerticalGradient
 import ui.theme.indication.scale
 
 private val maskGradient =
-    Brush.exponentialVerticalGradient(
+    Brush.easeVerticalGradient(
         Color.White,
         Color.White.copy(alpha = 0f),
         10,
-        curve = 1.25f
+        easing = EaseInCubic
     )
 
 @Composable

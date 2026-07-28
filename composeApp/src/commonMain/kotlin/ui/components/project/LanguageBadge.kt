@@ -1,108 +1,57 @@
 package ui.components.project
 
 import Project
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
-import icons.Icons
-import icons.logos.CSharp
-import icons.logos.Java
-import icons.logos.Kotlin
-import icons.logos.Rust
+import model.getColor
+import model.getIcon
+import ui.components.Badge
 import ui.components.InlineIcon
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 
-private class LanguageBadgeMeta(
+private data class LanguageBadgeMeta(
     val icon: ImageVector,
     val color: Color
-)
-
-@Composable
-fun LanguageBadge(language: Project.Language) {
-    val meta = remember(language) { language.getMeta() }
-    val containerColor = MaterialTheme.colorScheme.inverseSurface
-    val gradient = meta?.color?.let { color ->
-        Brush.verticalGradient(listOf(color.copy(alpha = 0.3f), color.copy(alpha = 0.1f)))
-    } ?: Brush.verticalGradient(listOf(containerColor))
-
-    ProvideTextStyle(
-        MaterialTheme.typography.labelLarge.copy(
-            fontWeight = Bold,
-            lineHeightStyle = LineHeightStyle.Default.copy(
-                trim = LineHeightStyle.Trim.Both
-            )
-        )
-    ) {
-        Surface(
-            color = containerColor,
-            contentColor = MaterialTheme.colorScheme.surface
-        ) {
-            Row(
-                Modifier.background(gradient)
-                    .padding(horizontal = 6.dp, vertical = 2.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                meta?.icon?.let { icon ->
-                    InlineIcon(icon, language.name)
-                }
-
-                Text(language.name, color = LocalContentColor.current)
-            }
+) {
+    companion object {
+        fun from(language: Project.Language): LanguageBadgeMeta? {
+            val icon = language.getIcon()
+            val color = language.getColor()
+            return LanguageBadgeMeta(icon, color)
         }
     }
 }
 
-private fun Project.Language.getMeta(): LanguageBadgeMeta? = when (this) {
-    Project.Language.Kotlin -> LanguageBadgeMeta(
-        Icons.Logos.Kotlin, Color(
-            0.5f,
-            0.32f,
-            1.0f
-        )
-    )
+@Composable
+fun LanguageBadge(language: Project.Language) {
+    val meta = remember(language) { LanguageBadgeMeta.from(language) }
+    val backgroundColor = MaterialTheme.colorScheme.inverseSurface
+    val containerColor = remember(meta?.color, backgroundColor) {
+        meta?.color?.copy(alpha = 0.3f)?.compositeOver(backgroundColor) ?: backgroundColor
+    }
 
-    Project.Language.Java -> LanguageBadgeMeta(
-        Icons.Logos.Java, Color(
-            1.0f,
-            0.38f,
-            0.224f
-        )
-    )
+    Badge(
+        containerColor = containerColor,
+        contentColor = MaterialTheme.colorScheme.surface
+    ) {
+        meta?.icon?.let { icon ->
+            InlineIcon(icon, language.name)
+        }
 
-    Project.Language.Rust -> LanguageBadgeMeta(
-        Icons.Logos.Rust, Color(
-            0.937f,
-            0.553f,
-            0.38f
-        )
-    )
-
-    Project.Language.CSharp -> LanguageBadgeMeta(
-        Icons.Logos.CSharp, Color(
-            0.545f,
-            0.455f,
-            0.867f
-        )
-    )
+        Text(language.name, Modifier.padding(end = 2.dp), color = LocalContentColor.current)
+    }
 }
 
 @ComponentPreview
