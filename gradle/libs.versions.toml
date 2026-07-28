@@ -5,7 +5,7 @@ jvm-target = "17"
 koin = "4.2.2"
 slf4j-simple = "2.0.18"
 
-kotest = "6.2.1"
+kotest = "6.2.3"
 testResources = "0.15.0"
 
 [libraries]
