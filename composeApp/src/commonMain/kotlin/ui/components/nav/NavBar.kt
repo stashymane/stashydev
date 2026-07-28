@@ -75,7 +75,7 @@ fun NavBar(
                 NavLink(
                     title = {
                         if (containerSize > ContainerSize.Small) {
-                            Text(stringResource(entry.title), fontWeight = FontWeight.Bold)
+                            Text(stringResource(entry.title), fontWeight = FontWeight.SemiBold)
                             Spacer(Modifier.fillMaxWidth())
                         }
                     },

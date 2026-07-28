@@ -20,6 +20,6 @@ fun AppTheme(
         isDark,
         style = style,
         animate = animate,
-        typography = AppTypography(),
+        typography = appTypography(),
         content = content
     )
