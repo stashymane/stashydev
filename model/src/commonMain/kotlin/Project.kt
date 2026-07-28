@@ -22,10 +22,10 @@ data class Project(
     }
 
     @Serializable
-    enum class Language {
-        Kotlin,
-        Java,
-        Rust,
-        CSharp
+    enum class Language(val label: String) {
+        Kotlin("Kotlin"),
+        Java("Java"),
+        Rust("Rust"),
+        CSharp("C#")
     }
 }
