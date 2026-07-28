@@ -6,9 +6,9 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.Font
+import dev.stashy.home.Inter_VariableFont_opsz_wght
 import dev.stashy.home.PlayfairDisplay_VariableFont_wght
 import dev.stashy.home.Res
-import dev.stashy.home.Tomorrow_Regular
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.preloadFont
 
@@ -16,7 +16,7 @@ import org.jetbrains.compose.resources.preloadFont
 @Composable
 actual fun loadContent(): State<LoadingState> {
     val fonts: List<State<Font?>> = listOf(
-        preloadFont(Res.font.Tomorrow_Regular),
+        preloadFont(Res.font.Inter_VariableFont_opsz_wght),
         preloadFont(Res.font.PlayfairDisplay_VariableFont_wght),
     )
 
