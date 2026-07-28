@@ -23,6 +23,8 @@ class MultiBackStack<Entry : MultiBackStack.Entry<Group>, Group : Any>(
     val backStack = mutableStateListOf(initial)
 
     fun add(entry: Entry) {
+        if (currentStack.lastOrNull() == entry) return
+
         val group = entry.group
         if (group != null && group != currentGroup)
             swapTo(group)
