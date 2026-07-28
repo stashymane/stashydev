@@ -2,16 +2,11 @@ package ui.components.project
 
 import Project
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
@@ -31,9 +26,9 @@ import icons.logos.CSharp
 import icons.logos.Java
 import icons.logos.Kotlin
 import icons.logos.Rust
+import ui.components.InlineIcon
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
-import ui.theme.inDp
 
 private class LanguageBadgeMeta(
     val icon: ImageVector,
@@ -50,13 +45,12 @@ fun LanguageBadge(language: Project.Language) {
 
     ProvideTextStyle(
         MaterialTheme.typography.labelLarge.copy(
+            fontWeight = Bold,
             lineHeightStyle = LineHeightStyle.Default.copy(
                 trim = LineHeightStyle.Trim.Both
             )
         )
     ) {
-        val iconSize = LocalTextStyle.current.lineHeight.inDp() * 0.7f
-
         Surface(
             color = containerColor,
             contentColor = MaterialTheme.colorScheme.surface
@@ -68,10 +62,10 @@ fun LanguageBadge(language: Project.Language) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 meta?.icon?.let { icon ->
-                    Icon(icon, contentDescription = language.name, Modifier.size(iconSize))
+                    InlineIcon(icon, language.name)
                 }
 
-                Text(language.name, fontWeight = FontWeight.Black, color = LocalContentColor.current)
+                Text(language.name, color = LocalContentColor.current)
             }
         }
     }

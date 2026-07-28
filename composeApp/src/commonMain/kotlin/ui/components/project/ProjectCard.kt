@@ -17,6 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import icons.Icons
+import icons.outline.Briefcases
+import ui.components.Badge
+import ui.components.InlineIcon
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
@@ -40,9 +44,12 @@ fun ProjectCard(
             )
         }
 
-        Row {
-            if (project.languages.isNotEmpty()) {
-                ProjectLanguageRow(project.languages)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            project.languages.forEach { language ->
+                LanguageBadge(language)
             }
         }
 
@@ -59,6 +66,16 @@ fun ProjectCard(
         Spacer(Modifier.heightIn(min = 32.dp).weight(1f))
 
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            project.license?.let { license ->
+                Badge(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ) {
+                    InlineIcon(Icons.Outline.Briefcases, null)
+                    Text(license)
+                }
+            }
+
             ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
                 if (project.urls.isNotEmpty()) {
                     project.urls.forEach { url ->

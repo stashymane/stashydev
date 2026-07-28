@@ -3,7 +3,7 @@ package ui.preview
 import Project
 import Project.Language.Kotlin
 import Project.Status.Unmaintained
-import io.ktor.http.*
+import io.ktor.http.Url
 import kotlinx.datetime.LocalDate
 
 object PreviewData {
@@ -13,6 +13,7 @@ object PreviewData {
         status = Unmaintained,
         urls = listOf(Url("https://github.com/stashymane/vintage-story-runner")),
         created = LocalDate(2026, 1, 1),
-        languages = listOf(Kotlin)
+        languages = listOf(Kotlin),
+        license = "MIT"
     )
 }

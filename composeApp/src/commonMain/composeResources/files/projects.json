@@ -9,7 +9,8 @@
     ],
     "urls": [
       "https://github.com/stashymane/taxipatch"
-    ]
+    ],
+    "license": "GPLv3"
   },
   {
     "name": "ct3lib",
@@ -21,7 +22,8 @@
     ],
     "urls": [
       "https://github.com/stashymane/ct3lib"
-    ]
+    ],
+    "license": "GPLv3"
   },
   {
     "name": "swarmbox",
@@ -49,7 +51,7 @@
   },
   {
     "name": "stashydev",
-    "description": "This very website.",
+    "description": "This very website.\nBuilt with Compose Multiplatform, exported to WebAssembly.",
     "status": "Active",
     "created": "2026-01-29",
     "languages": [
@@ -67,7 +69,8 @@
     "languages": [
       "Kotlin"
     ],
-    "urls": []
+    "urls": [],
+    "license": "Proprietary"
   },
   {
     "name": "ExtraSounds",
@@ -81,7 +84,8 @@
     "urls": [
       "https://github.com/extrasounds/extra-sounds",
       "https://modrinth.com/mod/extrasounds"
-    ]
+    ],
+    "license": "CC0 1.0"
   },
   {
     "name": "CT3Tweaks",
@@ -91,6 +95,9 @@
     "languages": [
       "CSharp"
     ],
-    "urls": []
+    "urls": [
+      "https://github.com/stashymane/ct3tweaks"
+    ],
+    "license": "Apache 2.0"
   }
 ]
