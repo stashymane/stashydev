@@ -1,10 +1,10 @@
 internal val GloopShaderSource = """
     uniform float iTime;
-    uniform float2 iResolution;
     uniform float density;
     uniform float2 seed;
     uniform float speed;
     uniform float waveScale;
+    uniform float scale;
     uniform float lineWeight;
     layout(color) uniform half4 bgColor;
     layout(color) uniform half4 lineColor;
@@ -18,7 +18,6 @@ internal val GloopShaderSource = """
         return 1.79284291400159 - 0.85373472095314 * r;
     }
 
-    // 3D simplex — advancing Z morphs the field in place (no XY drift).
     float simplex3(float3 v) {
         const float2 C = float2(1.0 / 6.0, 1.0 / 3.0);
         const float4 D = float4(0.0, 0.5, 1.0, 2.0);
@@ -41,8 +40,7 @@ internal val GloopShaderSource = """
             + i.y + float4(0.0, i1.y, i2.y, 1.0))
             + i.x + float4(0.0, i1.x, i2.x, 1.0));
 
-        float n_ = 0.142857142857;
-        float3 ns = n_ * D.wyz - D.xzx;
+        float3 ns = 0.142857142857 * D.wyz - D.xzx;
 
         float4 j = p - 49.0 * floor(p * ns.z * ns.z);
         float4 x_ = floor(j * ns.z);
@@ -79,63 +77,60 @@ internal val GloopShaderSource = """
     }
 
     float topoField(float2 p, float t) {
-        // Z advances with time — primary in-place morph (kept slow).
-        float z = t * 0.12;
-        // Small XY orbits add secondary variation without net drift.
-        float2 orbitA = float2(sin(t * 0.18), cos(t * 0.15)) * 0.12;
-        float2 orbitB = float2(cos(t * 0.13), sin(t * 0.14)) * 0.09;
-        float2 orbitC = float2(sin(t * 0.11 + 1.7), cos(t * 0.12 + 0.9)) * 0.07;
+        float2 orbitA = float2(sin(t * 0.11), cos(t * 0.09)) * 0.22;
+        float2 orbitB = float2(cos(t * 0.07 + 1.4), sin(t * 0.13 + 0.6)) * 0.16;
+        float2 orbitC = float2(sin(t * 0.05 + 2.2), cos(t * 0.08 + 0.9)) * 0.12;
 
-        float warp0 = simplex3(float3((p + orbitA) * 0.85, z));
-        float2 warped = p + float2(warp0 * 0.7, warp0 * 0.45);
+        float2 sheared = float2(p.x + p.y * 0.40, p.y - p.x * 0.30);
+        float2 stretched = float2((sheared + orbitA).x * 1.70, (sheared + orbitA).y * 0.50);
+        float z = t * 0.045;
 
-        // Two mid-frequency layers — denser isolines than the sparse setup.
-        float n1 = simplex3(float3((warped + orbitB) * 1.0, z * 1.07));
+        float n0 = simplex3(float3(stretched * 0.22 + orbitC, z + 0.6));
+        float2 slowWarp = float2(n0 * 0.75, -n0 * 0.55);
+
+        float n1 = simplex3(float3(
+            stretched * float2(1.15, 0.85) + slowWarp + orbitB,
+            z * 0.55 + 1.3
+        ));
+        float2 skewed = float2(
+            stretched.x * 0.45 + stretched.y * 0.95,
+            stretched.y * 0.55 - stretched.x * 0.70
+        );
         float n2 = simplex3(float3(
-            (warped + orbitC) * 0.55 + float2(5.2, 1.3),
-            z * 0.83 + 2.1
+            skewed - slowWarp * 1.25 - orbitB * 1.1 + float2(5.2, -1.7),
+            z * 0.4 + 2.8
         ));
 
-        // Moderate amplitude — enough bands without extreme packing.
-        return n1 * 1.25 + n2 * 0.85;
+        return (n1 * 1.25 + n2 * 1.05 + n0 * 0.28 + n1 * n2 * 0.12) * 1.48;
     }
 
     half4 main(float2 fragCoord) {
-        float2 worldPos = (fragCoord / density) + seed;
-        float2 p = worldPos / 200.0 * waveScale;
+        float zoom = max(scale, 0.001);
+        float2 p = ((fragCoord / density) + seed) / (200.0 * zoom) * waveScale;
         float t = iTime * speed;
 
-        float pixelInP = waveScale / (200.0 * max(density, 0.001));
-        // Low-pass the field over a few pixels so isoline corners round off.
+        float pixelInP = waveScale / (200.0 * max(density, 0.001) * zoom);
         float blurR = pixelInP * 6.0;
+
         float f0 = topoField(p, t);
         float fX = topoField(p + float2(blurR, 0.0), t);
-        float fXn = topoField(p - float2(blurR, 0.0), t);
         float fY = topoField(p + float2(0.0, blurR), t);
-        float fYn = topoField(p - float2(0.0, blurR), t);
-        float field = (f0 + fX + fXn + fY + fYn) * 0.2;
+        float field = (f0 + f0 + fX + fY) * 0.25;
 
-        // Distance to nearest contour in field space (0 at the streak center).
         float lines = fract(field);
         float dist = min(lines, 1.0 - lines);
-
-        // |∇field| per pixel from the same taps used for softening.
-        float grad = max(
-            length(float2(fX - fXn, fY - fYn)) / (2.0 * blurR) * pixelInP,
-            1.0e-5
-        );
+        float grad = max(length(float2(fX - f0, fY - f0)) / blurR * pixelInP, 1.0e-5);
         float distPx = dist / grad;
-
-        // Spacing between neighboring isolines in pixels (~1 / |∇field|).
         float spacingPx = 1.0 / grad;
-        // Keep a clear gap: stroke+softness stays short of the midpoint (0.5 * spacing).
-        float halfPx = min(max(lineWeight / grad, 3.0), spacingPx * 0.18);
-        float softPx = min(max(halfPx * 1.15, 2.5), spacingPx * 0.22);
-        float topo = 1.0 - smoothstep(halfPx - softPx * 0.5, halfPx + softPx * 0.5, distPx);
-        topo = clamp(topo, 0.0, 1.0);
-        // Fade out when bands pack too tightly so they don't merge into solid fills.
-        float separation = smoothstep(8.0, 18.0, spacingPx);
-        topo *= separation;
+
+        float halfPx = min(max(lineWeight / grad, 2.5), spacingPx * 0.24);
+        float softPx = min(max(halfPx * 1.1, 2.0), spacingPx * 0.28);
+        float topo = clamp(
+            (1.0 - smoothstep(halfPx - softPx * 0.5, halfPx + softPx * 0.5, distPx))
+                * smoothstep(4.5, 11.0, spacingPx),
+            0.0,
+            1.0
+        );
 
         return mix(bgColor, lineColor, half(topo));
     }
