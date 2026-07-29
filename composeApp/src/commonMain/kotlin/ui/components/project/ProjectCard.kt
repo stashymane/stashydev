@@ -2,6 +2,11 @@ package ui.components.project
 
 import Project
 import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,7 +54,7 @@ fun ProjectCard(
 
     AppTheme(languageColor, animate = false) {
         val innerContainerColor = remember(languageColor, containerColor) {
-            languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
+            languageColor.copy(alpha = 0.125f).compositeOver(containerColor)
         }
         val backgroundGradient = remember(innerContainerColor, containerColor) {
             easeGradientBetween(
@@ -58,8 +64,12 @@ fun ProjectCard(
             )
         }
 
+        val interactionSource = remember { MutableInteractionSource() }
+        val hovered by interactionSource.collectIsHoveredAsState()
+        val backgroundOpacity by animateFloatAsState(if (hovered) 1f else 0.75f, animationSpec = MaterialTheme.motionScheme.slowEffectsSpec())
+
         Column(
-            modifier.drawWithCache {
+            modifier.hoverable(interactionSource).drawWithCache {
                 val radius = hypot(size.width, size.height)
                 val brush = Brush.radialGradient(
                     *backgroundGradient.toTypedArray(),
@@ -68,7 +78,7 @@ fun ProjectCard(
                 )
 
                 onDrawBehind {
-                    drawRect(brush)
+                    drawRect(brush, alpha = backgroundOpacity)
                 }
             }.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
