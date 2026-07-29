@@ -1,3 +1,4 @@
+@OptIn(ExperimentalWasmJsInterop::class)
 private fun detectLowPowerBrowser(): Boolean =
     js(
         """

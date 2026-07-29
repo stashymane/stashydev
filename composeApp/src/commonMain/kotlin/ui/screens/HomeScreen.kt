@@ -130,7 +130,7 @@ fun HomeScreen(
                     onClick = { backStack.add(card.screen) },
                     icon = card.icon,
                     text = stringResource(card.title),
-                    background = { card.background.invoke() })
+                    background = { card.background.invoke(this) })
             }
         }
 

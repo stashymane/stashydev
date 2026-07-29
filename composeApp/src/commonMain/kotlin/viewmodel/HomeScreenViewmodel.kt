@@ -1,7 +1,7 @@
 package viewmodel
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -26,19 +26,19 @@ class HomeScreenViewmodel : ViewModel() {
             Res.string.nav_projects,
             Screen.Projects,
             Icons.OutlineLarge.Cases,
-            { Box(Modifier.fillMaxSize().pixelGrid()) }
+            { Box(Modifier.matchParentSize().pixelGrid()) }
         ),
         HomeScreenCard(
             Res.string.nav_media,
             Screen.Media,
             Icons.OutlineLarge.FitScreen,
-            { Box(Modifier.fillMaxSize().meshGradient()) }
+            { Box(Modifier.matchParentSize().meshGradient()) }
         ),
         HomeScreenCard(
             Res.string.nav_about,
             Screen.About,
             Icons.OutlineLarge.UserSearch,
-            { Box(Modifier.fillMaxSize().glorp()) }
+            { Box(Modifier.matchParentSize().glorp()) }
         )
     )
 }
@@ -47,5 +47,5 @@ data class HomeScreenCard(
     val title: StringResource,
     val screen: Screen,
     val icon: ImageVector,
-    val background: @Composable () -> Unit
+    val background: @Composable BoxScope.() -> Unit
 )

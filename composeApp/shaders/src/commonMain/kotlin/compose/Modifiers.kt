@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.LocalDensity
+import isLowPowerPlatform
 import shaders.GloopShader
 import shaders.MeshGradientShader
 import shaders.PixelGridShader
@@ -33,6 +34,8 @@ fun Modifier.glorp(
         lineWeight = 0.6f
     }
 ): Modifier {
+    if (isLowPowerPlatform) return Modifier
+
     val shader = rememberGloopShader()
     val seed = rememberShaderSeed(seed)
     var visible by remember { mutableStateOf(true) }
@@ -47,10 +50,7 @@ fun Modifier.glorp(
         .onVisibilityChanged(minFractionVisible = 0f) { visible = it }
         .drawWithCache {
             shader.time = timeState.floatValue
-
-            onDrawBehind {
-                drawRect(ShaderBrush(shader.asComposeShader()))
-            }
+            onDrawBehind { drawRect(ShaderBrush(shader.asComposeShader())) }
         }
 }
 
@@ -71,6 +71,8 @@ fun Modifier.pixelGrid(
         randomAmount = 0.15f
     }
 ): Modifier {
+    if (isLowPowerPlatform) return Modifier
+
     val shader = rememberPixelGridShader()
     val seed = rememberShaderSeed(seed)
     var visible by remember { mutableStateOf(true) }
@@ -86,10 +88,7 @@ fun Modifier.pixelGrid(
         .drawWithCache {
             shader.time = timeState.floatValue
             shader.resolution = size.width to size.height
-
-            onDrawBehind {
-                drawRect(ShaderBrush(shader.asComposeShader()))
-            }
+            onDrawBehind { drawRect(ShaderBrush(shader.asComposeShader())) }
         }
 }
 
@@ -106,6 +105,8 @@ fun Modifier.meshGradient(
         warp = 1f
     }
 ): Modifier {
+    if (isLowPowerPlatform) return Modifier
+
     val shader = rememberMeshGradientShader()
     val seed = rememberShaderSeed(seed)
     var visible by remember { mutableStateOf(true) }
@@ -121,10 +122,6 @@ fun Modifier.meshGradient(
         .drawWithCache {
             shader.time = timeState.floatValue
             shader.resolution = size.width to size.height
-
-            onDrawBehind {
-                drawRect(ShaderBrush(shader.asComposeShader()))
-            }
+            onDrawBehind { drawRect(ShaderBrush(shader.asComposeShader())) }
         }
 }
-

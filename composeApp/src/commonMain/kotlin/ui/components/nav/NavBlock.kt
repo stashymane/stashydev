@@ -9,6 +9,7 @@ import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -41,7 +43,7 @@ fun NavBlock(
     onClick: () -> Unit,
     icon: ImageVector,
     text: String,
-    background: @Composable () -> Unit
+    background: @Composable BoxScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val surfaceColor = MaterialTheme.colorScheme.surface
@@ -59,7 +61,9 @@ fun NavBlock(
             .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
             .background(surfaceColor)
     ) {
-        Box(Modifier.drawWithCache {
+        Box(Modifier.graphicsLayer {
+            compositingStrategy = Offscreen
+        }.drawWithCache {
             val overlayGradient =
                 Brush.easeVerticalGradient(
                     surfaceColor,
