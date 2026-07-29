@@ -12,8 +12,6 @@
           href="/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf"
           as="fetch" crossorigin/>
 
-    <script type="application/javascript" src="composeApp.js"></script>
-
     <style>
         html, body {
             width: 100%;
@@ -21,10 +19,18 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-
-            background-color: #000;
-            color: #fff;
             font-family: sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html, body {
+                background-color: #000;
+                color: #fff;
+            }
+        }
+
+        p {
+            margin: 0;
         }
 
         .container {
@@ -36,13 +42,122 @@
             align-items: center;
         }
 
+        #crash, #loading {
+            user-select: none;
+        }
+
+        #loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #loading.visible {
+            opacity: 1;
+        }
+
+        #loading .spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #crash {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        #crash button {
+            padding: 0.5rem 1.25rem;
+            border: 1px solid #fff;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #crash button:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
     </style>
+
+    <script type="application/javascript" src="composeApp.js"></script>
 </head>
 <body>
 <div class="container">
     <noscript>
         This page requires JavaScript to be enabled. Sorry.
     </noscript>
+    <div id="loading">
+        <div class="spinner" aria-hidden="true"></div>
+        <span>Loading…</span>
+    </div>
+    <div id="crash" role="alert">
+        <p style="font-weight: bold">Something went wrong.</p>
+        <p>The app seems to have crashed.</p>
+        <button type="button" onclick="location.reload()">Reload</button>
+    </div>
 </div>
+<script>
+    (function () {
+        var loading = document.getElementById("loading");
+        var crash = document.getElementById("crash");
+        var shownCrash = false;
+        var started = false;
+
+        function hideLoading() {
+            clearTimeout(showTimer);
+            if (loading) {
+                loading.classList.remove("visible");
+                loading.style.display = "none";
+            }
+        }
+
+        function showCrash() {
+            if (shownCrash) return;
+            shownCrash = true;
+            hideLoading();
+            if (crash) crash.style.display = "flex";
+        }
+
+        function onStarted() {
+            if (started) return;
+            started = true;
+            hideLoading();
+            observer.disconnect();
+        }
+
+        var showTimer = setTimeout(function () {
+            if (!started && loading) loading.classList.add("visible");
+        }, 1000);
+
+        window.addEventListener("error", showCrash);
+        window.addEventListener("unhandledrejection", showCrash);
+
+        var observer = new MutationObserver(function () {
+            if (document.querySelector("canvas")) onStarted();
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        if (document.querySelector("canvas")) onStarted();
+    })();
+</script>
 </body>
 </html>
