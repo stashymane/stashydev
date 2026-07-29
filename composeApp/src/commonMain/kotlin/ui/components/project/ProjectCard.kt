@@ -54,7 +54,7 @@ fun ProjectCard(
 
     AppTheme(languageColor, animate = false) {
         val innerContainerColor = remember(languageColor, containerColor) {
-            languageColor.copy(alpha = 0.125f).compositeOver(containerColor)
+            languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
         }
         val backgroundGradient = remember(innerContainerColor, containerColor) {
             easeGradientBetween(
@@ -64,12 +64,8 @@ fun ProjectCard(
             )
         }
 
-        val interactionSource = remember { MutableInteractionSource() }
-        val hovered by interactionSource.collectIsHoveredAsState()
-        val backgroundOpacity by animateFloatAsState(if (hovered) 1f else 0.75f, animationSpec = MaterialTheme.motionScheme.slowEffectsSpec())
-
         Column(
-            modifier.hoverable(interactionSource).drawWithCache {
+            modifier.drawWithCache {
                 val radius = hypot(size.width, size.height)
                 val brush = Brush.radialGradient(
                     *backgroundGradient.toTypedArray(),
@@ -78,7 +74,7 @@ fun ProjectCard(
                 )
 
                 onDrawBehind {
-                    drawRect(brush, alpha = backgroundOpacity)
+                    drawRect(brush)
                 }
             }.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
