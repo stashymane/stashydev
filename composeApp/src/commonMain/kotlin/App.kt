@@ -1,7 +1,17 @@
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
@@ -19,7 +29,11 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.koinConfiguration
-import ui.*
+import ui.LoadingState
+import ui.LocalBackStack
+import ui.LocalContainerSize
+import ui.Navigation
+import ui.loadContent
 import ui.preview.DevicePreview
 import ui.screens.LoadingScreen
 import ui.theme.AppTheme
@@ -65,7 +79,7 @@ fun App() {
         }
 
         AppTheme(Color(0xFFc27aff)) {
-            Surface {
+            Surface(color = MaterialTheme.colorScheme.surfaceContainerLowest) {
                 CompositionLocalProvider(
                     LocalBackStack provides backStack,
                     LocalContainerSize provides containerSize

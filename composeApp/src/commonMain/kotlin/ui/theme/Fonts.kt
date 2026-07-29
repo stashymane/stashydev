@@ -12,6 +12,7 @@ import dev.stashy.home.Inter_VariableFont_opsz_wght
 import dev.stashy.home.PlayfairDisplay_Italic_VariableFont_wght
 import dev.stashy.home.PlayfairDisplay_VariableFont_wght
 import dev.stashy.home.Res
+import dev.stashy.home.SpaceGrotesk_VariableFont_wght
 import org.jetbrains.compose.resources.Font
 
 private val fontWeights = listOf(
@@ -54,11 +55,15 @@ fun appTypography(): Typography {
                 }
     )
 
+    val spaceGroteskFont = FontFamily(
+        variableFontFamily { Font(Res.font.SpaceGrotesk_VariableFont_wght, it) }
+    )
+
     return with(MaterialTheme.typography) {
         copy(
-            displayLarge = displayLarge.copy(fontFamily = interFont),
-            displayMedium = displayMedium.copy(fontFamily = interFont),
-            displaySmall = displaySmall.copy(fontFamily = interFont),
+            displayLarge = displayLarge.copy(fontFamily = spaceGroteskFont),
+            displayMedium = displayMedium.copy(fontFamily = spaceGroteskFont),
+            displaySmall = displaySmall.copy(fontFamily = spaceGroteskFont),
             headlineLarge = headlineLarge.copy(fontFamily = playfairFont),
             headlineMedium = headlineMedium.copy(fontFamily = playfairFont),
             headlineSmall = headlineSmall.copy(fontFamily = playfairFont),

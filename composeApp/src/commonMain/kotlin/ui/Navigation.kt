@@ -17,14 +17,11 @@ import model.Screen
 import ui.nav.navPopTransition
 import ui.nav.navTransition
 import ui.nav.scenes.ResponsiveSceneStrategy
-import ui.screens.BackgroundScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun Navigation() {
     val backStack = LocalBackStack.current
-
-    BackgroundScreen(Modifier.fillMaxSize())
 
     SharedTransitionLayout {
         CompositionLocalProvider(

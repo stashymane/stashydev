@@ -1,24 +1,31 @@
 package ui.screens
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalGridApi
+import androidx.compose.foundation.layout.Grid
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.window.core.layout.WindowSizeClass
+import androidx.compose.ui.unit.em
 import icons.Icons
 import icons.filled.Mail
 import icons.logos.GitHub
 import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
-import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import ui.LocalBackStack
@@ -28,6 +35,8 @@ import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
+import ui.theme.ContainerSize
+import ui.theme.currentContainerSize
 import viewmodel.HomeScreenViewmodel
 
 @OptIn(ExperimentalGridApi::class)
@@ -38,8 +47,7 @@ fun HomeScreen(
     val backStack = LocalBackStack.current
     val scrollState = rememberScrollState()
 
-    val windowInfo = currentWindowAdaptiveInfoV2()
-    val expanded = windowInfo.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)
+    val expanded = currentContainerSize() >= ContainerSize.Regular
 
     Column(
         Modifier.fillMaxSize()
@@ -64,8 +72,11 @@ fun HomeScreen(
         ) {
             Text(
                 "stashymane",
-                Modifier.padding(vertical = 8.dp).gridItem(columnSpan = 1),
-                style = MaterialTheme.typography.displaySmall,
+                Modifier.padding(vertical = 8.dp).gridItem(columnSpan = 1, alignment = BottomStart),
+                style = MaterialTheme.typography.displaySmall.copy(
+                    fontWeight = W400,
+                    letterSpacing = 0.075.em
+                ),
             )
 
             Row(
@@ -119,24 +130,12 @@ fun HomeScreen(
                     onClick = { backStack.add(card.screen) },
                     icon = card.icon,
                     text = stringResource(card.title),
-                    background = {
-                        Image(
-                            imageResource(card.background),
-                            null,
-                            it,
-                            contentScale = ContentScale.Crop
-                        )
-                    })
+                    background = { card.background.invoke() })
             }
         }
 
         SiteFooter()
     }
-
-//        VerticalScrollbar(
-//            rememberScrollbarAdapter(scrollState),
-//            Modifier.align(Alignment.CenterEnd).fillMaxHeight().padding(2.dp)
-//        )
 }
 
 @Composable
