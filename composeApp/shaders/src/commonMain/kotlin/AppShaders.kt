@@ -26,7 +26,7 @@ class GloopShader internal constructor(internal val handle: ShaderHandle) {
     var seed: Pair<Float, Float> = 0f to 0f
     var speed: Float = 1f
     var waveScale: Float = 1f
-    var lineWeight: Float = 0.06f
+    var lineWeight: Float = 0.16f
     var bgColor: Color = Color.Transparent
     var lineColor: Color = Color.White
 
@@ -112,6 +112,43 @@ class PixelGridShader internal constructor(internal val handle: ShaderHandle) {
     }
 }
 
+class MeshGradientShader internal constructor(internal val handle: ShaderHandle) {
+    var time: Float = 0f
+    var resolution: Pair<Float, Float> = 0f to 0f
+    var density: Float = 1f
+    var seed: Pair<Float, Float> = 0f to 0f
+    var speed: Float = 0.4f
+    var scale: Float = 1f
+    var softness: Float = 0.55f
+    var warp: Float = 0.35f
+    var color1: Color = Color.White
+    var color2: Color = Color.White
+    var color3: Color = Color.White
+    var color4: Color = Color.White
+
+    fun apply() {
+        handle.set("iTime", time)
+        handle.set("iResolution", resolution.first, resolution.second)
+        handle.set("density", density)
+        handle.set("seed", seed.first, seed.second)
+        handle.set("speed", speed)
+        handle.set("scale", scale)
+        handle.set("softness", softness)
+        handle.set("warp", warp)
+        handle.setColor("color1", color1)
+        handle.setColor("color2", color2)
+        handle.setColor("color3", color3)
+        handle.setColor("color4", color4)
+    }
+
+    fun asComposeShader(): Shader = handle.asComposeShader()
+
+    companion object {
+        fun create(): MeshGradientShader =
+            MeshGradientShader(ShaderHandle.create(ShaderSources.MeshGradient))
+    }
+}
+
 @Composable
 fun rememberGloopShader(): GloopShader = remember { GloopShader.create() }
 
@@ -120,3 +157,7 @@ fun rememberTestShader(): TestShader = remember { TestShader.create() }
 
 @Composable
 fun rememberPixelGridShader(): PixelGridShader = remember { PixelGridShader.create() }
+
+@Composable
+fun rememberMeshGradientShader(): MeshGradientShader =
+    remember { MeshGradientShader.create() }

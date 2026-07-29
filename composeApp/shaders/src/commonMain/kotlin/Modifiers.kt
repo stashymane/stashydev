@@ -15,9 +15,9 @@ fun Modifier.glorp(
     bgColor: Color = MaterialTheme.colorScheme.surface,
     lineColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f)
         .compositeOver(MaterialTheme.colorScheme.surface),
-    speed: Float = 1f,
-    waveScale: Float = 1f,
-    lineWeight: Float = 0.06f,
+    speed: Float = 0.25f,
+    waveScale: Float = 0.5f,
+    lineWeight: Float = 0.16f,
     seed: Long = 0L,
 ): Modifier {
     val shader = rememberGloopShader()
@@ -57,8 +57,8 @@ fun Modifier.pixelGrid(
     pixelSize: Float = 8f,
     gap: Float = 2f,
     bloomRadius: Float = 80f,
-    bloomIntensity: Float = 0.05f,
-    bloomThreshold: Float = 0.4f,
+    bloomIntensity: Float = 0.03f,
+    bloomThreshold: Float = 0.3f,
     randomAmount: Float = 0.2f,
     seed: Long = 0L,
 ): Modifier {
@@ -90,6 +90,48 @@ fun Modifier.pixelGrid(
         shader.color2 = c2
         shader.color3 = c3
         shader.color4 = fgColor
+        shader.apply()
+
+        drawRect(ShaderBrush(shader.asComposeShader()))
+    }
+}
+
+@Composable
+fun Modifier.meshGradient(
+    color1: Color = MaterialTheme.colorScheme.primary,
+    color2: Color = MaterialTheme.colorScheme.primaryContainer,
+    color3: Color = MaterialTheme.colorScheme.surface,
+    color4: Color = MaterialTheme.colorScheme.background,
+    speed: Float = 0.6f,
+    scale: Float = 1f,
+    softness: Float = 0.55f,
+    warp: Float = 0.35f,
+    seed: Long = 0L,
+): Modifier {
+    val shader = rememberMeshGradientShader()
+
+    val time by produceState(0f) {
+        while (true) {
+            withInfiniteAnimationFrameMillis { value = it / 1000f }
+        }
+    }
+
+    val seedX = ((seed xor 0x9E3779B9) % 10000).toFloat()
+    val seedY = ((seed xor 0x517CC1B7) % 10000).toFloat()
+
+    return this.drawBehind {
+        shader.time = time
+        shader.resolution = size.width to size.height
+        shader.density = density
+        shader.seed = seedX to seedY
+        shader.speed = speed
+        shader.scale = scale
+        shader.softness = softness
+        shader.warp = warp
+        shader.color1 = color1
+        shader.color2 = color2
+        shader.color3 = color3
+        shader.color4 = color4
         shader.apply()
 
         drawRect(ShaderBrush(shader.asComposeShader()))
