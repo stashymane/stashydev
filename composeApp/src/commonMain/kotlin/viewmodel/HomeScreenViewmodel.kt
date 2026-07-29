@@ -18,7 +18,7 @@ import icons.outlinelarge.FitScreen
 import icons.outlinelarge.UserSearch
 import model.Screen
 import org.jetbrains.compose.resources.StringResource
-import ui.theme.glorp
+import pixelGrid
 
 class HomeScreenViewmodel : ViewModel() {
     val cards: List<HomeScreenCard> = listOf(
@@ -26,7 +26,7 @@ class HomeScreenViewmodel : ViewModel() {
             Res.string.nav_projects,
             Screen.Projects,
             Icons.OutlineLarge.Cases,
-            { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).glorp()) }
+            { Box(Modifier.fillMaxSize().pixelGrid()) }
         ),
         HomeScreenCard(
             Res.string.nav_media,

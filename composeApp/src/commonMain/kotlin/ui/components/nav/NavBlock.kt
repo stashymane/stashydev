@@ -1,6 +1,6 @@
 package ui.components.nav
 
-import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.EaseInOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,17 +18,13 @@ import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.haze.blur.HazeProgressive
-import dev.chrisbanes.haze.blur.blurEffect
-import dev.chrisbanes.haze.hazeEffect
 import dev.stashy.home.Res
 import dev.stashy.home.block_projects_1k
 import icons.Icons
@@ -38,15 +34,6 @@ import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.easeVerticalGradient
 import ui.theme.indication.scale
-
-private val maskGradient =
-    Brush.easeVerticalGradient(
-        Color.White,
-        Color.White.copy(alpha = 0f),
-        10,
-        end = 0.6f,
-        easing = LinearEasing
-    )
 
 @Composable
 fun NavBlock(
@@ -72,16 +59,20 @@ fun NavBlock(
             .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
             .background(surfaceColor)
     ) {
-        Box(Modifier.hazeEffect {
-            blurEffect {
-                noiseFactor = 0f
-                blurRadius = 32.dp
-                progressive = HazeProgressive.Brush(maskGradient)
-                inputScale = Auto
+        Box(Modifier.drawWithCache {
+            val overlayGradient =
+                Brush.easeVerticalGradient(
+                    surfaceColor,
+                    surfaceColor.copy(alpha = 0f),
+                    10,
+                    end = 1f,
+                    easing = EaseInOut
+                )
+
+            onDrawWithContent {
+                drawContent()
+                drawRect(overlayGradient)
             }
-        }.drawWithContent {
-            drawContent()
-            drawRect(maskGradient, blendMode = DstOut)
         }.matchParentSize()) {
             background()
         }
