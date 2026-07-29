@@ -3,10 +3,7 @@ package ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import dev.stashy.home.Inter_Italic_VariableFont_opsz_wght
 import dev.stashy.home.Inter_VariableFont_opsz_wght
 import dev.stashy.home.PlayfairDisplay_Italic_VariableFont_wght
@@ -15,48 +12,40 @@ import dev.stashy.home.Res
 import dev.stashy.home.SpaceGrotesk_VariableFont_wght
 import org.jetbrains.compose.resources.Font
 
-private val fontWeights = listOf(
-    FontWeight.W100,
-    FontWeight.W200,
-    FontWeight.W300,
-    FontWeight.W400,
-    FontWeight.W500,
-    FontWeight.W600,
-    FontWeight.W700,
-    FontWeight.W800,
-    FontWeight.W900
-)
-
-private inline fun variableFontFamily(fn: (FontWeight) -> Font): List<Font> {
-    return fontWeights.map(fn)
-}
-
 @Composable
 fun appTypography(): Typography {
     val interFont = FontFamily(
-        variableFontFamily { Font(Res.font.Inter_VariableFont_opsz_wght, it) } +
-                variableFontFamily {
-                    Font(
-                        Res.font.Inter_Italic_VariableFont_opsz_wght,
-                        it,
-                        FontStyle.Italic
-                    )
-                }
+        Font(
+            Res.font.Inter_VariableFont_opsz_wght,
+            Normal,
+            Normal
+        ),
+        Font(
+            Res.font.Inter_Italic_VariableFont_opsz_wght,
+            Normal,
+            Italic
+        )
     )
 
     val playfairFont = FontFamily(
-        variableFontFamily { Font(Res.font.PlayfairDisplay_VariableFont_wght, it) } +
-                variableFontFamily {
-                    Font(
-                        Res.font.PlayfairDisplay_Italic_VariableFont_wght,
-                        it,
-                        FontStyle.Italic
-                    )
-                }
+        Font(
+            Res.font.PlayfairDisplay_VariableFont_wght,
+            Normal,
+            Normal
+        ),
+        Font(
+            Res.font.PlayfairDisplay_Italic_VariableFont_wght,
+            Normal,
+            Italic
+        )
     )
 
     val spaceGroteskFont = FontFamily(
-        variableFontFamily { Font(Res.font.SpaceGrotesk_VariableFont_wght, it) }
+        Font(
+            Res.font.SpaceGrotesk_VariableFont_wght,
+            Normal,
+            Normal
+        )
     )
 
     return with(MaterialTheme.typography) {
