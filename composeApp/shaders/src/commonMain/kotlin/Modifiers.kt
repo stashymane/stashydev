@@ -3,25 +3,37 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.platform.LocalInspectionMode
 import kotlin.random.Random
 
 @Composable
-private fun rememberShaderTime(): State<Float> = produceState(0f) {
-    while (true) {
-        withInfiniteAnimationFrameMillis { value = it / 1000f }
+private fun rememberShaderTime(): State<Float> {
+    if (LocalInspectionMode.current) {
+        return remember { mutableFloatStateOf(1.2f) }
+    }
+    return produceState(0f) {
+        while (true) {
+            withInfiniteAnimationFrameMillis { value = it / 1000f }
+        }
     }
 }
 
-private fun shaderSeed(seed: Long): Pair<Float, Float> {
-    val x = ((seed xor 0x9E3779B9) % 10000).toFloat()
-    val y = ((seed xor 0x517CC1B7) % 10000).toFloat()
-    return x to y
+@Composable
+private fun rememberShaderSeed(seed: Long?): Pair<Float, Float> {
+    val resolved = seed ?: remember { Random.nextLong() }
+    return remember(resolved) {
+        val x = ((resolved xor 0x9E3779B9) % 10000).toFloat()
+        val y = ((resolved xor 0x517CC1B7) % 10000).toFloat()
+        x to y
+    }
 }
 
 @Composable
@@ -32,11 +44,11 @@ fun Modifier.glorp(
     waveScale: Float = 0.1f,
     scale: Float = 0.5f,
     lineWeight: Float = 0.6f,
-    seed: Long = Random.nextLong(),
+    seed: Long? = null,
 ): Modifier {
     val shader = rememberGloopShader()
     val time by rememberShaderTime()
-    val seedXY = shaderSeed(seed)
+    val seedXY = rememberShaderSeed(seed)
 
     return this.drawBehind {
         shader.time = time
@@ -67,11 +79,11 @@ fun Modifier.pixelGrid(
     bloomIntensity: Float = 0.025f,
     bloomThreshold: Float = 0.3f,
     randomAmount: Float = 0.15f,
-    seed: Long = Random.nextLong(),
+    seed: Long? = null,
 ): Modifier {
     val shader = rememberPixelGridShader()
     val time by rememberShaderTime()
-    val seedXY = shaderSeed(seed)
+    val seedXY = rememberShaderSeed(seed)
 
     return this.drawBehind {
         shader.time = time
@@ -106,11 +118,11 @@ fun Modifier.meshGradient(
     scale: Float = 1f,
     softness: Float = 0.5f,
     warp: Float = 1f,
-    seed: Long = Random.nextLong(),
+    seed: Long? = null,
 ): Modifier {
     val shader = rememberMeshGradientShader()
     val time by rememberShaderTime()
-    val seedXY = shaderSeed(seed)
+    val seedXY = rememberShaderSeed(seed)
 
     return this.drawBehind {
         shader.time = time

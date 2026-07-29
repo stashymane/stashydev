@@ -13,11 +13,10 @@ expect class ShaderHandle {
     internal fun set(param: String, value: Float)
     internal fun set(param: String, value1: Float, value2: Float)
     internal fun set(param: String, value1: Float, value2: Float, value3: Float, value4: Float)
+    /** Color uniforms declared with `layout(color)` — Android requires setColorUniform. */
+    internal fun setColor(param: String, color: Color)
     fun asComposeShader(): Shader
 }
-
-internal fun ShaderHandle.setColor(param: String, color: Color) =
-    set(param, color.red, color.green, color.blue, color.alpha)
 
 class GloopShader internal constructor(internal val handle: ShaderHandle) {
     var time: Float = 0f

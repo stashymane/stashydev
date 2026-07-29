@@ -1,3 +1,4 @@
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.asComposeShader
 import org.jetbrains.skia.RuntimeEffect
@@ -24,6 +25,10 @@ actual class ShaderHandle(
         value3: Float,
         value4: Float
     ) = builder.uniform(param, value1, value2, value3, value4)
+
+    internal actual fun setColor(param: String, color: Color) {
+        builder.uniform(param, color.red, color.green, color.blue, color.alpha)
+    }
 
     actual fun asComposeShader(): Shader = builder.makeShader().asComposeShader()
 }
