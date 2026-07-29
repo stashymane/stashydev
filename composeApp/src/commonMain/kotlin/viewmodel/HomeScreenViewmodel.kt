@@ -6,19 +6,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
+import compose.glorp
+import compose.meshGradient
+import compose.pixelGrid
 import dev.stashy.home.Res
 import dev.stashy.home.nav_about
 import dev.stashy.home.nav_media
 import dev.stashy.home.nav_projects
-import glorp
 import icons.Icons
 import icons.outlinelarge.Cases
 import icons.outlinelarge.FitScreen
 import icons.outlinelarge.UserSearch
-import meshGradient
 import model.Screen
 import org.jetbrains.compose.resources.StringResource
-import pixelGrid
 
 class HomeScreenViewmodel : ViewModel() {
     val cards: List<HomeScreenCard> = listOf(

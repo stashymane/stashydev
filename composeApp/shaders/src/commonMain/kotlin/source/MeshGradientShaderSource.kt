@@ -1,3 +1,5 @@
+package source
+
 internal val MeshGradientShaderSource = """
     uniform float iTime;
     uniform float2 iResolution;

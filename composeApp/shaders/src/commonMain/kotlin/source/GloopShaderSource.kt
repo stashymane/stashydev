@@ -1,3 +1,5 @@
+package source
+
 internal val GloopShaderSource = """
     uniform float iTime;
     uniform float density;

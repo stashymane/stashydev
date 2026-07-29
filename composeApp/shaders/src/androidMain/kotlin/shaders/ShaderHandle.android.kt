@@ -1,4 +1,9 @@
+package shaders
+
+import android.graphics.Color.TRANSPARENT
+import android.graphics.LinearGradient
 import android.graphics.RuntimeShader
+import android.graphics.Shader.TileMode
 import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shader
@@ -6,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 actual class ShaderHandle private constructor(
-    private val shader: android.graphics.Shader
+    private val shader: Shader
 ) {
     actual companion object {
         actual fun create(source: String): ShaderHandle =
@@ -14,10 +19,10 @@ actual class ShaderHandle private constructor(
                 ShaderHandle(RuntimeShader(source))
             } else {
                 ShaderHandle(
-                    android.graphics.LinearGradient(
+                    LinearGradient(
                         0f, 0f, 1f, 1f,
-                        android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT,
-                        android.graphics.Shader.TileMode.CLAMP
+                        TRANSPARENT, TRANSPARENT,
+                        TileMode.CLAMP
                     )
                 )
             }

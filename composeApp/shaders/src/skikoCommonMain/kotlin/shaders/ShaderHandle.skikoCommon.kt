@@ -1,3 +1,5 @@
+package shaders
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.asComposeShader

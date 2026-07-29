@@ -1,3 +1,5 @@
+package source
+
 internal val PixelGridShaderSource = """
     uniform float iTime;
     uniform float2 iResolution;
