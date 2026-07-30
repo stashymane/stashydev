@@ -83,15 +83,14 @@ fun HomeScreen(
                 Modifier.gridItem(columnSpan = if (expanded) 2 else 1).fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
             ) {
-                HeaderLinkSection("content") {
+                HeaderLinkSection("code") {
                     SocialIcon(
                         url = "https://github.com/stashymane",
                         icon = Icons.Logos.GitHub,
                         tooltip = "GitHub"
                     )
-
-                    LinkDivider()
-
+                }
+                HeaderLinkSection("content") {
                     SocialIcon(
                         url = "https://soundcloud.com/stashymane",
                         icon = Icons.Logos.SoundCloud,
