@@ -60,6 +60,7 @@ fun ProjectCard(
             easeGradientBetween(
                 innerContainerColor,
                 containerColor,
+                steps = 6,
                 easing = EaseOut
             )
         }
