@@ -28,7 +28,7 @@ fun rememberAppTypography(base: Typography): Typography {
         Font(Res.font.SpaceGrotesk_VariableFont_wght, Normal, Normal)
     )
 
-    return remember(base) {
+    return remember(base, interFont, playfairFont, spaceGroteskFont) {
         with(base) {
             copy(
                 displayLarge = displayLarge.copy(fontFamily = spaceGroteskFont),
