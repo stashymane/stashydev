@@ -2,11 +2,6 @@ package ui.components.project
 
 import Project
 import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.hoverable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,9 +22,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.github.ajalt.colormath.extensions.android.composecolor.toComposeColor
 import icons.Icons
 import icons.outline.Briefcases
+import model.composeColor
 import ui.components.Badge
 import ui.components.InlineIcon
 import ui.components.LinkButton
@@ -46,11 +40,9 @@ fun ProjectCard(
     project: Project,
     modifier: Modifier = Modifier,
 ) {
-    val defaultColor = MaterialTheme.colorScheme.primary
     val containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-    val languageColor = remember(project.languages, defaultColor) {
-        project.languages.firstOrNull()?.color?.toComposeColor() ?: defaultColor
-    }
+    val languageColor = project.languages.firstOrNull()?.composeColor
+        ?: MaterialTheme.colorScheme.primary
 
     AppTheme(languageColor, animate = false) {
         val innerContainerColor = remember(languageColor, containerColor) {

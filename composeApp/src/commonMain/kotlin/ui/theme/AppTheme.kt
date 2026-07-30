@@ -4,10 +4,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import com.materialkolor.DynamicMaterialTheme
+import com.materialkolor.LocalDynamicMaterialThemeSeed
 import com.materialkolor.PaletteStyle
+import com.materialkolor.ktx.animateColorScheme
 import model.isDark
 import ui.LocalSettings
 
@@ -22,17 +24,23 @@ fun AppTheme(
     typography: Typography? = null,
     content: @Composable () -> Unit
 ) {
-    val resolvedTypography =
-        typography ?: LocalAppTypography.current ?: appTypography(MaterialTheme.typography)
+    val typography =
+        typography ?: LocalAppTypography.current ?: rememberAppTypography(MaterialTheme.typography)
+    val cache = LocalThemePaletteCache.current ?: remember { ThemePaletteCache() }
 
-    CompositionLocalProvider(LocalAppTypography provides resolvedTypography) {
-        DynamicMaterialTheme(
-            color,
-            isDark,
-            style = style,
-            animate = animate,
-            typography = resolvedTypography,
-            content = content
-        )
+    CompositionLocalProvider(
+        LocalAppTypography provides typography,
+        LocalThemePaletteCache provides cache,
+    ) {
+        val colorScheme = rememberSharedColorScheme(color, isDark, style)
+        val scheme = if (animate) animateColorScheme(colorScheme) else colorScheme
+
+        CompositionLocalProvider(LocalDynamicMaterialThemeSeed provides color) {
+            MaterialTheme(
+                colorScheme = scheme,
+                typography = typography,
+                content = content,
+            )
+        }
     }
 }

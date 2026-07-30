@@ -13,7 +13,7 @@ import dev.stashy.home.SpaceGrotesk_VariableFont_wght
 import org.jetbrains.compose.resources.Font
 
 @Composable
-fun appTypography(base: Typography): Typography {
+fun rememberAppTypography(base: Typography): Typography {
     val interFont = FontFamily(
         Font(Res.font.Inter_VariableFont_opsz_wght, Normal, Normal),
         Font(Res.font.Inter_Italic_VariableFont_opsz_wght, Normal, Italic)
