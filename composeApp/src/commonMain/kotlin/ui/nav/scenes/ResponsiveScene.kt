@@ -19,7 +19,6 @@ import androidx.navigation3.runtime.metadata
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
-import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import ui.LocalScaffoldPadding
@@ -59,9 +58,7 @@ class ResponsiveScene<T : Any>(
                     if (config.showNavigation) {
                         NavBar(
                             Modifier.height(80.dp)
-                                .hazeEffect(hazeState) {
-                                    navHazeEffect(containerColor)
-                                }
+                                .navHazeEffect(hazeState, containerColor)
                                 .navigationSharedElement()
                         )
                     }

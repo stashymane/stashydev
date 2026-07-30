@@ -18,13 +18,17 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.haze.HazeEffectScope
+import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.blur.HazeProgressive
 import dev.chrisbanes.haze.blur.blurEffect
+import dev.chrisbanes.haze.hazeEffect
 import icons.Icons
 import icons.filled.ChevronBackward
 import model.NavEntry
@@ -35,6 +39,7 @@ import ui.LocalContainerSize
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.ContainerSize
+import ui.theme.easeVerticalGradient
 import ui.theme.inDp
 
 @OptIn(ExperimentalGridApi::class)
@@ -92,17 +97,29 @@ fun NavBar(
     }
 }
 
-fun HazeEffectScope.navHazeEffect(backgroundColor: Color = Color.Unspecified) {
-    blurEffect {
-        noiseFactor = 0f
-        progressive = HazeProgressive.verticalGradient(
-            easing = LinearEasing,
-            startIntensity = 1f,
-            endIntensity = 0f
-        )
-        this.backgroundColor = backgroundColor
+
+@Composable
+fun Modifier.navHazeEffect(state: HazeState, backgroundColor: Color = Color.Unspecified): Modifier {
+    val overlayGradient = remember(backgroundColor) {
+        Brush.verticalGradient(listOf(backgroundColor, Color.Transparent))
+    }
+
+    return this.hazeEffect(state) {
+        blurEffect {
+            noiseFactor = 0f
+            progressive = HazeProgressive.verticalGradient(
+                easing = LinearEasing,
+                startIntensity = 1f,
+                endIntensity = 0f
+            )
+            this.backgroundColor = backgroundColor
+        }
+    }.drawWithContent {
+        drawRect(overlayGradient)
+        drawContent()
     }
 }
+
 
 @ComponentPreview
 @Composable
