@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -90,6 +91,10 @@ private fun ProjectScreenContent(
         },
         Modifier.padding(horizontal = 8.dp).padding(bottom = 16.dp)
     ) {
+        Row(Modifier.gridItem(columnSpan = columns).padding(16.dp, 16.dp)) {
+            Text("Featured", style = MaterialTheme.typography.headlineLarge, fontWeight = Black)
+        }
+
         projects.forEach {
             ProjectCard(it, Modifier.fillMaxSize())
         }

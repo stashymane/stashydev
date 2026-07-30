@@ -1,5 +1,29 @@
 [
   {
+    "name": "ktgrants",
+    "description": "Experimental easy-to-use, readable permission modelling and management library.\nAs easy as `user.hasPermission { Read on post }`",
+    "status": "Active",
+    "created": "2026-02-27",
+    "languages": [
+      "Kotlin"
+    ],
+    "urls": [
+      "https://github.com/stashymane/ktgrants"
+    ]
+  },
+  {
+    "name": "stashydev",
+    "description": "This very website.\nBuilt with Compose Multiplatform, exported to WebAssembly.",
+    "status": "Active",
+    "created": "2026-01-29",
+    "languages": [
+      "Kotlin"
+    ],
+    "urls": [
+      "https://github.com/stashymane/stashydev"
+    ]
+  },
+  {
     "name": "taxipatch",
     "description": "Patch for Crazy Taxi 3.\nIncludes fixes to resolution, frame rate, rendering, as well as other improvements.",
     "status": "Active",
@@ -26,6 +50,17 @@
     "license": "GPLv3"
   },
   {
+    "name": "ftprox",
+    "description": "FTP proxy service that allows exposing servers hosted on cloud infrastructure, which may not have a static IP address.",
+    "status": "Unmaintained",
+    "created": "2024-07-16",
+    "languages": [
+      "Kotlin"
+    ],
+    "urls": [],
+    "license": "Proprietary"
+  },
+  {
     "name": "swarmbox",
     "description": "CLI to simplify management of Docker Swarm clusters.\nParses modern Docker Compose features and transforms them into Swarm-compatible definitions.",
     "status": "Active",
@@ -36,41 +71,6 @@
     "urls": [
       "https://github.com/stashymane/swarmbox"
     ]
-  },
-  {
-    "name": "ktgrants",
-    "description": "Experimental easy-to-use, readable permission modelling and management library.\nAs easy as `user.hasPermission { Read on post }`",
-    "status": "Active",
-    "created": "2026-02-27",
-    "languages": [
-      "Kotlin"
-    ],
-    "urls": [
-      "https://github.com/stashymane/ktgrants"
-    ]
-  },
-  {
-    "name": "stashydev",
-    "description": "This very website.\nBuilt with Compose Multiplatform, exported to WebAssembly.",
-    "status": "Active",
-    "created": "2026-01-29",
-    "languages": [
-      "Kotlin"
-    ],
-    "urls": [
-      "https://github.com/stashymane/stashydev"
-    ]
-  },
-  {
-    "name": "ftprox",
-    "description": "FTP proxy service that allows exposing servers hosted on cloud infrastructure, which may not have a static IP address.",
-    "status": "Unmaintained",
-    "created": "2024-07-16",
-    "languages": [
-      "Kotlin"
-    ],
-    "urls": [],
-    "license": "Proprietary"
   },
   {
     "name": "ExtraSounds",
