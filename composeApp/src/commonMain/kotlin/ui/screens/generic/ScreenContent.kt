@@ -1,8 +1,10 @@
 package ui.screens.generic
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,15 +16,24 @@ import ui.components.VerticalScrollbar
 
 @Composable
 fun ScreenContent(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxSize(),
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val scrollState = rememberScrollState()
     Box {
-        Column(modifier.verticalScroll(scrollState).padding(LocalScaffoldPadding.current)) {
+        Column(
+            modifier.verticalScroll(scrollState).padding(LocalScaffoldPadding.current),
+            verticalArrangement,
+            horizontalAlignment
+        ) {
             content()
         }
 
-        VerticalScrollbar(scrollState, Modifier.align(Alignment.TopEnd).padding(LocalScaffoldPadding.current))
+        VerticalScrollbar(
+            scrollState,
+            Modifier.align(Alignment.TopEnd).padding(LocalScaffoldPadding.current)
+        )
     }
 }

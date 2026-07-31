@@ -58,7 +58,6 @@ fun LinkButton(
 ) {
     val uriHandler = LocalUriHandler.current
     val lineHeightDp = LocalTextStyle.current.lineHeight.inDp()
-    val iconSize = lineHeightDp * 0.75f
 
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
@@ -125,7 +124,7 @@ fun LinkButton(
         ) {
             CompositionLocalProvider(LocalContentColor provides contentColor) {
                 if (prefixIcon)
-                    Icon(url.getIcon(), null, Modifier.size(iconSize))
+                    InlineIcon(url.getIcon(), null)
                 Text(
                     url.display(),
                     textDecoration = Underline,
