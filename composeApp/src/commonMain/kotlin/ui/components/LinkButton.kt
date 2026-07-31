@@ -41,6 +41,7 @@ import com.materialkolor.ktx.darken
 import icons.Icons
 import icons.outline.ArrowOutwardThick
 import io.ktor.http.Url
+import model.display
 import model.getIcon
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
@@ -126,7 +127,7 @@ fun LinkButton(
                 if (prefixIcon)
                     Icon(url.getIcon(), null, Modifier.size(iconSize))
                 Text(
-                    "${url.host}${url.encodedPathAndQuery}",
+                    url.display(),
                     textDecoration = Underline,
                     color = LocalContentColor.current
                 )
@@ -141,7 +142,8 @@ private fun LinkButtonPreview() = PreviewHost {
     val links = listOf(
         Url("https://google.com"),
         Url("https://github.com/stashymane"),
-        Url("https://stashy.dev")
+        Url("https://stashy.dev"),
+        Url("mailto:contact@stashy.dev")
     );
 
     Column {

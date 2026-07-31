@@ -8,7 +8,7 @@ import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
 import icons.outline.CaptivePortal
-import io.ktor.http.*
+import io.ktor.http.Url
 
 fun Url.getIcon(): ImageVector = when (this.host) {
     "github.com" -> Icons.Logos.GitHub
@@ -17,4 +17,9 @@ fun Url.getIcon(): ImageVector = when (this.host) {
     "x.com" -> Icons.Logos.Twitter
     else if protocol.name == "mailto" -> Icons.Filled.Mail
     else -> Icons.Outline.CaptivePortal
+}
+
+fun Url.display(): String = when {
+    protocol.name.equals("mailto", true) -> "$user@$host"
+    else -> "${host}${encodedPathAndQuery}"
 }
