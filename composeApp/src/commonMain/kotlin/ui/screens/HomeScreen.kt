@@ -21,11 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import icons.Icons
-import icons.filled.Mail
 import icons.logos.GitHub
 import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
+import model.Links
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import ui.LocalBackStack
@@ -85,14 +85,14 @@ fun HomeScreen(
             ) {
                 HeaderLinkSection("code") {
                     SocialIcon(
-                        url = "https://github.com/stashymane",
+                        url = Links.github,
                         icon = Icons.Logos.GitHub,
                         tooltip = "GitHub"
                     )
                 }
                 HeaderLinkSection("content") {
                     SocialIcon(
-                        url = "https://soundcloud.com/stashymane",
+                        url = Links.soundcloud,
                         icon = Icons.Logos.SoundCloud,
                         tooltip = "SoundCloud"
                     )
@@ -100,7 +100,7 @@ fun HomeScreen(
                     LinkDivider()
 
                     SocialIcon(
-                        url = "https://youtube.com/@stashymane",
+                        url = Links.youtube,
                         icon = Icons.Logos.YouTube,
                         tooltip = "YouTube"
                     )
@@ -108,17 +108,9 @@ fun HomeScreen(
 
                 HeaderLinkSection("social") {
                     SocialIcon(
-                        url = "https://x.com/stashyymane",
+                        url = Links.xitter,
                         icon = Icons.Logos.Twitter,
                         tooltip = "X/Twitter"
-                    )
-
-                    LinkDivider()
-
-                    SocialIcon(
-                        url = "mailto:me@stashy.dev",
-                        icon = Icons.Filled.Mail,
-                        tooltip = "Mail"
                     )
                 }
             }

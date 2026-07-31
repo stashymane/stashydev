@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outline.ArrowOutwardThick
 import icons.outlinelarge.UserSearch
+import io.ktor.http.Url
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.fastBezier
@@ -115,7 +116,7 @@ fun NavLink(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SocialIcon(url: String, icon: ImageVector, tooltip: String) {
+fun SocialIcon(url: Url, icon: ImageVector, tooltip: String) {
     val uriHandler = LocalUriHandler.current
 
     TooltipBox(
@@ -140,7 +141,7 @@ fun SocialIcon(url: String, icon: ImageVector, tooltip: String) {
             isActive = false,
             isExternal = true,
             title = {}
-        ) { uriHandler.openUri(url) }
+        ) { uriHandler.openUri(url.toString()) }
     }
 }
 
