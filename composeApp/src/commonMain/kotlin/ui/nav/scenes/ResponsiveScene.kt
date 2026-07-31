@@ -19,6 +19,7 @@ import androidx.navigation3.runtime.metadata
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import ui.LocalScaffoldPadding
@@ -26,6 +27,10 @@ import ui.components.nav.NavBar
 import ui.components.nav.navHazeEffect
 import ui.nav.scenes.ResponsiveScene.MetadataKey
 import ui.theme.ContainerSize
+import ui.theme.animateBlur
+import ui.theme.blurIn
+import ui.theme.blurOut
+import ui.theme.instantBezier
 import ui.theme.navigationSharedElement
 
 data class LayoutConfig(
@@ -45,7 +50,13 @@ class ResponsiveScene<T : Any>(
 ) : Scene<T> {
     override val content: @Composable (() -> Unit) = {
         Box(
-            Modifier.fillMaxSize(),
+            Modifier
+                .fillMaxSize()
+                .animateBlur(
+                    LocalNavAnimatedContentScope.current,
+                    blurIn(instantBezier(), initialRadius = 16.dp),
+                    blurOut(instantBezier(), targetRadius = 16.dp)
+                ),
             contentAlignment = Alignment.Center
         ) {
             val hazeState = rememberHazeState()
