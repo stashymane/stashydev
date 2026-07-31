@@ -3,6 +3,9 @@ package ui.screens
 import Project
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -53,7 +56,10 @@ fun ProjectsScreen(
 ) {
     val state by appState.projectState.collectAsStateWithLifecycle()
 
-    AnimatedContent(state) {
+    AnimatedContent(
+        state,
+        transitionSpec = { fadeIn() togetherWith fadeOut() }
+    ) {
         when (it) {
             is ProjectState.Loading -> {
                 LoadingScreen {}
