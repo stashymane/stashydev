@@ -4,6 +4,7 @@ jvm-target = "17"
 
 koin = "4.2.2"
 colormath = "3.6.1"
+clikt = "5.1.0"
 
 slf4j-simple = "2.0.18"
 kotest = "6.2.3"
@@ -17,6 +18,7 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 
 colormath-core = { module = "com.github.ajalt.colormath:colormath", version.ref = "colormath" }
 colormath-compose = { module = "com.github.ajalt.colormath:colormath-ext-jetpack-compose", version.ref = "colormath" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j-simple" }
 
