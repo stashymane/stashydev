@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outline.Briefcases
 import model.composeColor
+import toRelativeString
 import ui.components.Badge
 import ui.components.InlineIcon
 import ui.components.LinkButton
@@ -78,6 +79,15 @@ fun ProjectCard(
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
+            }
+
+            project.updatedAt?.let { updatedAt ->
+                ProvideTextStyle(MaterialTheme.typography.labelMedium) {
+                    Row {
+                        Text("Updated ")
+                        Text(updatedAt.toRelativeString())
+                    }
+                }
             }
 
             Row(

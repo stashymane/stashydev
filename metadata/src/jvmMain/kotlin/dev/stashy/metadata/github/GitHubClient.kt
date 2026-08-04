@@ -114,7 +114,8 @@ internal class GitHubClient(
                 repositories(
                   first: $repoFirst,
                   orderBy: { field: UPDATED_AT, direction: DESC },
-                  ownerAffiliations: OWNER
+                  ownerAffiliations: OWNER,
+                  privacy: PUBLIC
                 ) {
                   nodes {
                     name

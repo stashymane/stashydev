@@ -22,8 +22,8 @@ import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 
 private data class LanguageBadgeMeta(
-    val icon: ImageVector,
-    val color: Color
+    val icon: ImageVector?,
+    val color: Color?
 ) {
     companion object {
         fun from(language: Project.Language): LanguageBadgeMeta =
@@ -36,14 +36,16 @@ fun LanguageBadge(language: Project.Language) {
     val meta = remember(language) { LanguageBadgeMeta.from(language) }
     val backgroundColor = MaterialTheme.colorScheme.inverseSurface
     val containerColor = remember(meta.color, backgroundColor) {
-        meta.color.copy(alpha = 0.3f).compositeOver(backgroundColor)
+        meta.color?.copy(alpha = 0.3f)?.compositeOver(backgroundColor) ?: backgroundColor
     }
 
     Badge(
         containerColor = containerColor,
         contentColor = MaterialTheme.colorScheme.surface
     ) {
-        InlineIcon(meta.icon, language.label)
+        meta.icon?.let { icon ->
+            InlineIcon(icon, language.label)
+        }
 
         Text(language.label, Modifier.padding(end = 2.dp), color = LocalContentColor.current)
     }

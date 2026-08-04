@@ -61,18 +61,6 @@
     "license": "Proprietary"
   },
   {
-    "name": "swarmbox",
-    "description": "CLI to simplify management of Docker Swarm clusters.\nParses modern Docker Compose features and transforms them into Swarm-compatible definitions.",
-    "status": "Active",
-    "created": "2026-03-01",
-    "languages": [
-      "Rust"
-    ],
-    "urls": [
-      "https://github.com/stashymane/swarmbox"
-    ]
-  },
-  {
     "name": "ExtraSounds",
     "description": "Minecraft mod that adds sound effects for UI interactions and more.\n1M+ downloads on Modrinth.\nOriginally created by me, maintainership handed over to community developers.",
     "status": "Unmaintained",
@@ -86,18 +74,5 @@
       "https://modrinth.com/mod/extrasounds"
     ],
     "license": "CC0 1.0"
-  },
-  {
-    "name": "CT3Tweaks",
-    "description": "GUI for patching the Crazy Taxi 3 executable. Allows modifying the game's resolution, frame rate and FOV. Superseded by `taxipatch`.",
-    "status": "Archived",
-    "created": "2019-05-11",
-    "languages": [
-      "CSharp"
-    ],
-    "urls": [
-      "https://github.com/stashymane/ct3tweaks"
-    ],
-    "license": "Apache 2.0"
   }
 ]

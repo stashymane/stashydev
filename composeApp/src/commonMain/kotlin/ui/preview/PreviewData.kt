@@ -1,10 +1,11 @@
 package ui.preview
 
 import Project
-import Project.Language.Kotlin
 import Project.Status.Unmaintained
 import io.ktor.http.Url
 import kotlinx.datetime.LocalDate
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.hours
 
 object PreviewData {
     val project = Project(
@@ -14,6 +15,7 @@ object PreviewData {
         urls = listOf(Url("https://github.com/stashymane/vintage-story-runner")),
         created = LocalDate(2026, 1, 1),
         languages = listOf(Kotlin),
-        license = "MIT"
+        license = "MIT",
+        updatedAt = Clock.System.now() - 3.hours
     )
 }

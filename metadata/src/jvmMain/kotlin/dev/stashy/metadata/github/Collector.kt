@@ -42,6 +42,7 @@ internal suspend fun collect(
             ),
             languageShare = buildLanguageShare(
                 config = config,
+                login = user.login,
                 contributions = user.contributionsCollection.commitContributionsByRepository,
             ),
         ),
@@ -49,6 +50,7 @@ internal suspend fun collect(
             generatedAt = now,
             repositories = user.repositories.nodes
                 .asSequence()
+                .filter { it.name != user.login }
                 .filter { config.includeForks || !it.isFork }
                 .filter { config.includeArchived || !it.isArchived }
                 .take(config.repoLimit)
@@ -90,8 +92,15 @@ private fun GqlRepository.toRepositoryMeta() = RepositoryMeta(
     isPrivate = isPrivate,
     primaryLanguage = primaryLanguage?.name,
     languages = languages?.edges
-        ?.associate { it.node.name to it.size }
-        ?.toSortedMap()
+        ?.takeIf { it.isNotEmpty() }
+        ?.let { edges ->
+            val total = edges.sumOf { it.size }.coerceAtLeast(1).toDouble()
+            edges
+                .associate { it.node.name to it.size / total * 100.0 }
+                .toList()
+                .sortedByDescending { it.second }
+                .toMap()
+        }
         .orEmpty(),
     topics = repositoryTopics?.nodes?.map { it.topic.name }.orEmpty(),
     license = licenseInfo?.spdxId ?: licenseInfo?.name,
@@ -112,6 +121,7 @@ private fun GqlRepository.toRepositoryMeta() = RepositoryMeta(
 
 private fun buildLanguageShare(
     config: GitHubApiConfig,
+    login: String,
     contributions: List<CommitContributionsByRepository>,
 ): Map<String, Double> {
     data class Acc(
@@ -119,10 +129,12 @@ private fun buildLanguageShare(
         var weightedBytes: Double = 0.0,
     )
 
+    val profileRepo = "$login/$login"
     val byLanguage = linkedMapOf<String, Acc>()
 
     for (entry in contributions) {
         val repo = entry.repository
+        if (repo.nameWithOwner.equals(profileRepo, ignoreCase = true)) continue
         if (!config.includeForks && repo.isFork) continue
         if (!config.includeArchived && repo.isArchived) continue
 

@@ -8,7 +8,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -23,10 +22,8 @@ import coil3.util.DebugLogger
 import dev.stashy.navigation.MultiBackStack
 import dev.stashy.navigation.SyncBrowserHistory
 import kotlinx.serialization.json.Json
-import model.AppState
 import model.Screen
 import org.koin.compose.KoinApplication
-import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.koinConfiguration
 import ui.LoadingState
@@ -63,7 +60,6 @@ fun App() {
     KoinApplication(koinConfiguration {
         modules(KoinModule)
     }) {
-        val state: AppState = koinInject()
         val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
         val containerSize = currentContainerSize()
 
@@ -72,10 +68,6 @@ fun App() {
         val progress = when (loadingState) {
             is LoadingState.Loading -> (loadingState as LoadingState.Loading).progress
             is LoadingState.Complete -> 1f
-        }
-
-        LaunchedEffect(Unit) {
-            state.loadProjects()
         }
 
         AppTheme(Color(0xFFc27aff)) {

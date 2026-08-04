@@ -48,7 +48,7 @@ data class RepositoryMeta(
     val isArchived: Boolean,
     val isPrivate: Boolean,
     val primaryLanguage: String?,
-    val languages: Map<String, Long>,
+    val languages: Map<String, Double>,
     val topics: List<String>,
     val license: String?,
     val createdAt: Instant,

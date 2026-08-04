@@ -23,10 +23,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,41 +35,48 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Black
+import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.window.core.layout.WindowSizeClass
 import icons.Icons
 import icons.outline.ArrowOutwardThick
-import model.AppState
-import model.ProjectState
-import org.koin.compose.koinInject
+import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import ui.LocalContainerSize
 import ui.components.project.ProjectCard
 import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
+import ui.screens.generic.LoadingFailedScreen
 import ui.screens.generic.ScreenContent
+import viewmodel.ProjectScreenState
+import viewmodel.ProjectsViewmodel
 
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun ProjectsScreen(
-    appState: AppState = koinInject()
+    vm: ProjectsViewmodel = koinViewModel()
 ) {
-    val state by appState.projectState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    val state by vm.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        vm.load()
+    }
 
     AnimatedContent(
         state,
         transitionSpec = { fadeIn() togetherWith fadeOut() }
-    ) {
-        when (it) {
-            is ProjectState.Loading -> {
-                LoadingScreen {}
-            }
-
-            is ProjectState.Loaded -> ProjectScreenContent(it.projects)
-            is ProjectState.Failed -> {
+    ) { state ->
+        when (state) {
+            is Loading -> LoadingScreen {}
+            is Failed -> LoadingFailedScreen(onRetry = { scope.launch { vm.load() } }) {
                 Text("Failed to load projects.")
             }
+
+            is Success -> ProjectScreenContent(featured = state.featured, latest = state.latest)
         }
     }
 }
@@ -76,16 +84,15 @@ fun ProjectsScreen(
 @OptIn(ExperimentalGridApi::class)
 @Composable
 private fun ProjectScreenContent(
-    projects: List<Project>
+    featured: List<Project>,
+    latest: List<Project>,
 ) = ScreenContent {
-    val sizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
-    val columns =
-        if (sizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND))
-            3
-        else if (sizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND))
-            2
-        else
-            1
+    val containerSize = LocalContainerSize.current
+    val columns = when {
+        containerSize >= Wide -> 3
+        containerSize >= Regular -> 2
+        else -> 1
+    }
 
     Grid(
         {
@@ -101,11 +108,23 @@ private fun ProjectScreenContent(
             Text("Featured", style = MaterialTheme.typography.headlineLarge, fontWeight = Black)
         }
 
-        projects.forEach {
+        featured.forEach {
             ProjectCard(it, Modifier.fillMaxSize())
         }
 
-        MoreProjectsButton(Modifier.fillMaxSize())
+        Row(Modifier.gridItem(columnSpan = columns).padding(16.dp, 16.dp)) {
+            Text("Latest", style = MaterialTheme.typography.headlineLarge, fontWeight = Black)
+        }
+
+        latest.forEach {
+            ProjectCard(it, Modifier.fillMaxSize())
+        }
+
+        MoreProjectsButton(
+            Modifier
+                .gridItem(columnSpan = columns - latest.size % columns)
+                .fillMaxSize()
+        )
     }
 }
 
@@ -155,12 +174,22 @@ private fun MoreProjectsButton(
 @DevicePreview
 @Composable
 private fun ProjectScreenPreview() = PreviewHost {
-    ProjectsScreen(
-        AppState(
-            projects = listOf(
-                PreviewData.project, PreviewData.project, PreviewData.project,
+    val vm = ProjectsViewmodel()
+    vm.state.tryEmit(
+        ProjectScreenState.Success(
+            listOf(
+                PreviewData.project,
+                PreviewData.project,
+                PreviewData.project,
+                PreviewData.project
+            ),
+            listOf(
+                PreviewData.project,
+                PreviewData.project,
                 PreviewData.project
             )
         )
     )
+
+    ProjectsScreen(vm)
 }
