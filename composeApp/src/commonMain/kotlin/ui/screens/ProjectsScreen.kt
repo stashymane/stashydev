@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -39,9 +38,10 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Black
 import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import data.ProjectsRepository
+import dev.stashy.data.dataSource
 import icons.Icons
 import icons.outline.ArrowOutwardThick
-import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import ui.LocalContainerSize
 import ui.components.project.ProjectCard
@@ -50,7 +50,6 @@ import ui.preview.PreviewData
 import ui.preview.PreviewHost
 import ui.screens.generic.LoadingFailedScreen
 import ui.screens.generic.ScreenContent
-import viewmodel.ProjectScreenState
 import viewmodel.ProjectsViewmodel
 
 
@@ -59,11 +58,10 @@ import viewmodel.ProjectsViewmodel
 fun ProjectsScreen(
     vm: ProjectsViewmodel = koinViewModel()
 ) {
-    val scope = rememberCoroutineScope()
     val state by vm.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        vm.load()
+    LaunchedEffect(state) {
+        vm.onLaunch()
     }
 
     AnimatedContent(
@@ -72,7 +70,7 @@ fun ProjectsScreen(
     ) { state ->
         when (state) {
             is Loading -> LoadingScreen {}
-            is Failed -> LoadingFailedScreen(onRetry = { scope.launch { vm.load() } }) {
+            is Failed -> LoadingFailedScreen(onRetry = vm::onReload) {
                 Text("Failed to load projects.")
             }
 
@@ -174,20 +172,21 @@ private fun MoreProjectsButton(
 @DevicePreview
 @Composable
 private fun ProjectScreenPreview() = PreviewHost {
-    val vm = ProjectsViewmodel()
-    vm.state.tryEmit(
-        ProjectScreenState.Success(
-            listOf(
-                PreviewData.project,
-                PreviewData.project,
-                PreviewData.project,
-                PreviewData.project
-            ),
-            listOf(
-                PreviewData.project,
-                PreviewData.project,
-                PreviewData.project
-            )
+    val featured = listOf(
+        PreviewData.project,
+        PreviewData.project,
+        PreviewData.project,
+        PreviewData.project,
+    )
+    val latest = listOf(
+        PreviewData.project,
+        PreviewData.project,
+        PreviewData.project,
+    )
+    val vm = ProjectsViewmodel(
+        projects = ProjectsRepository(
+            featured = dataSource { featured },
+            latest = dataSource { latest },
         )
     )
 

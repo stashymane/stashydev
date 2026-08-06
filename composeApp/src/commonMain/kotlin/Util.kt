@@ -1,14 +1,8 @@
-import dev.stashy.home.Res
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
-
-internal suspend inline fun <reified T> decodeResource(path: String): T {
-    val content = Res.readBytes(path).decodeToString()
-    return json.decodeFromString<T>(content)
-}
 
 fun Instant.toRelativeString(now: Instant = Clock.System.now()): String {
     val ago = now - this

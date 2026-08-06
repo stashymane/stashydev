@@ -35,6 +35,7 @@ kotlin {
             implementation(projects.composeApp.icons)
             implementation(projects.composeApp.shaders)
             implementation(projects.composeApp.navigation)
+            implementation(projects.composeApp.data)
 
             implementation(kotlinLibs.serialization.json)
 

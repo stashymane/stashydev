@@ -1,34 +1,39 @@
 package viewmodel
 
 import Project
-import RepoMeta
-import RepositoryMeta
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import decodeResource
+import data.ProjectsRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
-import toProject
+import kotlinx.coroutines.launch
 
-class ProjectsViewmodel() : ViewModel() {
-    var state: MutableStateFlow<ProjectScreenState> = MutableStateFlow(Loading)
+class ProjectsViewmodel(
+    private val projects: ProjectsRepository,
+) : ViewModel() {
+    var state: MutableStateFlow<ProjectScreenState> = MutableStateFlow(
+        successOrNull() ?: ProjectScreenState.Loading
+    )
+
+    fun onLaunch() {
+        if (state.value is ProjectScreenState.Loading) {
+            viewModelScope.launch { load() }
+        }
+    }
+
+    fun onReload() {
+        viewModelScope.launch { load() }
+    }
 
     suspend fun load() {
-        state.emit(Loading)
+        state.emit(ProjectScreenState.Loading)
 
         runCatching {
-            val featured = viewModelScope.async {
-                decodeResource<List<Project>>("files/featured.json")
-            }
-
-            val latest = viewModelScope.async {
-                decodeResource<RepoMeta>("files/repo.json")
-                    .repositories.map(RepositoryMeta::toProject)
-            }
-
+            val featured = viewModelScope.async { projects.featured.await() }
+            val latest = viewModelScope.async { projects.latest.await() }
             ProjectScreenState.Success(
                 featured = featured.await(),
-                latest = latest.await()
+                latest = latest.await(),
             )
         }.fold(
             onSuccess = { state.emit(it) },
@@ -37,6 +42,12 @@ class ProjectsViewmodel() : ViewModel() {
                 state.emit(ProjectScreenState.Failed(it))
             }
         )
+    }
+
+    private fun successOrNull(): ProjectScreenState.Success? {
+        val featured = projects.featured.getOrNull() ?: return null
+        val latest = projects.latest.getOrNull() ?: return null
+        return ProjectScreenState.Success(featured, latest)
     }
 }
 
