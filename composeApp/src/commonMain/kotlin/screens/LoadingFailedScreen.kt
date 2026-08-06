@@ -1,4 +1,4 @@
-package ui.screens.generic
+package screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

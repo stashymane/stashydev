@@ -1,4 +1,4 @@
-package ui.components.project
+package ui.components
 
 import Project
 import androidx.compose.foundation.layout.Arrangement
@@ -13,11 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import model.composeColor
 import model.getIcon
-import ui.components.Badge
-import ui.components.InlineIcon
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 
@@ -32,7 +31,11 @@ private data class LanguageBadgeMeta(
 }
 
 @Composable
-fun LanguageBadge(language: Project.Language) {
+fun LanguageBadge(
+    language: Project.Language,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.labelLarge.copy(fontWeight = Bold)
+) {
     val meta = remember(language) { LanguageBadgeMeta.from(language) }
     val backgroundColor = MaterialTheme.colorScheme.inverseSurface
     val containerColor = remember(meta.color, backgroundColor) {
@@ -40,8 +43,10 @@ fun LanguageBadge(language: Project.Language) {
     }
 
     Badge(
+        modifier = modifier,
         containerColor = containerColor,
-        contentColor = MaterialTheme.colorScheme.surface
+        contentColor = MaterialTheme.colorScheme.surface,
+        textStyle = textStyle
     ) {
         meta.icon?.let { icon ->
             InlineIcon(icon, language.label)

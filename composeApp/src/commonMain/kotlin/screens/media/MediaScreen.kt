@@ -1,13 +1,13 @@
-package ui.screens
+package screens.media
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import screens.ScreenContent
 import ui.components.UnderConstruction
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.screens.generic.ScreenContent
 
 @Composable
 fun MediaScreen() {

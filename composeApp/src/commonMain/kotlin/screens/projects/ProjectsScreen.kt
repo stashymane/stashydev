@@ -1,4 +1,4 @@
-package ui.screens
+package screens.projects
 
 import Project
 import androidx.compose.animation.AnimatedContent
@@ -43,14 +43,14 @@ import dev.stashy.data.dataSource
 import icons.Icons
 import icons.outline.ArrowOutwardThick
 import org.koin.compose.viewmodel.koinViewModel
+import screens.LoadingFailedScreen
+import screens.LoadingScreen
+import screens.ScreenContent
+import screens.projects.components.ProjectCard
 import ui.LocalContainerSize
-import ui.components.project.ProjectCard
 import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
-import ui.screens.generic.LoadingFailedScreen
-import ui.screens.generic.ScreenContent
-import viewmodel.ProjectsViewmodel
 
 
 @OptIn(ExperimentalGridApi::class)
@@ -184,7 +184,7 @@ private fun ProjectScreenPreview() = PreviewHost {
         PreviewData.project,
     )
     val vm = ProjectsViewmodel(
-        projects = ProjectsRepository(
+        repo = ProjectsRepository(
             featured = dataSource { featured },
             latest = dataSource { latest },
         )

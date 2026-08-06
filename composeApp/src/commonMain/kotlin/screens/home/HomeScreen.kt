@@ -1,4 +1,4 @@
-package ui.screens
+package screens.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -26,18 +26,18 @@ import icons.logos.SoundCloud
 import icons.logos.Twitter
 import icons.logos.YouTube
 import model.Links
+import model.getIcon
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import screens.home.components.SiteFooter
 import ui.LocalBackStack
 import ui.LocalScaffoldPadding
-import ui.components.SiteFooter
 import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
 import ui.theme.ContainerSize
 import ui.theme.currentContainerSize
-import viewmodel.HomeScreenViewmodel
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
@@ -83,35 +83,16 @@ fun HomeScreen(
                 Modifier.gridItem(columnSpan = if (expanded) 2 else 1).fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
             ) {
-                HeaderLinkSection("code") {
-                    SocialIcon(
-                        url = Links.github,
-                        icon = Icons.Logos.GitHub,
-                        tooltip = "GitHub"
-                    )
-                }
-                HeaderLinkSection("content") {
-                    SocialIcon(
-                        url = Links.soundcloud,
-                        icon = Icons.Logos.SoundCloud,
-                        tooltip = "SoundCloud"
-                    )
-
-                    LinkDivider()
-
-                    SocialIcon(
-                        url = Links.youtube,
-                        icon = Icons.Logos.YouTube,
-                        tooltip = "YouTube"
-                    )
-                }
-
-                HeaderLinkSection("social") {
-                    SocialIcon(
-                        url = Links.xitter,
-                        icon = Icons.Logos.Twitter,
-                        tooltip = "X/Twitter"
-                    )
+                Links.Groups.All.forEach { group ->
+                    HeaderLinkSection(group.name) {
+                        group.links.forEach { link ->
+                            SocialIcon(
+                                url = link.url,
+                                icon = link.url.getIcon(),
+                                tooltip = link.name
+                            )
+                        }
+                    }
                 }
             }
 

@@ -11,11 +11,11 @@ import dev.stashy.navigation.toResourcePath
 import io.ktor.resources.Resource
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import ui.nav.scenes.ResponsiveScene
-import ui.screens.AboutScreen
-import ui.screens.HomeScreen
-import ui.screens.MediaScreen
-import ui.screens.ProjectsScreen
+import screens.about.AboutScreen
+import screens.home.HomeScreen
+import screens.media.MediaScreen
+import screens.projects.ProjectsScreen
+import ui.nav.ResponsiveScene
 
 @Serializable
 sealed class Screen(

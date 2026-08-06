@@ -31,3 +31,6 @@ fun <A, B, R> combine(
     second: DataSource<B>,
     transform: (A, B) -> R,
 ): DataSource<R> = CombinedDataSource(first, second, transform)
+
+inline fun <T, R> DataSource<T>.getOrElse(transform: (T) -> R, orElse: () -> R) =
+    getOrNull()?.let(transform) ?: orElse()

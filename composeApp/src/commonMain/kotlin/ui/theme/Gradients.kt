@@ -2,6 +2,8 @@ package ui.theme
 
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.github.ajalt.colormath.extensions.android.composecolor.toColormathColor
@@ -9,6 +11,7 @@ import com.github.ajalt.colormath.extensions.android.composecolor.toComposeColor
 import com.github.ajalt.colormath.model.Oklab
 import com.github.ajalt.colormath.transform.EasingFunction
 import com.github.ajalt.colormath.transform.interpolator
+import kotlin.math.hypot
 
 object GradientDefaults {
     val easingFunction: Easing = LinearEasing
@@ -24,7 +27,7 @@ fun easeGradientBetween(
     start: Float = 0f,
     end: Float = 1f,
     easing: Easing = GradientDefaults.easingFunction
-): List<Pair<Float, Color>> = buildList {
+): Array<Pair<Float, Color>> = buildList {
     val interpolator = Oklab.interpolator {
         this.easing = easing.asEasingFunction()
         stop(startColor.toColormathColor().toOklab())
@@ -39,7 +42,7 @@ fun easeGradientBetween(
 
         add(position to color)
     }
-}
+}.toTypedArray()
 
 fun Brush.Companion.easeVerticalGradient(
     startColor: Color,
@@ -49,7 +52,7 @@ fun Brush.Companion.easeVerticalGradient(
     end: Float = 1f,
     easing: Easing = GradientDefaults.easingFunction
 ): Brush = Brush.verticalGradient(
-    *easeGradientBetween(startColor, endColor, steps, start, end, easing).toTypedArray()
+    *easeGradientBetween(startColor, endColor, steps, start, end, easing)
 )
 
 fun Brush.Companion.easeHorizontalGradient(
@@ -60,5 +63,21 @@ fun Brush.Companion.easeHorizontalGradient(
     end: Float = 1f,
     easing: Easing = GradientDefaults.easingFunction
 ): Brush = Brush.horizontalGradient(
-    *easeGradientBetween(startColor, endColor, steps, start, end, easing).toTypedArray()
+    *easeGradientBetween(startColor, endColor, steps, start, end, easing)
 )
+
+
+fun Brush.Companion.fullRadialGradient(
+    vararg colorStops: Pair<Float, Color>,
+    size: Size,
+    radius: Float = 1f,
+    x: Float = 0.5f,
+    y: Float = 0.5f
+): Brush {
+    val radius = hypot(size.width * radius, size.height * radius)
+    return Brush.radialGradient(
+        *colorStops,
+        center = Offset(size.width * x, size.height * y),
+        radius = radius
+    )
+}

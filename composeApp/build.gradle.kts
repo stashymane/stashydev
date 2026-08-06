@@ -44,6 +44,7 @@ kotlin {
             implementation(composeLibs.bundles.adaptive)
             implementation(composeLibs.bundles.nav3)
             implementation(composeLibs.bundles.app)
+            implementation(composeLibs.koalaplot)
 
             implementation(libs.bundles.koin)
             implementation(libs.colormath.core)

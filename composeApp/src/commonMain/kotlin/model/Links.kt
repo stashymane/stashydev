@@ -3,12 +3,35 @@ package model
 import io.ktor.http.Url
 import okio.ByteString.Companion.decodeHex
 
+class Link(
+    val url: Url,
+    val name: String = url.host
+) {
+    constructor(url: String, name: String) : this(Url(url), name)
+
+    class Group(
+        val name: String,
+        val links: List<Link>
+    )
+}
+
 object Links {
     // fuck your bot
-    val email = Url("6D61696C746F3A636F6E74616374407374617368792E646576".decodeHex().utf8())
+    val email = Link(
+        "6D61696C746F3A636F6E74616374407374617368792E646576".decodeHex().utf8(),
+        "Email address"
+    )
 
-    val github = Url("https://github.com/stashymane")
-    val soundcloud = Url("https://soundcloud.com/stashymane")
-    val youtube = Url("https://youtube.com/@stashymane")
-    val xitter = Url("https://x.com/stashyymane")
+    val github = Link("https://github.com/stashymane", "GitHub")
+    val soundcloud = Link("https://soundcloud.com/stashymane", "SoundCloud")
+    val youtube = Link("https://youtube.com/@stashymane", "YouTube")
+    val xitter = Link("https://x.com/stashyymane", "X/Twitter")
+
+    object Groups {
+        val code = Link.Group("code", listOf(github))
+        val content = Link.Group("content", listOf(soundcloud, youtube))
+        val social = Link.Group("social", listOf(xitter))
+
+        val All = listOf(code, content, social)
+    }
 }

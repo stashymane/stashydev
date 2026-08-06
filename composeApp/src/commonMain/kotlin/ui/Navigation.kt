@@ -14,9 +14,9 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
 import model.Screen
+import ui.nav.ResponsiveSceneStrategy
 import ui.nav.navPopTransition
 import ui.nav.navTransition
-import ui.nav.scenes.ResponsiveSceneStrategy
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable

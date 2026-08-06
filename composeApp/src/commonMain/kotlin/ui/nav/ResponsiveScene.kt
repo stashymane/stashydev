@@ -1,4 +1,4 @@
-package ui.nav.scenes
+package ui.nav
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +25,7 @@ import dev.chrisbanes.haze.rememberHazeState
 import ui.LocalScaffoldPadding
 import ui.components.nav.NavBar
 import ui.components.nav.navHazeEffect
-import ui.nav.scenes.ResponsiveScene.MetadataKey
+import ui.nav.ResponsiveScene.MetadataKey
 import ui.theme.ContainerSize
 import ui.theme.animateBlur
 import ui.theme.blurIn

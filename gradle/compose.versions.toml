@@ -12,6 +12,7 @@ materialKolor = "5.0.0"
 placeholder = "1.0.12"
 haze = "2.0.0-alpha03"
 markdownRenderer = "0.43.0"
+koalaplot = "0.12.0"
 
 [libraries]
 jb-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
@@ -44,6 +45,7 @@ haze-core = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-blur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
 markdownRenderer-core = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "markdownRenderer" }
 markdownRenderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdownRenderer" }
+koalaplot = { module = "io.github.koalaplot:koalaplot-core", version.ref = "koalaplot" }
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }

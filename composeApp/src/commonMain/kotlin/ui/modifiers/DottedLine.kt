@@ -1,4 +1,4 @@
-package ui.components
+package ui.modifiers
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package ui.components.project
+package screens.projects.components
 
 import Project
 import androidx.compose.animation.core.EaseOut
@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
@@ -28,13 +27,14 @@ import model.composeColor
 import toRelativeString
 import ui.components.Badge
 import ui.components.InlineIcon
+import ui.components.LanguageBadge
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
 import ui.theme.AppTheme
 import ui.theme.easeGradientBetween
-import kotlin.math.hypot
+import ui.theme.fullRadialGradient
 
 @Composable
 fun ProjectCard(
@@ -60,15 +60,12 @@ fun ProjectCard(
 
         Column(
             modifier.drawWithCache {
-                val radius = hypot(size.width, size.height)
-                val brush = Brush.radialGradient(
-                    *backgroundGradient.toTypedArray(),
-                    center = Offset(size.width / 2f, size.height),
-                    radius = radius
+                val gradient = Brush.fullRadialGradient(
+                    *backgroundGradient, size = size, x = 0.5f, y = 1f
                 )
 
                 onDrawBehind {
-                    drawRect(brush)
+                    drawRect(gradient)
                 }
             }.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
