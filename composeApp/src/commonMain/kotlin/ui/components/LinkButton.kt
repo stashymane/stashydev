@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
@@ -61,18 +61,19 @@ fun LinkButton(
 
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
+    val focused by interactionSource.collectIsFocusedAsState()
     val pressed by interactionSource.collectIsPressedAsState()
 
     val contentColor by animateColorAsState(
-        if (hovered || pressed) hoverContentColor else color,
+        if (hovered || focused || pressed) hoverContentColor else color,
         MaterialTheme.motionScheme.fastEffectsSpec()
     )
     val containerColor by animateColorAsState(
-        if (pressed) hoverContainerColor.darken(1.25f) else if (hovered) hoverContainerColor else Color.Transparent,
+        if (pressed) hoverContainerColor.darken(1.25f) else if (hovered || focused) hoverContainerColor else Color.Transparent,
         MaterialTheme.motionScheme.fastEffectsSpec()
     )
     val hoverProgress by animateFloatAsState(
-        if (hovered) 1f else 0f,
+        if (hovered || focused) 1f else 0f,
         MaterialTheme.motionScheme.fastEffectsSpec()
     )
     val pressProgress by animateFloatAsState(
