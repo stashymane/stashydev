@@ -56,7 +56,7 @@ fun App() {
         )
         PreloadContent()
 
-        AppTheme(Color(0xFFc27aff)) {
+        AppTheme(Color(0xFF9476FF)) {
             Surface(color = MaterialTheme.colorScheme.surfaceContainerLowest) {
                 CompositionLocalProvider(
                     LocalBackStack provides backStack,

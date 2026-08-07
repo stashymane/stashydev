@@ -19,7 +19,7 @@ val LocalAppTypography = staticCompositionLocalOf<Typography?> { null }
 fun AppTheme(
     color: Color,
     isDark: Boolean = LocalSettings.current.themeMode.isDark(),
-    style: PaletteStyle = PaletteStyle.TonalSpot,
+    style: PaletteStyle = PaletteStyle.Expressive,
     animate: Boolean = true,
     typography: Typography? = null,
     content: @Composable () -> Unit
@@ -31,16 +31,15 @@ fun AppTheme(
     CompositionLocalProvider(
         LocalAppTypography provides typography,
         LocalThemePaletteCache provides cache,
+        LocalDynamicMaterialThemeSeed provides color,
     ) {
         val colorScheme = rememberSharedColorScheme(color, isDark, style)
         val scheme = if (animate) animateColorScheme(colorScheme) else colorScheme
 
-        CompositionLocalProvider(LocalDynamicMaterialThemeSeed provides color) {
-            MaterialTheme(
-                colorScheme = scheme,
-                typography = typography,
-                content = content,
-            )
-        }
+        MaterialTheme(
+            colorScheme = scheme,
+            typography = typography,
+            content = content,
+        )
     }
 }
