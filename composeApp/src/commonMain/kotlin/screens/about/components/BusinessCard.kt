@@ -2,7 +2,6 @@ package screens.about.components
 
 import UserMeta
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,73 +38,53 @@ fun BusinessCard(
     modifier: Modifier = Modifier,
 ) {
     val profile = meta.profile
-    val surfaceColor = MaterialTheme.colorScheme.surfaceContainerLow
 
-    val gradient = remember(surfaceColor) {
-        easeGradientBetween(surfaceColor, Color.Transparent)
-    }
-
-    Box(modifier) {
-        ContributionGraph(
-            graph = meta.contributionGraph,
-            peakColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            modifier = Modifier.matchParentSize().padding(4.dp),
-            gapFraction = 0.05f
-        )
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .drawWithCache {
-                    val gradient = Brush.fullRadialGradient(*gradient, size = size, x = 0f, y = 0f)
-                    onDrawWithContent {
-                        drawRect(gradient)
-                        drawContent()
-                    }
-                }.padding(horizontal = 22.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Column {
-                val displayFont = MaterialTheme.typography.displayLarge
+    Column(
+        modifier
+            .fillMaxWidth()
+            .padding(horizontal = 22.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Column {
+            val displayFont = MaterialTheme.typography.displayLarge
+            Text(
+                profile.login,
+                style = displayFont,
+                fontWeight = Black,
+                autoSize = TextAutoSize.StepBased(
+                    displayFont.fontSize * 0.7f,
+                    displayFont.fontSize
+                ),
+                maxLines = 1
+            )
+            profile.name?.let { realName ->
                 Text(
-                    profile.login,
-                    style = displayFont,
-                    fontWeight = Black,
-                    autoSize = TextAutoSize.StepBased(
-                        displayFont.fontSize * 0.7f,
-                        displayFont.fontSize
-                    ),
-                    maxLines = 1
+                    realName,
+                    style = MaterialTheme.typography.titleLarge,
+                    letterSpacing = 0.07.em,
+                    fontWeight = Bold,
+                    color = LocalContentColor.current.copy(alpha = 0.8f)
                 )
-                profile.name?.let { realName ->
-                    Text(
-                        realName,
-                        style = MaterialTheme.typography.titleLarge,
-                        letterSpacing = 0.07.em,
-                        fontWeight = Bold,
-                        color = LocalContentColor.current.copy(alpha = 0.8f)
-                    )
+            }
+        }
+
+        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            profile.location?.let { location ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    InlineIcon(Icons.Outline.PinDrop24Dp, "Location")
+                    Text(location, fontWeight = Bold)
                 }
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                profile.location?.let { location ->
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        InlineIcon(Icons.Outline.PinDrop24Dp, "Location")
-                        Text(location, fontWeight = Bold)
-                    }
-                }
+            LinkButton(Links.email.url)
+        }
 
-                LinkButton(Links.email.url)
-            }
-
-            profile.bio?.let { bio ->
-                Column {
-                    Text(bio)
-                }
+        profile.bio?.let { bio ->
+            Column {
+                Text(bio)
             }
         }
     }
