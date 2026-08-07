@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import model.Links
@@ -80,10 +81,15 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
         else -> 1
     }
 
-    val surfaceColor = MaterialTheme.colorScheme.surfaceContainerLow
-    val gradient = remember(surfaceColor) {
-        easeGradientBetween(surfaceColor, Color.Transparent)
-    }
+    Box {
+        val surfaceColor = lerp(
+            MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.surfaceContainer,
+            0.85f
+        )
+        val gradient = remember(surfaceColor) {
+            easeGradientBetween(surfaceColor, Color.Transparent)
+        }
 
     Box {
         ContributionGraph(
@@ -103,7 +109,13 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
             },
             Modifier.fillMaxWidth().drawWithCache {
                 val gradient =
-                    Brush.fullRadialGradient(*gradient, size = size, radius = 1.5f, x = 0f, y = 0f)
+                    Brush.fullRadialGradient(
+                        *gradient,
+                        size = size,
+                        radius = 1f,
+                        x = 0f,
+                        y = 0f
+                    )
                 onDrawWithContent {
                     drawRect(gradient)
                     drawContent()
