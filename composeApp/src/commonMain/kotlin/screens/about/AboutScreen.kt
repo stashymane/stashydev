@@ -85,13 +85,12 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
         val surfaceColor = lerp(
             MaterialTheme.colorScheme.primaryContainer,
             MaterialTheme.colorScheme.surfaceContainer,
-            0.85f
+            0.9f
         )
         val gradient = remember(surfaceColor) {
             easeGradientBetween(surfaceColor, Color.Transparent)
         }
 
-    Box {
         ContributionGraph(
             graph = meta.contributionGraph,
             peakColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
@@ -144,31 +143,6 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
                 }
             }
         }
-
-//        Column(
-//            Modifier.padding(horizontal = 22.dp, vertical = 16.dp),
-//            verticalArrangement = Arrangement.spacedBy(16.dp)
-//        ) {
-//            Text("Languages", style = MaterialTheme.typography.headlineMedium, fontWeight = Bold)
-//
-//            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-//                LanguageBadge(Project.Language.Kotlin)
-//                LanguageBadge(Project.Language.Rust)
-//                LanguageBadge(Project.Language.Java)
-//            }
-//        }
-
-//        Column(
-//            Modifier.padding(8.dp),
-//            verticalArrangement = Arrangement.spacedBy(8.dp)
-//        ) {
-//            Text(
-//                "Top languages this month",
-//                style = MaterialTheme.typography.titleMedium,
-//                fontWeight = FontWeight.Bold
-//            )
-//            LanguageShareChart(languageShare = meta.languageShare, Modifier.fillMaxWidth())
-//        }
     }
 
     Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
