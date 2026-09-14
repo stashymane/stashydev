@@ -1,20 +1,23 @@
 package model
 
 import Project
+import Project.Language.Companion.CSharp
+import Project.Language.Companion.Java
+import Project.Language.Companion.Kotlin
+import Project.Language.Companion.Nix
+import Project.Language.Companion.Rust
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.ajalt.colormath.extensions.android.composecolor.toComposeColor
 import icons.Icons
-import icons.logos.CSharp
-import icons.logos.Java
-import icons.logos.Kotlin
-import icons.logos.Rust
+import icons.logos.*
 
 fun Project.Language.getIcon(): ImageVector? = when (this) {
-    Project.Language.Kotlin -> Icons.Logos.Kotlin
-    Project.Language.Java -> Icons.Logos.Java
-    Project.Language.Rust -> Icons.Logos.Rust
-    Project.Language.CSharp -> Icons.Logos.CSharp
+    Kotlin -> Icons.Logos.Kotlin
+    Java -> Icons.Logos.Java
+    Rust -> Icons.Logos.Rust
+    CSharp -> Icons.Logos.CSharp
+    Nix -> Icons.Logos.Nixos
     else -> null
 }
 

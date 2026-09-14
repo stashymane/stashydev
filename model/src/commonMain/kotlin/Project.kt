@@ -1,7 +1,7 @@
 import Project.Language
 import com.github.ajalt.colormath.Color
 import com.github.ajalt.colormath.model.Oklab
-import io.ktor.http.Url
+import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -39,7 +39,8 @@ data class Project(
             val Java = Language("Java", Oklab(0.692, 0.164, 0.115))
             val Rust = Language("Rust", Oklab(0.738, 0.095, 0.093))
             val CSharp = Language("C#", Oklab(0.628, 0.056, -0.144))
-            val entries = setOf(Kotlin, Java, Rust, CSharp)
+            val Nix = Language("Nix", Oklab(0.85, -0.03, -0.06))
+            val entries = setOf(Kotlin, Java, Rust, CSharp, Nix)
 
             fun fromLabel(label: String): Language =
                 entries.find { it.label.equals(label, ignoreCase = true) } ?: Language(label)
