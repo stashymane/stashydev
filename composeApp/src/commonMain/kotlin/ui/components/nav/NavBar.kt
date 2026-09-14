@@ -2,20 +2,8 @@ package ui.components.nav
 
 import AppBackStack
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.foundation.layout.ExperimentalGridApi
-import androidx.compose.foundation.layout.Grid
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -25,10 +13,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.chrisbanes.haze.HazeInput
+import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.blur.HazeProgressive
-import dev.chrisbanes.haze.blur.blurEffect
-import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.blur.HazeBlurDefaults
+import dev.chrisbanes.haze.blur.HazeBlurStyle
+import dev.chrisbanes.haze.blur.hazeBlur
 import icons.Icons
 import icons.filled.ChevronBackward
 import model.NavEntry
@@ -39,13 +29,12 @@ import ui.LocalContainerSize
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import ui.theme.ContainerSize
-import ui.theme.easeVerticalGradient
 import ui.theme.inDp
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun NavBar(
-    modifier: Modifier = Modifier.height(80.dp)
+    modifier: Modifier = Modifier
 ) {
     val backStack = LocalBackStack.current
     val containerSize = LocalContainerSize.current
@@ -62,7 +51,7 @@ fun NavBar(
 
             gap(8.dp)
         },
-        modifier.padding(8.dp)
+        modifier.height(80.dp).padding(8.dp)
     ) {
         ProvideTextStyle(MaterialTheme.typography.headlineSmall) {
             val iconSize = LocalTextStyle.current.lineHeight.inDp()
@@ -104,17 +93,17 @@ fun Modifier.navHazeEffect(state: HazeState, backgroundColor: Color = Color.Unsp
         Brush.verticalGradient(listOf(backgroundColor, Color.Transparent))
     }
 
-    return this.hazeEffect(state) {
-        blurEffect {
-            noiseFactor = 0f
-            progressive = HazeProgressive.verticalGradient(
+    return this.hazeBlur(
+        input = HazeInput.Sources(state),
+        style = HazeBlurStyle {
+            noiseFactor(0f)
+            progressive(HazeProgressive.verticalGradient(
                 easing = LinearEasing,
                 startIntensity = 1f,
                 endIntensity = 0f
-            )
-            this.backgroundColor = backgroundColor
-        }
-    }.drawWithContent {
+            ))
+            backgroundColor(backgroundColor)
+        }).drawWithContent {
         drawRect(overlayGradient)
         drawContent()
     }

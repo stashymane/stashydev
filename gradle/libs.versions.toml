@@ -3,12 +3,12 @@ jvm = "25"
 jvm-target = "17"
 
 koin = "4.2.2"
-colormath = "3.6.1"
+colormath = "3.7.0"
 clikt = "5.1.0"
 
-slf4j-simple = "2.0.18"
-kotest = "6.2.3"
-testResources = "0.15.0"
+slf4j-simple = "2.0.19"
+kotest = "6.2.5"
+testResources = "0.16.2"
 
 [libraries]
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
