@@ -14,7 +14,7 @@ plugins {
     id("multiplatform.target.wasmJs")
     id("multiplatform.target.androidLibrary")
 
-    id("multiplatform.plugin.composeWasm")
+    id("plugins.webPreload")
 }
 
 kotlin {
@@ -91,4 +91,15 @@ compose {
             mainClass = "MainKt"
         }
     }
+}
+
+webPreload {
+    distribution {
+        wasm = true
+    }
+
+    script("composeApp.js")
+
+    fetch("/composeResources/dev.stashy.home/font/Inter-VariableFont_opsz_wght.ttf")
+    fetch("/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf")
 }
