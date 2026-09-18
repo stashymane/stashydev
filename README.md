@@ -1,3 +1,4 @@
-future stashy.dev page built with compose mp
+# [stashy.dev](stashy.dev)
 
-still working on it
+Personal website built with Compose Multiplatform.
+
