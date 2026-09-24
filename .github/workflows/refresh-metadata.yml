@@ -44,11 +44,11 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: r2 object put ${{ secrets.R2_BUCKET }}/api/user.json --file=${{ env.OUT_DIR }}/user.json --content-type application/json --remote
+          command: r2 object put ${{ secrets.R2_BUCKET }}/api/user.json --file=${{ env.OUT_DIR }}/user.json --content-type application/json
 
       - name: Upload api/repo.json to R2
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: r2 object put ${{ secrets.R2_BUCKET }}/api/repo.json --file=${{ env.OUT_DIR }}/repo.json --content-type application/json --remote
+          command: r2 object put ${{ secrets.R2_BUCKET }}/api/repo.json --file=${{ env.OUT_DIR }}/repo.json --content-type application/json
