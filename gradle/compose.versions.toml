@@ -49,7 +49,6 @@ koalaplot = { module = "io.github.koalaplot:koalaplot-core", version.ref = "koal
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
-hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload" }
 
 [bundles]
 jb = ["jb-runtime", "jb-foundation", "jb-ui", "jb-uiToolingPreview",
