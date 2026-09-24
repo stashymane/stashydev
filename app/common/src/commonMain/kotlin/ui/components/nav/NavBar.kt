@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeInput
 import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.blur.HazeBlurDefaults
 import dev.chrisbanes.haze.blur.HazeBlurStyle
 import dev.chrisbanes.haze.blur.hazeBlur
 import icons.Icons
@@ -31,7 +30,6 @@ import ui.preview.PreviewHost
 import ui.theme.ContainerSize
 import ui.theme.inDp
 
-@OptIn(ExperimentalGridApi::class)
 @Composable
 fun NavBar(
     modifier: Modifier = Modifier
@@ -97,11 +95,13 @@ fun Modifier.navHazeEffect(state: HazeState, backgroundColor: Color = Color.Unsp
         input = HazeInput.Sources(state),
         style = HazeBlurStyle {
             noiseFactor(0f)
-            progressive(HazeProgressive.verticalGradient(
-                easing = LinearEasing,
-                startIntensity = 1f,
-                endIntensity = 0f
-            ))
+            progressive(
+                HazeProgressive.verticalGradient(
+                    easing = LinearEasing,
+                    startIntensity = 1f,
+                    endIntensity = 0f
+                )
+            )
             backgroundColor(backgroundColor)
         }).drawWithContent {
         drawRect(overlayGradient)

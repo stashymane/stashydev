@@ -6,6 +6,7 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+        maven("https://redirector.kotlinlang.org/maven/compose-dev")
     }
     includeBuild("conventions")
 }
@@ -13,12 +14,9 @@ pluginManagement {
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
-        maven { //temporary, until ktor fixes wasm compilation https://youtrack.jetbrains.com/issue/KTOR-9681/Update-kotlinx-io-to-0.9.1
-            url = uri("https://redirector.kotlinlang.org/maven/ktor-eap")
-        }
-
         google()
         mavenCentral()
+        maven("https://redirector.kotlinlang.org/maven/compose-dev")
     }
 
     versionCatalogs {

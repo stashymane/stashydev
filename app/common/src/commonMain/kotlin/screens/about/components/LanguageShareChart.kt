@@ -2,13 +2,7 @@ package screens.about.components
 
 import Project
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalGridApi
-import androidx.compose.foundation.layout.Grid
-import androidx.compose.foundation.layout.GridTrackSize
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +17,6 @@ import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalGridApi::class)
 @Composable
 fun LanguageShareChart(
     languageShare: Map<String, Double>,

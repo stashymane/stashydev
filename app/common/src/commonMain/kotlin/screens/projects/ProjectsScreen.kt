@@ -9,16 +9,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalGridApi
-import androidx.compose.foundation.layout.Grid
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -53,7 +44,6 @@ import ui.preview.PreviewData
 import ui.preview.PreviewHost
 
 
-@OptIn(ExperimentalGridApi::class)
 @Composable
 fun ProjectsScreen(
     vm: ProjectsViewmodel = koinViewModel()
@@ -79,7 +69,6 @@ fun ProjectsScreen(
     }
 }
 
-@OptIn(ExperimentalGridApi::class)
 @Composable
 private fun ProjectScreenContent(
     featured: List<Project>,

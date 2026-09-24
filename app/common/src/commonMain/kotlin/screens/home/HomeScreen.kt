@@ -2,14 +2,7 @@ package screens.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalGridApi
-import androidx.compose.foundation.layout.Grid
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -20,11 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import icons.Icons
-import icons.logos.GitHub
-import icons.logos.SoundCloud
-import icons.logos.Twitter
-import icons.logos.YouTube
 import model.Links
 import model.getIcon
 import org.jetbrains.compose.resources.stringResource
@@ -39,7 +27,6 @@ import ui.preview.PreviewHost
 import ui.theme.ContainerSize
 import ui.theme.currentContainerSize
 
-@OptIn(ExperimentalGridApi::class)
 @Composable
 fun HomeScreen(
     vm: HomeScreenViewmodel = koinInject()

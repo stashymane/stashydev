@@ -6,14 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalGridApi
-import androidx.compose.foundation.layout.Grid
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -72,7 +65,6 @@ fun AboutScreen(
     }
 }
 
-@OptIn(ExperimentalGridApi::class)
 @Composable
 private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
     val containerSize = LocalContainerSize.current
