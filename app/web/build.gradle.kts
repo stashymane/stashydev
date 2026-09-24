@@ -31,7 +31,7 @@ webPreload {
         wasm = true
     }
 
-    script("composeApp.js")
+    script("app-web.js")
 
     fetch("/composeResources/dev.stashy.home/font/Inter-VariableFont_opsz_wght.ttf")
     fetch("/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf")
