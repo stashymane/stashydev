@@ -34,7 +34,7 @@ jobs:
 
       - name: Generate metadata
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_METADATA }}
         run: |
           mkdir -p "$OUT_DIR"
           ./gradlew :modules:metadata:runJvm --args="github $OUT_DIR"
