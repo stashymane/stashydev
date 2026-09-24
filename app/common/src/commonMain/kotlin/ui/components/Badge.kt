@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
@@ -14,13 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import icons.Icons
 import icons.outline.Briefcases
-import icons.outlinelarge.FitScreen
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
+import withTrim
 
 @Composable
 fun Badge(
@@ -30,9 +28,7 @@ fun Badge(
     textStyle: TextStyle = MaterialTheme.typography.labelLarge,
     content: @Composable () -> Unit,
 ) {
-    val textStyle = textStyle.copy(lineHeightStyle = LineHeightStyle.Default.copy(
-        trim = LineHeightStyle.Trim.Both
-    ))
+    val textStyle = textStyle.withTrim()
 
     ProvideTextStyle(textStyle) {
         Surface(modifier, color = containerColor, contentColor = contentColor) {

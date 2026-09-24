@@ -1,4 +1,3 @@
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -16,7 +15,6 @@ import dev.stashy.navigation.MultiBackStack
 import dev.stashy.navigation.SyncBrowserHistory
 import model.Screen
 import org.koin.compose.KoinApplication
-import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.koinConfiguration
 import ui.LocalBackStack
 import ui.LocalContainerSize
@@ -28,7 +26,6 @@ import ui.theme.currentContainerSize
 
 typealias AppBackStack = MultiBackStack<Screen, Screen.Group>
 
-@OptIn(ExperimentalSharedTransitionApi::class, KoinExperimentalAPI::class)
 @Composable
 fun App() {
     setSingletonImageLoaderFactory { context ->

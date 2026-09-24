@@ -1,3 +1,5 @@
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -15,3 +17,7 @@ fun Instant.toRelativeString(now: Instant = Clock.System.now()): String {
         else -> "${ago.inWholeDays / 365}y ago"
     }
 }
+
+fun TextStyle.withTrim(): TextStyle = this.copy(
+    lineHeightStyle = (this.lineHeightStyle ?: LineHeightStyle.Default).copy(trim = LineHeightStyle.Trim.Both)
+)
