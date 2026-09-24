@@ -1,12 +1,12 @@
 package dev.stashy.data.source
 
-import dev.stashy.data.DataSource
+import dev.stashy.data.CachedDataSource
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CompletableDeferred
 
 internal class CachingDataSource<T>(
     private val load: suspend () -> T,
-) : DataSource<T> {
+) : CachedDataSource<T> {
     private val cached = atomic<T?>(null)
     private val inFlight = atomic<CompletableDeferred<T>?>(null)
 
@@ -32,11 +32,15 @@ internal class CachingDataSource<T>(
                 inFlight.compareAndSet(created, null)
                 created.complete(result)
                 result
-            } catch (error: Throwable) {
+            } catch (e: Exception) {
                 inFlight.compareAndSet(created, null)
-                created.completeExceptionally(error)
-                throw error
+                created.completeExceptionally(e)
+                throw e
             }
         }
+    }
+
+    override suspend fun preload() {
+        await()
     }
 }

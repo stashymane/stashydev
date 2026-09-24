@@ -3,7 +3,7 @@ plugins {
     alias(kotlinLibs.plugins.serialization)
     alias(kotlinLibs.plugins.atomicfu)
 
-    id("multiplatform.target.jvmDesktop")
+    id("multiplatform.target.jvm")
     id("multiplatform.target.wasmJs")
 }
 
@@ -16,7 +16,7 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlinLibs.test)
-            implementation(kotlinLibs.coroutines.core)
+            implementation(kotlinLibs.coroutines.test)
         }
     }
 }

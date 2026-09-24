@@ -3,7 +3,6 @@ package dev.stashy.data.source
 import dev.stashy.data.DataSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 internal class CombinedDataSource<A, B, R>(
     private val first: DataSource<A>,
@@ -21,11 +20,10 @@ internal class CombinedDataSource<A, B, R>(
         val b = async { second.await() }
         transform(a.await(), b.await())
     }
-
-    override suspend fun preload() {
-        coroutineScope {
-            launch { first.preload() }
-            launch { second.preload() }
-        }
-    }
 }
+
+fun <A, B, R> combine(
+    first: DataSource<A>,
+    second: DataSource<B>,
+    transform: (A, B) -> R,
+): DataSource<R> = CombinedDataSource(first, second, transform)
