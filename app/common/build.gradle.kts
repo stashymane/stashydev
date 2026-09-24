@@ -36,6 +36,7 @@ kotlin {
             implementation(projects.model)
             implementation(projects.modules.icons)
             implementation(projects.modules.shaders)
+            implementation(projects.modules.tiled)
             implementation(projects.modules.navigation)
             implementation(projects.modules.data)
 

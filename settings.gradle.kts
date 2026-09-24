@@ -47,6 +47,7 @@ include(
     "app:web",
     "modules:icons",
     "modules:shaders",
+    "modules:tiled",
     "modules:navigation",
     "modules:data",
 )

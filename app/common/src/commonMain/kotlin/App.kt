@@ -1,25 +1,39 @@
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import coil3.ImageLoader
+import coil3.compose.AsyncImagePainter
+import coil3.compose.LocalPlatformContext
+import coil3.compose.rememberAsyncImagePainter
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
+import dev.stashy.home.Res
 import dev.stashy.navigation.MultiBackStack
 import dev.stashy.navigation.SyncBrowserHistory
 import model.Screen
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
+import tiled.toTiledBrush
 import ui.LocalBackStack
 import ui.LocalContainerSize
 import ui.Navigation
 import ui.PreloadContent
+import ui.modifiers.dotGridOverlay
 import ui.preview.DevicePreview
 import ui.theme.AppTheme
 import ui.theme.currentContainerSize
@@ -59,10 +73,47 @@ fun App() {
                     LocalBackStack provides backStack,
                     LocalContainerSize provides containerSize
                 ) {
-                    Navigation()
+                    Box {
+                        BackgroundImageOverlay(
+                            "drawable/brick_wall_006_diff_2k.webp",
+                            Modifier.matchParentSize(),
+                            0.075f
+                        )
+                        Box(Modifier.matchParentSize().dotGridOverlay())
+                        Navigation()
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun BackgroundImageOverlay(
+    uri: String,
+    modifier: Modifier = Modifier,
+    alpha: Float = 1f
+) {
+    val context = LocalPlatformContext.current
+    val backgroundPainter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(context)
+            .data(Res.getUri(uri))
+            .crossfade(false)
+            .build()
+    )
+    val backgroundState by backgroundPainter.state.collectAsState()
+    val backgroundBrush = remember(backgroundState) {
+        val success = backgroundState as? AsyncImagePainter.State.Success
+            ?: return@remember SolidColor(Color.Transparent)
+        success.result.image.toTiledBrush()
+    }
+
+    AnimatedContent(
+        backgroundBrush,
+        modifier,
+        { fadeIn() togetherWith fadeOut() }
+    ) { backgroundBrush ->
+        Box(Modifier.fillMaxSize().background(backgroundBrush, alpha = alpha))
     }
 }
 

@@ -26,12 +26,7 @@ import ui.LocalScaffoldPadding
 import ui.components.nav.NavBar
 import ui.components.nav.navHazeEffect
 import ui.nav.ResponsiveScene.MetadataKey
-import ui.theme.ContainerSize
-import ui.theme.animateBlur
-import ui.theme.blurIn
-import ui.theme.blurOut
-import ui.theme.instantBezier
-import ui.theme.navigationSharedElement
+import ui.theme.*
 
 data class LayoutConfig(
     var size: ContainerSize? = null,
@@ -41,7 +36,7 @@ data class LayoutConfig(
     val screenWidth: Dp get() = size?.value ?: Dp.Unspecified
 }
 
-class ResponsiveScene<T : Any>(
+data class ResponsiveScene<T : Any>(
     override val key: Any,
     val entry: NavEntry<T>,
     override val entries: List<NavEntry<T>>,
