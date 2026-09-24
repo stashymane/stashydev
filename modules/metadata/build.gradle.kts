@@ -31,6 +31,11 @@ kotlin {
             implementation(ktorLibs.client.logging)
             implementation(ktorLibs.serialization.kotlinx.json)
 
+            implementation(ktorLibs.server.core)
+            implementation(ktorLibs.server.cio)
+            implementation(ktorLibs.server.cors)
+            implementation(ktorLibs.server.contentNegotiation)
+
             implementation(libs.slf4j.simple)
         }
 

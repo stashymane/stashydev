@@ -17,6 +17,17 @@ internal data class CollectedGitHubMeta(
     val repos: RepoMeta,
 )
 
+internal suspend fun collectMeta(config: GitHubApiConfig): CollectedGitHubMeta {
+    val overrides = loadRepoOverrides()
+    return GitHubClient(config).use { client ->
+        collect(
+            config = config,
+            client = client,
+            descriptionOverrides = overrides.descriptions,
+        )
+    }
+}
+
 internal suspend fun collect(
     config: GitHubApiConfig,
     client: GitHubClient,

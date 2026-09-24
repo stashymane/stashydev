@@ -1,6 +1,6 @@
 package dev.stashy.metadata.github
 
-import dev.stashy.metadata.json
+import dev.stashy.metadata.metadataJson
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,6 +12,6 @@ internal fun loadRepoOverrides(): RepoOverrides {
     val stream = RepoOverrides::class.java.getResourceAsStream("/repo-overrides.json")
         ?: return RepoOverrides()
     return stream.bufferedReader().use { reader ->
-        json.decodeFromString(RepoOverrides.serializer(), reader.readText())
+        metadataJson.decodeFromString(RepoOverrides.serializer(), reader.readText())
     }
 }

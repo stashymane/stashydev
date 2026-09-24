@@ -1,6 +1,6 @@
 package dev.stashy.metadata.github
 
-import dev.stashy.metadata.json
+import dev.stashy.metadata.metadataJson
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -17,7 +17,7 @@ internal class GitHubClient(
 ) : AutoCloseable {
     private val client = HttpClient {
         install(ContentNegotiation) {
-            json(json)
+            json(metadataJson)
         }
 
         install(Logging) {

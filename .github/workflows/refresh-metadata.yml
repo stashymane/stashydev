@@ -37,7 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_METADATA_TOKEN }}
         run: |
           mkdir -p "$OUT_DIR"
-          ./gradlew :modules:metadata:runJvm --args="github $OUT_DIR"
+          ./gradlew :modules:metadata:runJvm --args="github collect --output $OUT_DIR"
           ls -la "$OUT_DIR"
 
       - name: Upload api/user.json to R2
