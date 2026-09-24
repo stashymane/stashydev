@@ -23,7 +23,7 @@ abstract class GitHubSubcommand(name: String) : SuspendingCliktCommand(name) {
     val token: String by option(envvar = "GITHUB_TOKEN", help = "GitHub API token").required()
     val username: String by option(help = "username to fetch data for").default("stashymane")
 
-    val repoLimit: Int by option(help = "limit of latest repositories").int().default(16)
+    val repoLimit: Int by option(help = "limit of latest repositories").int().default(32)
     val includeForks: Boolean by option(help = "should forks be included").flag()
     val includeArchived: Boolean by option(help = "should archived repos be included").flag()
 

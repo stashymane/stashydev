@@ -10,6 +10,10 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.put
 import kotlin.time.Duration.Companion.seconds
 
 internal class GitHubClient(
@@ -50,24 +54,44 @@ internal class GitHubClient(
         client.close()
     }
 
-    suspend fun fetchMeta(
-        fromIso: String,
-        toIso: String,
-    ): GqlUser {
+    suspend fun fetchProfile(): GqlUserProfile {
         val repoFirst = (config.repoLimit * 2).coerceAtMost(100)
+        return graphql<ProfileQueryData>(
+            query = PROFILE_QUERY,
+            variables = metadataJson.encodeToJsonElement(
+                ProfileQueryVariables(
+                    login = config.username,
+                    repoFirst = repoFirst,
+                ),
+            ),
+        ).user ?: error("GitHub user '${config.username}' not found via GraphQL")
+    }
 
-        val response: GraphqlResponse<MetaQueryData> = client.post("/graphql") {
+    suspend fun fetchContributions(fromIso: String, toIso: String): ContributionsCollection {
+        return graphql<ContributionsQueryData>(
+            query = CONTRIBUTIONS_QUERY,
+            variables = metadataJson.encodeToJsonElement(
+                ContributionsQueryVariables(
+                    login = config.username,
+                    from = fromIso,
+                    to = toIso,
+                ),
+            ),
+        ).user?.contributionsCollection
+            ?: error("GitHub user '${config.username}' not found via GraphQL")
+    }
+
+    private suspend inline fun <reified T> graphql(
+        query: String,
+        variables: JsonElement,
+    ): T {
+        val response: GraphqlResponse<T> = client.post("/graphql") {
             contentType(ContentType.Application.Json)
             setBody(
-                GraphqlRequest(
-                    query = META_QUERY,
-                    variables = MetaQueryVariables(
-                        login = config.username,
-                        from = fromIso,
-                        to = toIso,
-                        repoFirst = repoFirst,
-                    ),
-                ),
+                buildJsonObject {
+                    put("query", query)
+                    put("variables", variables)
+                },
             )
         }.requireSuccess().body()
 
@@ -76,8 +100,7 @@ internal class GitHubClient(
             error("GitHub GraphQL error: $messages")
         }
 
-        return response.data?.user
-            ?: error("GitHub user '${config.username}' not found via GraphQL")
+        return response.data ?: error("GitHub GraphQL returned no data")
     }
 
     private companion object {
@@ -120,9 +143,9 @@ internal class GitHubClient(
         """.trimIndent()
 
         // language=GraphQL
-        private val META_QUERY = """
-            query(${'$'}login: String!, ${'$'}from: DateTime!, ${'$'}to: DateTime!, ${'$'}repoFirst: Int!) {
-              user(login: ${'$'}login) {
+        private val PROFILE_QUERY = $$"""
+            query($login: String!, $repoFirst: Int!) {
+              user(login: $login) {
                 login
                 name
                 bio
@@ -141,21 +164,29 @@ internal class GitHubClient(
                 pinnedItems(first: 6, types: [REPOSITORY]) {
                   nodes {
                     ... on Repository {
-                      $REPOSITORY_FIELDS
+                      $$REPOSITORY_FIELDS
                     }
                   }
                 }
                 repositories(
-                  first: ${'$'}repoFirst,
+                  first: $repoFirst,
                   orderBy: { field: UPDATED_AT, direction: DESC },
                   ownerAffiliations: OWNER,
                   privacy: PUBLIC
                 ) {
                   nodes {
-                    $REPOSITORY_FIELDS
+                    $$REPOSITORY_FIELDS
                   }
                 }
-                contributionsCollection(from: ${'$'}from, to: ${'$'}to) {
+              }
+            }
+        """.trimIndent()
+
+        // language=GraphQL
+        private val CONTRIBUTIONS_QUERY = $$"""
+            query($login: String!, $from: DateTime!, $to: DateTime!) {
+              user(login: $login) {
+                contributionsCollection(from: $from, to: $to) {
                   contributionCalendar {
                     totalContributions
                     weeks {

@@ -4,20 +4,6 @@ import kotlinx.serialization.Serializable
 import kotlin.time.Instant
 
 @Serializable
-internal data class GraphqlRequest(
-    val query: String,
-    val variables: MetaQueryVariables,
-)
-
-@Serializable
-internal data class MetaQueryVariables(
-    val login: String,
-    val from: String,
-    val to: String,
-    val repoFirst: Int,
-)
-
-@Serializable
 internal data class GraphqlResponse<T>(
     val data: T? = null,
     val errors: List<GraphqlError>? = null,
@@ -27,10 +13,26 @@ internal data class GraphqlResponse<T>(
 internal data class GraphqlError(val message: String)
 
 @Serializable
-internal data class MetaQueryData(val user: GqlUser?)
+internal data class ProfileQueryData(val user: GqlUserProfile?)
 
 @Serializable
-internal data class GqlUser(
+internal data class ContributionsQueryData(val user: GqlUserContributions?)
+
+@Serializable
+internal data class ProfileQueryVariables(
+    val login: String,
+    val repoFirst: Int,
+)
+
+@Serializable
+internal data class ContributionsQueryVariables(
+    val login: String,
+    val from: String,
+    val to: String,
+)
+
+@Serializable
+internal data class GqlUserProfile(
     val login: String,
     val name: String? = null,
     val bio: String? = null,
@@ -48,6 +50,10 @@ internal data class GqlUser(
     val updatedAt: Instant,
     val pinnedItems: PinnedItemConnection,
     val repositories: RepositoryConnection,
+)
+
+@Serializable
+internal data class GqlUserContributions(
     val contributionsCollection: ContributionsCollection,
 )
 

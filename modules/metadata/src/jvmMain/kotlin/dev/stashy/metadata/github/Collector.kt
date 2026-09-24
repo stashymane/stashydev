@@ -7,10 +7,14 @@ import RepoMeta
 import RepositoryMeta
 import UserMeta
 import kotlin.time.Clock
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Instant
 
-private const val PERIOD_DAYS = 365
+/** GitHub rejects contributionsCollection windows longer than one year. */
+private val MaxContributionWindow: Duration = 365.days
+
+private const val PERIOD_DAYS = 365 * 2
 
 internal data class CollectedGitHubMeta(
     val user: UserMeta,
@@ -35,31 +39,30 @@ internal suspend fun collect(
     now: Instant = Clock.System.now(),
 ): CollectedGitHubMeta {
     val periodFrom = now - PERIOD_DAYS.days
-    val user = client.fetchMeta(
-        fromIso = periodFrom.toString(),
-        toIso = now.toString(),
-    )
+    val profile = client.fetchProfile()
+    val contributions = contributionWindows(periodFrom, now).map { (from, to) ->
+        client.fetchContributions(from.toString(), to.toString())
+    }
+    val merged = mergeContributions(contributions)
 
     return CollectedGitHubMeta(
         user = UserMeta(
             generatedAt = now,
-            profile = user.toProfileMeta(),
+            profile = profile.toProfileMeta(),
             contributionGraph = ContributionGraph(
                 from = periodFrom,
                 to = now,
-                totalContributions = user.contributionsCollection.contributionCalendar.totalContributions,
-                days = user.contributionsCollection.contributionCalendar.weeks
-                    .flatMap { it.contributionDays }
-                    .associate { it.date to it.contributionCount },
+                totalContributions = merged.totalContributions,
+                days = merged.days,
             ),
             languageShare = buildLanguageShare(
                 config = config,
-                login = user.login,
-                contributions = user.contributionsCollection.commitContributionsByRepository,
+                login = profile.login,
+                contributions = merged.commitContributions,
             ),
         ),
         repos = run {
-            val pinned = user.pinnedItems.nodes
+            val pinned = profile.pinnedItems.nodes
                 .filterNotNull()
                 .map(GqlRepository::toRepositoryMeta)
             val pinnedFullNames = pinned.map { it.fullName }.toSet()
@@ -67,9 +70,9 @@ internal suspend fun collect(
             RepoMeta(
                 generatedAt = now,
                 pinned = pinned,
-                repositories = user.repositories.nodes
+                repositories = profile.repositories.nodes
                     .asSequence()
-                    .filter { it.name != user.login }
+                    .filter { it.name != profile.login }
                     .filter { it.nameWithOwner !in pinnedFullNames }
                     .filter { config.includeForks || !it.isFork }
                     .filter { config.includeArchived || !it.isArchived }
@@ -82,7 +85,64 @@ internal suspend fun collect(
     )
 }
 
-private fun GqlUser.toProfileMeta() = ProfileMeta(
+/**
+ * Splits `[from, to]` into windows of at most [MaxContributionWindow].
+ * Adjacent windows share the boundary instant; day counts are identical there so merging is safe.
+ */
+internal fun contributionWindows(from: Instant, to: Instant): List<Pair<Instant, Instant>> {
+    require(from <= to) { "from ($from) must be <= to ($to)" }
+    val windows = ArrayList<Pair<Instant, Instant>>()
+    var windowTo = to
+    while (true) {
+        val windowFrom = maxOf(from, windowTo - MaxContributionWindow)
+        windows += windowFrom to windowTo
+        if (windowFrom <= from) break
+        windowTo = windowFrom
+    }
+    windows.reverse()
+    return windows
+}
+
+private data class MergedContributions(
+    val totalContributions: Int,
+    val days: Map<String, Int>,
+    val commitContributions: List<CommitContributionsByRepository>,
+)
+
+private fun mergeContributions(
+    collections: List<ContributionsCollection>,
+): MergedContributions {
+    val days = linkedMapOf<String, Int>()
+    val commitsByRepo = linkedMapOf<String, Pair<Int, ContributedRepository>>()
+
+    for (collection in collections) {
+        for (day in collection.contributionCalendar.weeks.flatMap { it.contributionDays }) {
+            days[day.date] = day.contributionCount
+        }
+        for (entry in collection.commitContributionsByRepository) {
+            val key = entry.repository.nameWithOwner
+            val prior = commitsByRepo[key]
+            commitsByRepo[key] = if (prior == null) {
+                entry.contributions.totalCount to entry.repository
+            } else {
+                (prior.first + entry.contributions.totalCount) to entry.repository
+            }
+        }
+    }
+
+    return MergedContributions(
+        totalContributions = days.values.sum(),
+        days = days,
+        commitContributions = commitsByRepo.map { (_, value) ->
+            CommitContributionsByRepository(
+                contributions = CountConnection(value.first),
+                repository = value.second,
+            )
+        },
+    )
+}
+
+private fun GqlUserProfile.toProfileMeta() = ProfileMeta(
     login = login,
     name = name,
     bio = bio,
