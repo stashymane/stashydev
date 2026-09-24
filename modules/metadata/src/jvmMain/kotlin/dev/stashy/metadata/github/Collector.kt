@@ -20,6 +20,7 @@ internal data class CollectedGitHubMeta(
 internal suspend fun collect(
     config: GitHubApiConfig,
     client: GitHubClient,
+    descriptionOverrides: Map<String, String> = emptyMap(),
     now: Instant = Clock.System.now(),
 ): CollectedGitHubMeta {
     val periodFrom = now - PERIOD_DAYS.days
@@ -46,17 +47,27 @@ internal suspend fun collect(
                 contributions = user.contributionsCollection.commitContributionsByRepository,
             ),
         ),
-        repos = RepoMeta(
-            generatedAt = now,
-            repositories = user.repositories.nodes
-                .asSequence()
-                .filter { it.name != user.login }
-                .filter { config.includeForks || !it.isFork }
-                .filter { config.includeArchived || !it.isArchived }
-                .take(config.repoLimit)
-                .map { it.toRepositoryMeta() }
-                .toList(),
-        ),
+        repos = run {
+            val pinned = user.pinnedItems.nodes
+                .filterNotNull()
+                .map(GqlRepository::toRepositoryMeta)
+            val pinnedFullNames = pinned.map { it.fullName }.toSet()
+
+            RepoMeta(
+                generatedAt = now,
+                pinned = pinned,
+                repositories = user.repositories.nodes
+                    .asSequence()
+                    .filter { it.name != user.login }
+                    .filter { it.nameWithOwner !in pinnedFullNames }
+                    .filter { config.includeForks || !it.isFork }
+                    .filter { config.includeArchived || !it.isArchived }
+                    .take(config.repoLimit)
+                    .map { it.toRepositoryMeta() }
+                    .toList(),
+                descriptionOverrides = descriptionOverrides,
+            )
+        },
     )
 }
 

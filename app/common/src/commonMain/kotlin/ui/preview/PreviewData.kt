@@ -4,6 +4,8 @@ import ContributionGraph
 import ProfileMeta
 import Project
 import Project.Status.Unmaintained
+import RepoMeta
+import RepositoryMeta
 import UserMeta
 import io.ktor.http.Url
 import kotlinx.datetime.LocalDate
@@ -20,6 +22,35 @@ object PreviewData {
         languages = listOf(Kotlin),
         license = "MIT",
         updatedAt = Clock.System.now() - 3.hours
+    )
+
+    val repositoryMeta = RepositoryMeta(
+        name = "vintage-story-runner",
+        fullName = "stashymane/vintage-story-runner",
+        description = "Docker image to download & run a Vintage Story server *(`x64` & `arm64`)*",
+        htmlUrl = "https://github.com/stashymane/vintage-story-runner",
+        homepage = null,
+        stars = 12,
+        forks = 2,
+        watchers = 12,
+        openIssues = 0,
+        isFork = false,
+        isArchived = false,
+        isPrivate = false,
+        primaryLanguage = "Kotlin",
+        languages = mapOf("Kotlin" to 100.0),
+        topics = emptyList(),
+        license = "MIT",
+        createdAt = Clock.System.now() - 100.hours,
+        updatedAt = Clock.System.now() - 3.hours,
+        pushedAt = Clock.System.now() - 3.hours,
+        latestRelease = null,
+    )
+
+    val repoMeta = RepoMeta(
+        generatedAt = Clock.System.now(),
+        pinned = List(4) { repositoryMeta },
+        repositories = List(3) { repositoryMeta },
     )
 
     val userMeta = UserMeta(

@@ -12,7 +12,9 @@ data class UserMeta(
 @Serializable
 data class RepoMeta(
     val generatedAt: Instant,
+    val pinned: List<RepositoryMeta> = emptyList(),
     val repositories: List<RepositoryMeta>,
+    val descriptionOverrides: Map<String, String> = emptyMap(),
 )
 
 @Serializable

@@ -1,32 +1,21 @@
 package dev.stashy.metadata.github
 
 import dev.stashy.metadata.json
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpRequestRetry
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.accept
-import io.ktor.client.request.header
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.contentType
-import io.ktor.http.isSuccess
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlin.time.Duration.Companion.seconds
 
 internal class GitHubClient(
     private val config: GitHubApiConfig,
 ) : AutoCloseable {
-    private val client = HttpClient(CIO) {
+    private val client = HttpClient {
         install(ContentNegotiation) {
             json(json)
         }
@@ -93,9 +82,47 @@ internal class GitHubClient(
 
     private companion object {
         // language=GraphQL
-        private val META_QUERY = $$"""
-            query($login: String!, $from: DateTime!, $to: DateTime!, $repoFirst: Int!) {
-              user(login: $login) {
+        private val REPOSITORY_FIELDS = """
+            name
+            nameWithOwner
+            description
+            url
+            homepageUrl
+            stargazerCount
+            forkCount
+            watchers { totalCount }
+            openIssues: issues(states: OPEN) { totalCount }
+            isFork
+            isArchived
+            isPrivate
+            primaryLanguage { name }
+            languages(first: 20, orderBy: { field: SIZE, direction: DESC }) {
+              edges {
+                size
+                node { name }
+              }
+            }
+            repositoryTopics(first: 20) {
+              nodes { topic { name } }
+            }
+            licenseInfo { spdxId name }
+            createdAt
+            updatedAt
+            pushedAt
+            latestRelease {
+              tagName
+              name
+              url
+              publishedAt
+              isPrerelease
+              isDraft
+            }
+        """.trimIndent()
+
+        // language=GraphQL
+        private val META_QUERY = """
+            query(${'$'}login: String!, ${'$'}from: DateTime!, ${'$'}to: DateTime!, ${'$'}repoFirst: Int!) {
+              user(login: ${'$'}login) {
                 login
                 name
                 bio
@@ -111,50 +138,24 @@ internal class GitHubClient(
                 following { totalCount }
                 createdAt
                 updatedAt
+                pinnedItems(first: 6, types: [REPOSITORY]) {
+                  nodes {
+                    ... on Repository {
+                      $REPOSITORY_FIELDS
+                    }
+                  }
+                }
                 repositories(
-                  first: $repoFirst,
+                  first: ${'$'}repoFirst,
                   orderBy: { field: UPDATED_AT, direction: DESC },
                   ownerAffiliations: OWNER,
                   privacy: PUBLIC
                 ) {
                   nodes {
-                    name
-                    nameWithOwner
-                    description
-                    url
-                    homepageUrl
-                    stargazerCount
-                    forkCount
-                    watchers { totalCount }
-                    openIssues: issues(states: OPEN) { totalCount }
-                    isFork
-                    isArchived
-                    isPrivate
-                    primaryLanguage { name }
-                    languages(first: 20, orderBy: { field: SIZE, direction: DESC }) {
-                      edges {
-                        size
-                        node { name }
-                      }
-                    }
-                    repositoryTopics(first: 20) {
-                      nodes { topic { name } }
-                    }
-                    licenseInfo { spdxId name }
-                    createdAt
-                    updatedAt
-                    pushedAt
-                    latestRelease {
-                      tagName
-                      name
-                      url
-                      publishedAt
-                      isPrerelease
-                      isDraft
-                    }
+                    $REPOSITORY_FIELDS
                   }
                 }
-                contributionsCollection(from: $from, to: $to) {
+                contributionsCollection(from: ${'$'}from, to: ${'$'}to) {
                   contributionCalendar {
                     totalContributions
                     weeks {

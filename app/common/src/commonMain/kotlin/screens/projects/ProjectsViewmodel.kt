@@ -4,7 +4,8 @@ import Project
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import data.ProjectsRepository
-import kotlinx.coroutines.async
+import featuredProjects
+import latestProjects
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -29,11 +30,10 @@ class ProjectsViewmodel(
         state.emit(ProjectScreenState.Loading)
 
         runCatching {
-            val featured = viewModelScope.async { repo.featured.await() }
-            val latest = viewModelScope.async { repo.latest.await() }
+            val meta = repo.repos.await()
             ProjectScreenState.Success(
-                featured = featured.await(),
-                latest = latest.await(),
+                featured = meta.featuredProjects(),
+                latest = meta.latestProjects(),
             )
         }.fold(
             onSuccess = { state.emit(it) },
@@ -45,9 +45,11 @@ class ProjectsViewmodel(
     }
 
     private fun successOrNull(): ProjectScreenState.Success? {
-        val featured = repo.featured.getOrNull() ?: return null
-        val latest = repo.latest.getOrNull() ?: return null
-        return ProjectScreenState.Success(featured, latest)
+        val meta = repo.repos.getOrNull() ?: return null
+        return ProjectScreenState.Success(
+            featured = meta.featuredProjects(),
+            latest = meta.latestProjects(),
+        )
     }
 }
 

@@ -1,0 +1,10 @@
+{
+  "descriptions": {
+    "ktgrants": "Experimental easy-to-use, readable permission modelling and management library.\nAs easy as `user.hasPermission { Read on post }`",
+    "stashydev": "This very website.\nBuilt with Compose Multiplatform, exported to WebAssembly.",
+    "taxipatch": "Patch for Crazy Taxi 3.\nIncludes fixes to resolution, frame rate, rendering, as well as other improvements.",
+    "ct3lib": "Library & CLI for decoding and encoding Crazy Taxi 3 assets.",
+    "ftprox": "FTP proxy service that allows exposing servers hosted on cloud infrastructure, which may not have a static IP address.",
+    "ExtraSounds": "Minecraft mod that adds sound effects for UI interactions and more.\n1M+ downloads on Modrinth.\nOriginally created by me, maintainership handed over to community developers."
+  }
+}

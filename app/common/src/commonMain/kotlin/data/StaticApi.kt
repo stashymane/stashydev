@@ -1,9 +1,9 @@
 package data
 
 import dev.stashy.home.BuildKonfig
+import httpClient
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import ui.httpClient
 
 object StaticApi {
     internal fun url(fileName: String): String =

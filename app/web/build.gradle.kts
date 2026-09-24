@@ -39,7 +39,6 @@ webPreload {
     prefetch {
         val base = staticBaseUrl.get()
         fetch("$base/api/user.json")
-        fetch("$base/api/featured.json")
         fetch("$base/api/repo.json")
     }
 }

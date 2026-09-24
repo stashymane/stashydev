@@ -46,9 +46,13 @@ internal data class GqlUser(
     val following: CountConnection,
     val createdAt: Instant,
     val updatedAt: Instant,
+    val pinnedItems: PinnedItemConnection,
     val repositories: RepositoryConnection,
     val contributionsCollection: ContributionsCollection,
 )
+
+@Serializable
+internal data class PinnedItemConnection(val nodes: List<GqlRepository?>)
 
 @Serializable
 internal data class CountConnection(val totalCount: Int)

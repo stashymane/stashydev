@@ -44,8 +44,14 @@ class GitHubCommand : SuspendingCliktCommand("github") {
             outDir.createDirectories()
         }
 
+        val overrides = loadRepoOverrides()
+
         GitHubClient(config).use { client ->
-            val meta = collect(config, client)
+            val meta = collect(
+                config = config,
+                client = client,
+                descriptionOverrides = overrides.descriptions,
+            )
             val userPath = outDir.resolve("user.json")
             val repoPath = outDir.resolve("repo.json")
             userPath.writeText(json.encodeToString(meta.user))

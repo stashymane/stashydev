@@ -162,23 +162,13 @@ private fun MoreProjectsButton(
 @DevicePreview
 @Composable
 private fun ProjectScreenPreview() = PreviewHost {
-    val featured = listOf(
-        PreviewData.project,
-        PreviewData.project,
-        PreviewData.project,
-        PreviewData.project,
-    )
-    val latest = listOf(
-        PreviewData.project,
-        PreviewData.project,
-        PreviewData.project,
-    )
-    val vm = ProjectsViewmodel(
-        repo = ProjectsRepository(
-            featured = dataSource { featured }.cached(),
-            latest = dataSource { latest }.cached(),
+    val vm = remember {
+        ProjectsViewmodel(
+            repo = ProjectsRepository(
+                repos = dataSource { PreviewData.repoMeta }.cached(),
+            )
         )
-    )
+    }
 
     ProjectsScreen(vm)
 }
