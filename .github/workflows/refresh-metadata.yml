@@ -1,0 +1,52 @@
+name: Refresh metadata
+
+concurrency:
+  group: refresh-metadata
+  cancel-in-progress: true
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      OUT_DIR: metadata
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Prepare Java & Gradle
+        uses: ./.github/actions/prepare-gradle
+        with:
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          cache-overwrite-existing: "true"
+
+      - name: Generate metadata
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p "$OUT_DIR"
+          ./gradlew :modules:metadata:runJvm --args="github $OUT_DIR"
+
+      - name: Upload api/user.json to R2
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: r2 object put ${{ secrets.R2_BUCKET }}/api/user.json --file=${{ env.OUT_DIR }}/user.json --content-type application/json --remote
+
+      - name: Upload api/repo.json to R2
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: r2 object put ${{ secrets.R2_BUCKET }}/api/repo.json --file=${{ env.OUT_DIR }}/repo.json --content-type application/json --remote
