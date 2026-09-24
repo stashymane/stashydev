@@ -53,6 +53,7 @@ kotlin {
             implementation(libs.colormath.compose)
 
             implementation(ktorLibs.client.core)
+            implementation(ktorLibs.client.engineDefaults)
             implementation(ktorLibs.client.contentNegotiation)
             implementation(ktorLibs.client.resources)
             implementation(ktorLibs.client.logging)
@@ -68,13 +69,11 @@ kotlin {
         desktopMain.dependencies {
             implementation(kotlinLibs.coroutines.swing)
 
-            implementation(ktorLibs.client.cio)
             implementation(libs.slf4j.simple)
         }
 
         wasmJsMain.dependencies {
             implementation(kotlinLibs.browser)
-            implementation(ktorLibs.client.js)
         }
     }
 }

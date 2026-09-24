@@ -26,7 +26,7 @@ kotlin {
             implementation(libs.clikt)
 
             implementation(ktorLibs.client.core)
-            implementation(ktorLibs.client.cio)
+            implementation(ktorLibs.client.engineDefaults)
             implementation(ktorLibs.client.contentNegotiation)
             implementation(ktorLibs.client.logging)
             implementation(ktorLibs.serialization.kotlinx.json)
