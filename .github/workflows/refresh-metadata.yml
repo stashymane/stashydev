@@ -38,6 +38,7 @@ jobs:
         run: |
           mkdir -p "$OUT_DIR"
           ./gradlew :modules:metadata:runJvm --args="github $OUT_DIR"
+          ls -la "$OUT_DIR"
 
       - name: Upload api/user.json to R2
         uses: cloudflare/wrangler-action@v3

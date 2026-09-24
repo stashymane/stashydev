@@ -39,3 +39,7 @@ kotlin {
         }
     }
 }
+
+tasks.named<JavaExec>("runJvm") {
+    workingDir = gradle.startParameter.currentDir
+}
