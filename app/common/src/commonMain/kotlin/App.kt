@@ -68,12 +68,12 @@ fun App() {
         PreloadContent()
 
         AppTheme(Color(0xFF9476FF)) {
-            Surface(color = MaterialTheme.colorScheme.surfaceContainerLowest) {
+            Surface(color = MaterialTheme.colorScheme.background) {
                 CompositionLocalProvider(
                     LocalBackStack provides backStack,
                     LocalContainerSize provides containerSize
                 ) {
-                    Box {
+                    Box(Modifier.background(Color.Black.copy(alpha = 0.25f))) {
                         BackgroundImageOverlay(
                             "drawable/brick_wall_006_diff_2k.webp",
                             Modifier.matchParentSize(),

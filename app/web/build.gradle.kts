@@ -35,6 +35,7 @@ webPreload {
 
     fetch("/composeResources/dev.stashy.home/font/Inter-VariableFont_opsz_wght.ttf")
     fetch("/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf")
+    fetch("/composeResources/dev.stashy.home/font/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf")
 
     prefetch {
         val base = staticBaseUrl.get()

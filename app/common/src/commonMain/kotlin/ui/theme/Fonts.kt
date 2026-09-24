@@ -4,12 +4,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.FontFamily
-import dev.stashy.home.Inter_Italic_VariableFont_opsz_wght
-import dev.stashy.home.Inter_VariableFont_opsz_wght
-import dev.stashy.home.PlayfairDisplay_Italic_VariableFont_wght
-import dev.stashy.home.PlayfairDisplay_VariableFont_wght
-import dev.stashy.home.Res
-import dev.stashy.home.SpaceGrotesk_VariableFont_wght
+import dev.stashy.home.*
 import org.jetbrains.compose.resources.Font
 
 @Composable
@@ -24,22 +19,22 @@ fun rememberAppTypography(base: Typography): Typography {
         Font(Res.font.PlayfairDisplay_Italic_VariableFont_wght, Normal, Italic)
     )
 
-    val spaceGroteskFont = FontFamily(
-        Font(Res.font.SpaceGrotesk_VariableFont_wght, Normal, Normal)
+    val geologicaFont = FontFamily(
+        Font(Res.font.`Geologica_VariableFont_CRSV,SHRP,slnt,wght`, Normal, Normal)
     )
 
-    return remember(base, interFont, playfairFont, spaceGroteskFont) {
+    return remember(base, interFont, playfairFont, geologicaFont) {
         with(base) {
             copy(
-                displayLarge = displayLarge.copy(fontFamily = spaceGroteskFont),
-                displayMedium = displayMedium.copy(fontFamily = spaceGroteskFont),
-                displaySmall = displaySmall.copy(fontFamily = spaceGroteskFont),
+                displayLarge = displayLarge.copy(fontFamily = geologicaFont),
+                displayMedium = displayMedium.copy(fontFamily = geologicaFont),
+                displaySmall = displaySmall.copy(fontFamily = geologicaFont),
                 headlineLarge = headlineLarge.copy(fontFamily = playfairFont),
                 headlineMedium = headlineMedium.copy(fontFamily = playfairFont),
                 headlineSmall = headlineSmall.copy(fontFamily = playfairFont),
-                titleLarge = titleLarge.copy(fontFamily = interFont),
-                titleMedium = titleMedium.copy(fontFamily = interFont),
-                titleSmall = titleSmall.copy(fontFamily = interFont),
+                titleLarge = titleLarge.copy(fontFamily = geologicaFont),
+                titleMedium = titleMedium.copy(fontFamily = geologicaFont),
+                titleSmall = titleSmall.copy(fontFamily = geologicaFont),
                 bodyLarge = bodyLarge.copy(fontFamily = interFont),
                 bodyMedium = bodyLarge.copy(fontFamily = interFont),
                 bodySmall = bodyLarge.copy(fontFamily = interFont),

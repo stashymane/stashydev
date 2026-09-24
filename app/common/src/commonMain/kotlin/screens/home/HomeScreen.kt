@@ -63,7 +63,7 @@ fun HomeScreen(
                     Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
                         .gridItem(alignment = BottomStart),
                     style = MaterialTheme.typography.displaySmall.copy(
-                        fontWeight = W400,
+                        fontWeight = W900,
                         letterSpacing = 0.075.em
                     ),
                 )
