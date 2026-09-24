@@ -37,8 +37,9 @@ webPreload {
     fetch("/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf")
 
     prefetch {
-        fetch("$staticBaseUrl/api/user.json")
-        fetch("$staticBaseUrl/api/featured.json")
-        fetch("$staticBaseUrl/api/repo.json")
+        val base = staticBaseUrl.get()
+        fetch("$base/api/user.json")
+        fetch("$base/api/featured.json")
+        fetch("$base/api/repo.json")
     }
 }
