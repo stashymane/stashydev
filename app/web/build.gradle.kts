@@ -35,4 +35,10 @@ webPreload {
 
     fetch("/composeResources/dev.stashy.home/font/Inter-VariableFont_opsz_wght.ttf")
     fetch("/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf")
+
+    prefetch {
+        fetch("$staticBaseUrl/api/user.json")
+        fetch("$staticBaseUrl/api/featured.json")
+        fetch("$staticBaseUrl/api/repo.json")
+    }
 }

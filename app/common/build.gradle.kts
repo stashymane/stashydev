@@ -1,13 +1,26 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 plugins {
     alias(kotlinLibs.plugins.multiplatform)
     alias(kotlinLibs.plugins.serialization)
     alias(kotlinLibs.plugins.composeCompiler)
     alias(composeLibs.plugins.compose)
     alias(androidLibs.plugins.library)
+    alias(libs.plugins.buildkonfig)
 
     id("multiplatform.target.jvmDesktop")
     id("multiplatform.target.wasmJs")
     id("multiplatform.target.androidLibrary")
+}
+
+buildkonfig {
+    packageName = "dev.stashy.home"
+    objectName = "BuildKonfig"
+    exposeObjectWithName = "BuildKonfig"
+
+    defaultConfigs {
+        buildConfigField(STRING, "STATIC_BASE_URL", staticBaseUrl.get(), const = true)
+    }
 }
 
 kotlin {
@@ -61,6 +74,7 @@ kotlin {
 
         wasmJsMain.dependencies {
             implementation(kotlinLibs.browser)
+            implementation(ktorLibs.client.js)
         }
     }
 }
