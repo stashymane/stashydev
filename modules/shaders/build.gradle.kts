@@ -35,10 +35,6 @@ kotlin {
         namespace = "dev.stashy.home.shaders"
     }
 
-    wasmJs {
-        binaries.executable()
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(composeLibs.bundles.jb)
@@ -50,11 +46,6 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlinLibs.test)
-        }
-
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(kotlinLibs.coroutines.swing)
         }
 
         wasmJsMain.dependencies {

@@ -43,10 +43,12 @@ plugins {
 
 include(
     "model",
-    "metadata",
-    ":composeApp",
-    ":composeApp:icons",
-    ":composeApp:shaders",
-    ":composeApp:navigation",
-    ":composeApp:data",
+    "modules:metadata",
+    "app:common",
+    "app:desktop",
+    "app:web",
+    "modules:icons",
+    "modules:shaders",
+    "modules:navigation",
+    "modules:data",
 )

@@ -1,7 +1,3 @@
-@file:OptIn(ExperimentalWasmDsl::class)
-
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-
 plugins {
     alias(kotlinLibs.plugins.multiplatform)
     alias(kotlinLibs.plugins.serialization)
@@ -12,8 +8,6 @@ plugins {
     id("multiplatform.target.jvmDesktop")
     id("multiplatform.target.wasmJs")
     id("multiplatform.target.androidLibrary")
-
-    id("plugins.webPreload")
 }
 
 kotlin {
@@ -24,17 +18,13 @@ kotlin {
         androidResources.enable = true
     }
 
-    wasmJs {
-        binaries.executable()
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(projects.model)
-            implementation(projects.composeApp.icons)
-            implementation(projects.composeApp.shaders)
-            implementation(projects.composeApp.navigation)
-            implementation(projects.composeApp.data)
+            implementation(projects.modules.icons)
+            implementation(projects.modules.shaders)
+            implementation(projects.modules.navigation)
+            implementation(projects.modules.data)
 
             implementation(kotlinLibs.serialization.json)
 
@@ -83,21 +73,4 @@ compose {
     resources {
         packageOfResClass = "dev.stashy.home"
     }
-
-    desktop {
-        application {
-            mainClass = "MainKt"
-        }
-    }
-}
-
-webPreload {
-    distribution {
-        wasm = true
-    }
-
-    script("composeApp.js")
-
-    fetch("/composeResources/dev.stashy.home/font/Inter-VariableFont_opsz_wght.ttf")
-    fetch("/composeResources/dev.stashy.home/font/PlayfairDisplay-VariableFont_wght.ttf")
 }

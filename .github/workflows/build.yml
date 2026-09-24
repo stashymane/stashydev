@@ -20,7 +20,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DIST_PATH: "composeApp/build/dist/wasmJs/${{ (inputs.production == true && 'production') || 'development' }}Executable/"
+      DIST_PATH: "app/web/build/dist/wasmJs/${{ (inputs.production == true && 'production') || 'development' }}Executable/"
 
     steps:
       - name: Checkout
@@ -36,11 +36,11 @@ jobs:
 
       - name: Production build with Gradle
         if: inputs.production == true
-        run: ./gradlew :composeApp:wasmJsBrowserDistribution
+        run: ./gradlew :app:web:wasmJsBrowserDistribution
 
       - name: Development build with Gradle
         if: inputs.production == false
-        run: ./gradlew :composeApp:wasmJsBrowserDevelopmentExecutableDistribution
+        run: ./gradlew :app:web:wasmJsBrowserDevelopmentExecutableDistribution
 
       - name: Upload artifact
         id: upload

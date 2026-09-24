@@ -15,10 +15,5 @@ kotlin {
             implementation(composeLibs.jb.ui)
             implementation(composeLibs.jb.uiToolingPreview)
         }
-
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(kotlinLibs.coroutines.swing)
-        }
     }
 }
