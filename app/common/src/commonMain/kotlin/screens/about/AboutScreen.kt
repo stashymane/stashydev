@@ -73,7 +73,7 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
         else -> 1
     }
 
-    Box {
+    Box(Modifier.padding(8.dp)) {
         val surfaceColor = lerp(
             MaterialTheme.colorScheme.primaryContainer,
             MaterialTheme.colorScheme.surfaceContainer,
