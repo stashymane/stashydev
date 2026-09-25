@@ -1,4 +1,5 @@
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -111,7 +112,7 @@ fun BackgroundImageOverlay(
     AnimatedContent(
         backgroundBrush,
         modifier,
-        { fadeIn() togetherWith fadeOut() }
+        { fadeIn(tween(1000)) togetherWith fadeOut(tween(1000)) }
     ) { backgroundBrush ->
         Box(Modifier.fillMaxSize().background(backgroundBrush, alpha = alpha))
     }

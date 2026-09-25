@@ -22,9 +22,13 @@ fun ScreenContent(
     content: @Composable ColumnScope.() -> Unit
 ) {
     val scrollState = rememberScrollState()
-    Box {
+
+    Box(modifier) {
         Column(
-            modifier.verticalScroll(scrollState).padding(LocalScaffoldPadding.current),
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(LocalScaffoldPadding.current),
             verticalArrangement,
             horizontalAlignment
         ) {

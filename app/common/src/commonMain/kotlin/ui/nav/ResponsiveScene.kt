@@ -1,15 +1,18 @@
 package ui.nav
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
@@ -30,8 +33,10 @@ import ui.theme.*
 
 data class LayoutConfig(
     var size: ContainerSize? = null,
-    var backgroundColor: (@Composable (() -> Color)) = { Color.Unspecified },
-    var showNavigation: Boolean = false
+    var effects: @Composable Modifier.() -> Modifier = { this },
+    var showNavigation: Boolean = false,
+    var alignment: Alignment = Alignment.TopCenter,
+    var fillMaxSize: Boolean = false,
 ) {
     val screenWidth: Dp get() = size?.value ?: Dp.Unspecified
 }
@@ -44,7 +49,7 @@ data class ResponsiveScene<T : Any>(
     val config: LayoutConfig
 ) : Scene<T> {
     override val content: @Composable (() -> Unit) = {
-        Box(
+        BoxWithConstraints(
             Modifier
                 .fillMaxSize()
                 .animateBlur(
@@ -52,28 +57,39 @@ data class ResponsiveScene<T : Any>(
                     blurIn(instantBezier(), initialRadius = 16.dp),
                     blurOut(instantBezier(), targetRadius = 16.dp)
                 ),
-            contentAlignment = Alignment.Center
+            contentAlignment = config.alignment
         ) {
             val hazeState = rememberHazeState()
-            val containerColor = config.backgroundColor()
+            val applyEffects = config.effects
 
-            Scaffold(
-                Modifier.widthIn(max = config.screenWidth),
-                containerColor = containerColor,
-                topBar = {
-                    if (config.showNavigation) {
-                        NavBar(
-                            Modifier.height(80.dp)
-                                .navHazeEffect(hazeState, containerColor)
-                                .navigationSharedElement()
-                        )
-                    }
-                }
+            Box(
+                Modifier
+                    .widthIn(max = config.screenWidth)
+                    .then(
+                        if (config.fillMaxSize) Modifier.fillMaxSize()
+                        else Modifier.heightIn(max = maxHeight)
+                    )
+                    .applyEffects()
             ) {
+                val navHeight = if (config.showNavigation) 80.dp else 0.dp
+
                 Box(Modifier.hazeSource(hazeState)) {
-                    CompositionLocalProvider(LocalScaffoldPadding provides it) {
+                    CompositionLocalProvider(
+                        LocalScaffoldPadding provides PaddingValues(top = navHeight)
+                    ) {
                         entry.Content()
                     }
+                }
+
+                if (config.showNavigation) {
+                    NavBar(
+                        Modifier
+                            .align(Alignment.TopCenter)
+                            .fillMaxWidth()
+                            .height(navHeight)
+                            .navHazeEffect(hazeState, MaterialTheme.colorScheme.surface)
+                            .navigationSharedElement()
+                    )
                 }
             }
         }

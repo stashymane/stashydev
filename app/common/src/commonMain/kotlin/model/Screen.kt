@@ -1,21 +1,30 @@
 package model
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.metadata
 import dev.stashy.navigation.MultiBackStack
 import dev.stashy.navigation.fromResourcePath
 import dev.stashy.navigation.toResourcePath
-import io.ktor.resources.Resource
+import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import screens.about.AboutScreen
 import screens.home.HomeScreen
 import screens.media.MediaScreen
 import screens.projects.ProjectsScreen
+import ui.modifiers.outerBorder
 import ui.nav.ResponsiveScene
+
+@Composable
+private fun Modifier.defaultSceneEffects() = background(MaterialTheme.colorScheme.surface)
+    .outerBorder(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 
 @Serializable
 sealed class Screen(
@@ -71,7 +80,9 @@ sealed class Screen(
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
             size = Regular
+            effects = { defaultSceneEffects() }
             showNavigation = false
+            alignment = Alignment.Center
         }
     }
 
@@ -83,8 +94,9 @@ sealed class Screen(
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
             size = Wide
-            backgroundColor = { MaterialTheme.colorScheme.surface }
+            effects = { defaultSceneEffects() }
             showNavigation = true
+            fillMaxSize = true
         }
     }
 
@@ -96,8 +108,9 @@ sealed class Screen(
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
             size = Wide
-            backgroundColor = { MaterialTheme.colorScheme.surface }
+            effects = { defaultSceneEffects() }
             showNavigation = true
+            fillMaxSize = true
         }
     }
 
@@ -109,8 +122,9 @@ sealed class Screen(
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
             size = Wide
-            backgroundColor = { MaterialTheme.colorScheme.surface }
+            effects = { defaultSceneEffects() }
             showNavigation = true
+            fillMaxSize = true
         }
     }
 

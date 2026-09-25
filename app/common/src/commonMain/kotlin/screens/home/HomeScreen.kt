@@ -1,7 +1,10 @@
 package screens.home
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -34,84 +37,78 @@ fun HomeScreen(
 
     val expanded = currentContainerSize() >= ContainerSize.Regular
 
-    Box(
-        Modifier.fillMaxSize()
-            .verticalScroll(scrollState)
+    Column(
+        Modifier.verticalScroll(scrollState)
             .padding(LocalScaffoldPadding.current)
-            .padding(vertical = 16.dp),
-        contentAlignment = Alignment.Center
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
     ) {
-        Column(
-            Modifier.background(MaterialTheme.colorScheme.surface).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        Grid(
+            {
+                if (expanded) {
+                    column(1f / 2f)
+                    column(1f / 2f)
+                } else {
+                    column(1.fr)
+                }
+
+                gap(16.dp)
+            },
+            Modifier.fillMaxWidth()
         ) {
-            Grid(
-                {
-                    if (expanded) {
-                        column(1f / 2f)
-                        column(1f / 2f)
-                    } else {
-                        column(1.fr)
-                    }
+            Text(
+                "stashymane",
+                Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
+                    .gridItem(alignment = BottomStart),
+                style = MaterialTheme.typography.displaySmall.copy(
+                    fontWeight = W900,
+                    letterSpacing = 0.075.em
+                ),
+            )
 
-                    gap(16.dp)
-                },
-                Modifier.fillMaxWidth()
+            Row(
+                Modifier.gridItem().fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
             ) {
-                Text(
-                    "stashymane",
-                    Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
-                        .gridItem(alignment = BottomStart),
-                    style = MaterialTheme.typography.displaySmall.copy(
-                        fontWeight = W900,
-                        letterSpacing = 0.075.em
-                    ),
-                )
-
-                Row(
-                    Modifier.gridItem().fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
-                ) {
-                    Links.Groups.All.forEach { group ->
-                        HeaderLinkSection {
-                            group.links.forEach { link ->
-                                SocialIcon(
-                                    url = link.url,
-                                    icon = link.url.getIcon(),
-                                    tooltip = link.name
-                                )
-                            }
+                Links.Groups.All.forEach { group ->
+                    HeaderLinkSection {
+                        group.links.forEach { link ->
+                            SocialIcon(
+                                url = link.url,
+                                icon = link.url.getIcon(),
+                                tooltip = link.name
+                            )
                         }
                     }
                 }
             }
-
-            Grid(
-                {
-                    if (expanded) {
-                        column(1f / 3f)
-                        column(1f / 3f)
-                        column(1f / 3f)
-                    } else {
-                        column(1.fr)
-                    }
-
-                    gap(16.dp)
-                },
-                Modifier.fillMaxSize()
-            ) {
-                vm.cards.forEach { card ->
-                    NavBlock(
-                        Modifier.fillMaxWidth(),
-                        onClick = { backStack.add(card.screen) },
-                        icon = card.icon,
-                        text = stringResource(card.title),
-                        background = { card.background.invoke(this) })
-                }
-            }
-
-            SiteFooter()
         }
+
+        Grid(
+            {
+                if (expanded) {
+                    column(1f / 3f)
+                    column(1f / 3f)
+                    column(1f / 3f)
+                } else {
+                    column(1.fr)
+                }
+
+                gap(16.dp)
+            },
+            Modifier.fillMaxWidth()
+        ) {
+            vm.cards.forEach { card ->
+                NavBlock(
+                    Modifier.fillMaxWidth(),
+                    onClick = { backStack.add(card.screen) },
+                    icon = card.icon,
+                    text = stringResource(card.title),
+                    background = { card.background.invoke(this) })
+            }
+        }
+
+        SiteFooter()
     }
 }
 
