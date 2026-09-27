@@ -18,10 +18,11 @@ import kotlin.math.min
 @Composable
 fun Modifier.dotGridOverlay(
     color: Color = Color.Black,
+    scale: Int = 1,
 ): Modifier {
     val windowSize = LocalWindowInfo.current.containerSize
     val scale = remember(windowSize) {
-        dotGridScaleForResolution(min(windowSize.width, windowSize.height))
+        dotGridScaleForResolution(min(windowSize.width, windowSize.height)) * scale
     }
     val brush = remember(color, scale) {
         val pixelScale = scale.coerceAtLeast(1)

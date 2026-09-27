@@ -10,8 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
 import coil3.ImageLoader
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
@@ -74,13 +76,15 @@ fun App() {
                     LocalBackStack provides backStack,
                     LocalContainerSize provides containerSize
                 ) {
-                    Box(Modifier.background(Color.Black.copy(alpha = 0.25f))) {
+                    Box {
                         BackgroundImageOverlay(
                             "drawable/brick_wall_006_diff_2k.webp",
-                            Modifier.matchParentSize(),
-                            0.075f
+                            Modifier.matchParentSize().graphicsLayer {
+                                blendMode = BlendMode.Multiply
+                            },
+                            1f
                         )
-                        Box(Modifier.matchParentSize().dotGridOverlay())
+                        Box(Modifier.matchParentSize().dotGridOverlay(MaterialTheme.colorScheme.background))
                         Navigation()
                     }
                 }
