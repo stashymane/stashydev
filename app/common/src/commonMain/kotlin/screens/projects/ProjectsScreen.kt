@@ -61,7 +61,7 @@ fun ProjectsScreen(
     ) { state ->
         when (state) {
             is Loading -> LoadingScreen {}
-            is Failed -> LoadingFailedScreen(onRetry = vm::onReload) {
+            is Failed -> LoadingFailedScreen(onRetry = vm::onReload, error = state.error) {
                 Text("An error occurred while loading projects.")
             }
 
