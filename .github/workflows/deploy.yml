@@ -22,7 +22,7 @@ jobs:
           path: artifacts
 
       - name: Deploy to Cloudflare
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           command: pages deploy "./artifacts/" --project-name=stashydev --branch=${{ github.ref_name }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

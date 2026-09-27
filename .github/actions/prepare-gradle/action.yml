@@ -3,7 +3,7 @@ author: aesth
 
 inputs:
   jvm-version:
-    default: '25'
+    default: '27'
     description: 'The version of the JVM to build with'
   jvm-distribution:
     default: temurin
@@ -22,7 +22,7 @@ runs:
 
   steps:
     - name: Set up ${{ inputs.jvm-distribution }} ${{ inputs.jvm-version }} JDK
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6
       with:
         distribution: ${{ inputs.jvm-distribution }}
         java-version: ${{ inputs.jvm-version }}

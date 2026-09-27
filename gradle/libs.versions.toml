@@ -1,6 +1,6 @@
 [versions]
-jvm = "25"
-jvm-target = "17"
+jvm = "27"
+jvm-target = "25"
 
 koin = "4.2.2"
 colormath = "3.7.0"
