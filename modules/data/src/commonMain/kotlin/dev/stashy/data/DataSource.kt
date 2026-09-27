@@ -9,8 +9,10 @@ interface DataSource<out T> {
     /** Returns a value if one is available without suspending, otherwise null. */
     fun getOrNull(): T?
 
-    /** Fetches the data source if necessary, suspending until it is available. */
-    suspend fun await(): T
+    /**
+     * Fetches the data source if necessary, suspending until a [Result] is available.
+     */
+    suspend fun await(): Result<T>
 }
 
 fun <T> dataSource(load: suspend () -> T): DataSource<T> = SuspendingDataSource(load)

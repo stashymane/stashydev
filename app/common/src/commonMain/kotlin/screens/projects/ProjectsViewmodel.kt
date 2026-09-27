@@ -29,14 +29,15 @@ class ProjectsViewmodel(
     suspend fun load() {
         state.emit(ProjectScreenState.Loading)
 
-        runCatching {
-            val meta = repo.repos.await()
-            ProjectScreenState.Success(
-                featured = meta.featuredProjects(),
-                latest = meta.latestProjects(),
-            )
-        }.fold(
-            onSuccess = { state.emit(it) },
+        repo.repos.await().fold(
+            onSuccess = { meta ->
+                state.emit(
+                    ProjectScreenState.Success(
+                        featured = meta.featuredProjects(),
+                        latest = meta.latestProjects(),
+                    )
+                )
+            },
             onFailure = {
                 it.printStackTrace()
                 state.emit(ProjectScreenState.Failed(it))

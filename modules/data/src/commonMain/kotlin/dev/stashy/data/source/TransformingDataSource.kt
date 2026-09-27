@@ -8,7 +8,7 @@ internal class TransformingDataSource<T, R>(
 ) : DataSource<R> {
     override fun getOrNull(): R? = source.getOrNull()?.let(transform)
 
-    override suspend fun await(): R = transform(source.await())
+    override suspend fun await(): Result<R> = source.await().mapCatching(transform)
 }
 
 fun <T, R> DataSource<T>.map(transform: (T) -> R): DataSource<R> =

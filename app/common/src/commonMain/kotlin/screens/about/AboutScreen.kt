@@ -57,7 +57,7 @@ fun AboutScreen(
         when (screenState) {
             is AboutScreenState.Loading -> LoadingScreen {}
             is AboutScreenState.Failed -> LoadingFailedScreen(onRetry = vm::onReload) {
-                Text("Failed to load profile.")
+                Text("An error occurred while loading the profile.")
             }
 
             is AboutScreenState.Success -> AboutScreenContent(screenState.meta)

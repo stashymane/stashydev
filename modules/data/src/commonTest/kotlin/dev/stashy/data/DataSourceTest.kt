@@ -1,11 +1,8 @@
 package dev.stashy.data
 
 import dev.stashy.data.source.map
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.yield
 import kotlin.test.*
 
 class DataSourceTest {
@@ -17,8 +14,8 @@ class DataSourceTest {
             "value"
         }
 
-        assertEquals("value", source.await())
-        assertEquals("value", source.await())
+        assertEquals("value", source.await().getOrThrow())
+        assertEquals("value", source.await().getOrThrow())
         assertEquals(2, loads)
         assertNull(source.getOrNull())
     }
@@ -31,8 +28,8 @@ class DataSourceTest {
             "value"
         }.cached()
 
-        assertEquals("value", source.await())
-        assertEquals("value", source.await())
+        assertEquals("value", source.await().getOrThrow())
+        assertEquals("value", source.await().getOrThrow())
         assertEquals("value", source.getOrNull())
         assertEquals(1, loads)
     }
@@ -49,8 +46,8 @@ class DataSourceTest {
             it * 2
         }
 
-        assertEquals(2, source.await())
-        assertEquals(2, source.await())
+        assertEquals(2, source.await().getOrThrow())
+        assertEquals(2, source.await().getOrThrow())
         assertEquals(2, loads)
         assertEquals(2, maps)
         assertNull(source.getOrNull())
@@ -68,8 +65,8 @@ class DataSourceTest {
             it * 2
         }.cached()
 
-        assertEquals(2, source.await())
-        assertEquals(2, source.await())
+        assertEquals(2, source.await().getOrThrow())
+        assertEquals(2, source.await().getOrThrow())
         assertEquals(2, source.getOrNull())
         assertEquals(1, loads)
         assertEquals(1, maps)
@@ -83,13 +80,15 @@ class DataSourceTest {
             error("boom")
         }.cached()
 
-        val first = assertFailsWith<IllegalStateException> { source.await() }
-        assertEquals("boom", first.message)
+        val first = source.await()
+        assertTrue(first.isFailure)
+        assertEquals("boom", first.exceptionOrNull()?.message)
         assertNull(source.getOrNull())
         assertEquals(1, loads)
 
-        val second = assertFailsWith<IllegalStateException> { source.await() }
-        assertEquals("boom", second.message)
+        val second = source.await()
+        assertTrue(second.isFailure)
+        assertEquals("boom", second.exceptionOrNull()?.message)
         assertNull(source.getOrNull())
         assertEquals(2, loads)
     }
@@ -103,15 +102,15 @@ class DataSourceTest {
             "ok"
         }.cached()
 
-        assertFailsWith<IllegalStateException> { source.await() }
+        assertTrue(source.await().isFailure)
         assertNull(source.getOrNull())
         assertEquals(1, loads)
 
-        assertEquals("ok", source.await())
+        assertEquals("ok", source.await().getOrThrow())
         assertEquals("ok", source.getOrNull())
         assertEquals(2, loads)
 
-        assertEquals("ok", source.await())
+        assertEquals("ok", source.await().getOrThrow())
         assertEquals(2, loads)
     }
 
@@ -128,12 +127,14 @@ class DataSourceTest {
             it.uppercase()
         }.cached()
 
-        assertFailsWith<IllegalStateException> { source.await() }
+        val failed = source.await()
+        assertTrue(failed.isFailure)
+        assertEquals("parse failed", failed.exceptionOrNull()?.message)
         assertNull(source.getOrNull())
         assertEquals(1, loads)
         assertEquals(1, maps)
 
-        assertEquals("PAYLOAD", source.await())
+        assertEquals("PAYLOAD", source.await().getOrThrow())
         assertEquals("PAYLOAD", source.getOrNull())
         assertEquals(2, loads)
         assertEquals(2, maps)
@@ -157,8 +158,8 @@ class DataSourceTest {
             started.await()
             yield()
             gate.complete(Unit)
-            assertEquals("shared", first.await())
-            assertEquals("shared", second.await())
+            assertEquals("shared", first.await().getOrThrow())
+            assertEquals("shared", second.await().getOrThrow())
         }
 
         assertEquals(1, loads)
@@ -183,6 +184,24 @@ class DataSourceTest {
     }
 
     @Test
+    fun preloadFailureIsSwallowedAndAllowsRetry() = runTest {
+        var loads = 0
+        val source = dataSource {
+            loads++
+            if (loads == 1) error("preload boom")
+            "ok"
+        }.cached()
+
+        source.preload()
+        assertNull(source.getOrNull())
+        assertEquals(1, loads)
+
+        assertEquals("ok", source.await().getOrThrow())
+        assertEquals("ok", source.getOrNull())
+        assertEquals(2, loads)
+    }
+
+    @Test
     fun concurrentAwaitFailurePropagatesAndAllowsRetry() = runTest {
         var loads = 0
         val started = CompletableDeferred<Unit>()
@@ -196,8 +215,8 @@ class DataSourceTest {
         }.cached()
 
         coroutineScope {
-            val first = async { runCatching { source.await() } }
-            val second = async { runCatching { source.await() } }
+            val first = async { source.await() }
+            val second = async { source.await() }
             started.await()
             yield()
             gate.complete(Unit)
@@ -213,7 +232,76 @@ class DataSourceTest {
         assertNull(source.getOrNull())
         assertEquals(1, loads)
 
-        assertEquals("recovered", source.await())
+        assertEquals("recovered", source.await().getOrThrow())
+        assertEquals(2, loads)
+        assertEquals("recovered", source.getOrNull())
+    }
+
+    @Test
+    fun awaitRethrowsCancellationInsteadOfWrapping() = runTest {
+        val source = dataSource<String> {
+            throw CancellationException("gone")
+        }
+
+        val cancelled = assertFailsWith<CancellationException> { source.await() }
+        assertEquals("gone", cancelled.message)
+    }
+
+    @Test
+    fun cancellationClearsInFlightAndAllowsRetry() = runTest {
+        var loads = 0
+        val started = CompletableDeferred<Unit>()
+        val gate = CompletableDeferred<Unit>()
+        val source = dataSource {
+            loads++
+            if (loads == 1) {
+                started.complete(Unit)
+                gate.await()
+            }
+            "ok"
+        }.cached()
+
+        val inFlight = async { source.await() }
+        started.await()
+        inFlight.cancel(CancellationException("stop"))
+        assertFailsWith<CancellationException> { inFlight.await() }
+
+        assertNull(source.getOrNull())
+        assertEquals(1, loads)
+
+        assertEquals("ok", source.await().getOrThrow())
+        assertEquals(2, loads)
+        assertEquals("ok", source.getOrNull())
+    }
+
+    @Test
+    fun cancellationPropagatesToConcurrentAwaitersAndAllowsRetry() = runTest {
+        var loads = 0
+        val started = CompletableDeferred<Unit>()
+        val gate = CompletableDeferred<Unit>()
+        val source = dataSource {
+            loads++
+            if (loads == 1) {
+                started.complete(Unit)
+                gate.await()
+            }
+            "recovered"
+        }.cached()
+
+        val first = async { source.await() }
+        started.await()
+        yield()
+        val second = async { source.await() }
+        yield()
+
+        first.cancel(CancellationException("stop"))
+        assertFailsWith<CancellationException> { first.await() }
+        assertFailsWith<CancellationException> { second.await() }
+
+        assertNull(source.getOrNull())
+        assertEquals(1, loads)
+
+        assertEquals("recovered", source.await().getOrThrow())
         assertEquals(2, loads)
         assertEquals("recovered", source.getOrNull())
     }

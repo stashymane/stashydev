@@ -27,10 +27,8 @@ class AboutViewmodel(
     suspend fun load() {
         state.emit(AboutScreenState.Loading)
 
-        runCatching {
-            AboutScreenState.Success(repo.data.await())
-        }.fold(
-            onSuccess = { state.emit(it) },
+        repo.data.await().fold(
+            onSuccess = { state.emit(AboutScreenState.Success(it)) },
             onFailure = {
                 it.printStackTrace()
                 state.emit(AboutScreenState.Failed(it))

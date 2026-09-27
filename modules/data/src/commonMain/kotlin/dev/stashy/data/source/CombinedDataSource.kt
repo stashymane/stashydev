@@ -1,6 +1,7 @@
 package dev.stashy.data.source
 
 import dev.stashy.data.DataSource
+import dev.stashy.data.rethrowCancellation
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
@@ -15,10 +16,10 @@ internal class CombinedDataSource<A, B, R>(
         return transform(a, b)
     }
 
-    override suspend fun await(): R = coroutineScope {
-        val a = async { first.await() }
-        val b = async { second.await() }
-        transform(a.await(), b.await())
+    override suspend fun await(): Result<R> = coroutineScope {
+        val a = async { first.await().getOrThrow() }
+        val b = async { second.await().getOrThrow() }
+        runCatching { transform(a.await(), b.await()) }.rethrowCancellation()
     }
 }
 
