@@ -22,6 +22,7 @@ kotlin {
 
             implementation(composeLibs.jb.runtime)
             implementation(composeLibs.jb.ui)
+            implementation(composeLibs.jb.components.resources)
         }
     }
 }
