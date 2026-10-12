@@ -17,6 +17,20 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://redirector.kotlinlang.org/maven/compose-dev")
+        maven {
+            url = uri("https://maven.pkg.github.com/stashymane/standard")
+            credentials {
+                username = providers.gradleProperty("gpr.user")
+                    .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                    .getOrElse("")
+                password = providers.gradleProperty("gpr.key")
+                    .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                    .getOrElse("")
+            }
+            content {
+                includeGroup("dev.stashy.standard")
+            }
+        }
     }
 
     versionCatalogs {
@@ -48,6 +62,4 @@ include(
     "modules:icons",
     "modules:shaders",
     "modules:tiled",
-    "modules:navigation",
-    "modules:data",
 )

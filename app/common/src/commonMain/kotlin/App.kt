@@ -26,8 +26,8 @@ import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import dev.stashy.home.Res
-import dev.stashy.navigation.MultiBackStack
-import dev.stashy.navigation.SyncBrowserHistory
+import dev.stashy.navigation.GroupBackStack
+import dev.stashy.navigation.compose.SyncBrowserHistory
 import model.Screen
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
@@ -41,7 +41,7 @@ import ui.preview.DevicePreview
 import ui.theme.AppTheme
 import ui.theme.currentContainerSize
 
-typealias AppBackStack = MultiBackStack<Screen, Screen.Group>
+typealias AppBackStack = GroupBackStack<Screen, Screen.Group>
 
 @Composable
 fun App() {
@@ -63,11 +63,7 @@ fun App() {
         val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
         val containerSize = currentContainerSize()
 
-        SyncBrowserHistory(
-            backStack,
-            pathOf = Screen::toPath,
-            parsePath = { Screen.fromPath(it) ?: Screen.Home },
-        )
+        SyncBrowserHistory(backStack.backStack)
         PreloadContent()
 
         AppTheme(Color(0xFF9476FF)) {

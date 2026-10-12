@@ -37,8 +37,8 @@ kotlin {
             implementation(projects.modules.icons)
             implementation(projects.modules.shaders)
             implementation(projects.modules.tiled)
-            implementation(projects.modules.navigation)
-            implementation(projects.modules.data)
+            implementation(libs.standard.navigation)
+            implementation(libs.standard.data)
 
             implementation(kotlinLibs.serialization.json)
 

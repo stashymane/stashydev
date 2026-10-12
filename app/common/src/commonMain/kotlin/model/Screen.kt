@@ -9,9 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.metadata
-import dev.stashy.navigation.MultiBackStack
-import dev.stashy.navigation.fromResourcePath
-import dev.stashy.navigation.toResourcePath
+import dev.stashy.navigation.GroupNavKey
 import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -30,7 +28,7 @@ private fun Modifier.defaultSceneEffects() = background(MaterialTheme.colorSchem
 sealed class Screen(
     @Transient
     override val group: Group? = null,
-) : MultiBackStack.Entry<Screen.Group> {
+) : GroupNavKey<Screen.Group> {
     open fun metadata(): Map<String, Any> = metadata { }
 
     fun provideEntry(): NavEntry<Screen> = NavEntry(
@@ -128,9 +126,4 @@ sealed class Screen(
         }
     }
 
-    fun toPath(): String = toResourcePath()
-
-    companion object {
-        fun fromPath(path: String): Screen? = fromResourcePath(path)
-    }
 }
