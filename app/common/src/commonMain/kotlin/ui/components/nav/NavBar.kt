@@ -1,11 +1,9 @@
 package ui.components.nav
 
-import AppBackStack
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -18,12 +16,15 @@ import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.blur.HazeBlurStyle
 import dev.chrisbanes.haze.blur.hazeBlur
+import dev.stashy.navigation.LocalNavigator
+import dev.stashy.navigation.Navigator
+import dev.stashy.navigation.compose.Provide
+import dev.stashy.navigation.compose.rememberNavigationState
 import icons.Icons
 import icons.filled.ChevronBackward
 import model.NavEntry
 import model.Screen
 import org.jetbrains.compose.resources.stringResource
-import ui.LocalBackStack
 import ui.LocalContainerSize
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
@@ -34,7 +35,7 @@ import ui.theme.inDp
 fun NavBar(
     modifier: Modifier = Modifier
 ) {
-    val backStack = LocalBackStack.current
+    val navigator = LocalNavigator.current
     val containerSize = LocalContainerSize.current
 
     Grid(
@@ -60,7 +61,7 @@ fun NavBar(
                 isActive = false,
                 modifier = Modifier.fillMaxSize().aspectRatio(1f, true)
             ) {
-                backStack.removeLast()
+                navigator.goBack()
             }
 
             NavEntry.All.forEach { entry ->
@@ -74,10 +75,10 @@ fun NavBar(
                     icon = {
                         Icon(entry.icon, null, Modifier.size(iconSize))
                     },
-                    isActive = backStack.currentGroup == entry.screen.group,
+                    isActive = navigator.state.currentGroup == entry.screen.group,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    backStack.add(entry.screen)
+                    navigator.navigate(entry.screen)
                 }
             }
         }
@@ -113,8 +114,9 @@ fun Modifier.navHazeEffect(state: HazeState, backgroundColor: Color = Color.Unsp
 @ComponentPreview
 @Composable
 private fun NavBarPreview() = PreviewHost {
-    val backStack = AppBackStack(initial = Screen.Projects)
-    CompositionLocalProvider(LocalBackStack provides backStack) {
+    val state = rememberNavigationState(startRoute = Screen.Projects)
+    val navigator = remember { Navigator(state) }
+    navigator.Provide {
         NavBar()
     }
 }

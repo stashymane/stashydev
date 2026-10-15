@@ -3,13 +3,13 @@ package model
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.metadata
-import dev.stashy.navigation.GroupNavKey
+import dev.stashy.navigation.GroupId
+import dev.stashy.navigation.NavDestination
 import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -27,25 +27,22 @@ private fun Modifier.defaultSceneEffects() = background(MaterialTheme.colorSchem
 @Serializable
 sealed class Screen(
     @Transient
-    override val group: Group? = null,
-) : GroupNavKey<Screen.Group> {
+    override val group: GroupId = GroupId.Default,
+) : NavDestination {
     open fun metadata(): Map<String, Any> = metadata { }
 
-    fun provideEntry(): NavEntry<Screen> = NavEntry(
+    fun provideEntry(): NavEntry<NavDestination> = NavEntry(
         this,
         metadata = metadata() + metadata {
-            group?.let { put(Group.MetaKey, it) }
+            Group[group]?.let { put(Group.MetaKey, it) }
         }
     ) {
         Content()
     }
 
-    @Composable
-    abstract fun Content()
-
     @Serializable
     data class Group(
-        val name: String,
+        val id: GroupId,
         val order: Int? = null
     ) {
         fun towards(target: Group?): Int {
@@ -56,10 +53,15 @@ sealed class Screen(
         }
 
         companion object {
-            val Home = Group("home")
-            val Projects = Group("projects", 0)
-            val Media = Group("media", 1)
-            val About = Group("about", 2)
+            val Home = Group(GroupId("home"))
+            val Projects = Group(GroupId("projects"), 0)
+            val Media = Group(GroupId("media"), 1)
+            val About = Group(GroupId("about"), 2)
+
+            val byId = listOf(Home, Projects, Media, About)
+                .associateBy { it.id }
+            
+            operator fun get(id: GroupId) = byId[id]
         }
 
         object MetaKey : NavMetadataKey<Group>
@@ -72,7 +74,7 @@ sealed class Screen(
 
     @Serializable
     @Resource("/")
-    data object Home : Screen(Group.Home) {
+    data object Home : Screen(Group.Home.id) {
         @Composable
         override fun Content() = HomeScreen()
 
@@ -80,13 +82,13 @@ sealed class Screen(
             size = Regular
             effects = { defaultSceneEffects() }
             showNavigation = false
-            alignment = Alignment.Center
+            alignment = Center
         }
     }
 
     @Serializable
     @Resource("/projects")
-    data object Projects : Screen(Group.Projects) {
+    data object Projects : Screen(Group.Projects.id) {
         @Composable
         override fun Content() = ProjectsScreen()
 
@@ -100,7 +102,7 @@ sealed class Screen(
 
     @Serializable
     @Resource("/media")
-    data object Media : Screen(Group.Media) {
+    data object Media : Screen(Group.Media.id) {
         @Composable
         override fun Content() = MediaScreen()
 
@@ -114,7 +116,7 @@ sealed class Screen(
 
     @Serializable
     @Resource("/about")
-    data object About : Screen(Group.About) {
+    data object About : Screen(Group.About.id) {
         @Composable
         override fun Content() = AboutScreen()
 

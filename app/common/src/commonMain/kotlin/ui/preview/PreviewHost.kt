@@ -1,6 +1,5 @@
 package ui.preview
 
-import AppBackStack
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,8 +9,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
+import dev.stashy.navigation.LocalNavigator
+import dev.stashy.navigation.Navigator
+import dev.stashy.navigation.compose.rememberNavigationState
 import model.Screen
-import ui.LocalBackStack
 import ui.LocalSharedTransitionScope
 import ui.theme.AppTheme
 
@@ -19,7 +20,8 @@ import ui.theme.AppTheme
 fun PreviewHost(
     content: @Composable () -> Unit
 ) {
-    val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
+    val state = rememberNavigationState(startRoute = Screen.Home)
+    val navigator = remember { Navigator(state) }
 
     AppTheme(Color.Blue, isSystemInDarkTheme()) {
         AnimatedContent(Unit) {
@@ -27,7 +29,7 @@ fun PreviewHost(
                 CompositionLocalProvider(
                     LocalSharedTransitionScope provides this@SharedTransitionLayout,
                     LocalNavAnimatedContentScope provides this@AnimatedContent,
-                    LocalBackStack provides backStack
+                    LocalNavigator provides navigator,
                 ) {
                     Surface {
                         content()

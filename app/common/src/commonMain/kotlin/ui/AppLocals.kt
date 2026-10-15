@@ -1,6 +1,5 @@
 package ui
 
-import AppBackStack
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,9 +10,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import coil3.ImageLoader
 import model.Settings
 import ui.theme.ContainerSize
-
-val LocalBackStack: ProvidableCompositionLocal<AppBackStack> =
-    staticCompositionLocalOf { error("LocalBackStack not initialized.") }
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 val LocalSharedTransitionScope: ProvidableCompositionLocal<SharedTransitionScope> =

@@ -10,6 +10,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation3.runtime.get
 import androidx.navigation3.scene.Scene
+import dev.stashy.navigation.NavDestination
 import model.Screen
 import ui.theme.instantBezier
 
@@ -28,10 +29,10 @@ val navGroupEnterLeft = fadeIn(instantBezier()) + slideInHorizontally(instantBez
 val navGroupExitRight = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { it / 16 }
 val navGroupExitLeft = fadeOut(instantBezier()) + slideOutHorizontally(instantBezier()) { -it / 16 }
 
-fun AnimatedContentTransitionScope<Scene<Screen>>.navPopTransition(): ContentTransform =
+fun AnimatedContentTransitionScope<Scene<NavDestination>>.navPopTransition(): ContentTransform =
     navTransition(back = true)
 
-fun AnimatedContentTransitionScope<Scene<Screen>>.navTransition(
+fun AnimatedContentTransitionScope<Scene<NavDestination>>.navTransition(
     back: Boolean = false
 ): ContentTransform {
     val initial = initialState.metadata[Screen.Group.MetaKey]

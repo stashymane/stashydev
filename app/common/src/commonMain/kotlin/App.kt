@@ -26,13 +26,14 @@ import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import dev.stashy.home.Res
-import dev.stashy.navigation.GroupBackStack
+import dev.stashy.navigation.LocalNavigator
+import dev.stashy.navigation.Navigator
 import dev.stashy.navigation.compose.SyncBrowserHistory
+import dev.stashy.navigation.compose.rememberNavigationState
 import model.Screen
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
 import tiled.toTiledBrush
-import ui.LocalBackStack
 import ui.LocalContainerSize
 import ui.Navigation
 import ui.PreloadContent
@@ -40,8 +41,6 @@ import ui.modifiers.dotGridOverlay
 import ui.preview.DevicePreview
 import ui.theme.AppTheme
 import ui.theme.currentContainerSize
-
-typealias AppBackStack = GroupBackStack<Screen, Screen.Group>
 
 @Composable
 fun App() {
@@ -60,16 +59,17 @@ fun App() {
     KoinApplication(koinConfiguration {
         modules(KoinModule)
     }) {
-        val backStack: AppBackStack = remember { AppBackStack(Screen.Home) }
+        val state = rememberNavigationState(startRoute = Screen.Home)
+        val navigator = remember { Navigator(state) }
         val containerSize = currentContainerSize()
 
-        SyncBrowserHistory(backStack.backStack)
+        SyncBrowserHistory<Screen>(navigator)
         PreloadContent()
 
         AppTheme(Color(0xFF9476FF)) {
             Surface(color = MaterialTheme.colorScheme.background) {
                 CompositionLocalProvider(
-                    LocalBackStack provides backStack,
+                    LocalNavigator provides navigator,
                     LocalContainerSize provides containerSize
                 ) {
                     Box {

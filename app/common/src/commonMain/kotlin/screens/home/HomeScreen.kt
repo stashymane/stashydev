@@ -19,7 +19,7 @@ import model.getIcon
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import screens.home.components.SiteFooter
-import ui.LocalBackStack
+import dev.stashy.navigation.LocalNavigator
 import ui.LocalScaffoldPadding
 import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
@@ -32,7 +32,7 @@ import ui.theme.currentContainerSize
 fun HomeScreen(
     vm: HomeScreenViewmodel = koinInject()
 ) {
-    val backStack = LocalBackStack.current
+    val navigator = LocalNavigator.current
     val scrollState = rememberScrollState()
 
     val expanded = currentContainerSize() >= ContainerSize.Regular
@@ -101,7 +101,7 @@ fun HomeScreen(
             vm.cards.forEach { card ->
                 NavBlock(
                     Modifier.fillMaxWidth(),
-                    onClick = { backStack.add(card.screen) },
+                    onClick = { navigator.navigate(card.screen) },
                     icon = card.icon,
                     text = stringResource(card.title),
                     background = { card.background.invoke(this) })
