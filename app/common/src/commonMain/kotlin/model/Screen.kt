@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.metadata
 import dev.stashy.navigation.GroupId
 import dev.stashy.navigation.NavDestination
@@ -33,9 +32,7 @@ sealed class Screen(
 
     fun provideEntry(): NavEntry<NavDestination> = NavEntry(
         this,
-        metadata = metadata() + metadata {
-            Group[group]?.let { put(Group.MetaKey, it) }
-        }
+        metadata = metadata(),
     ) {
         Content()
     }
@@ -45,13 +42,6 @@ sealed class Screen(
         val id: GroupId,
         val order: Int? = null
     ) {
-        fun towards(target: Group?): Int {
-            val sourceOrder = order ?: return 0
-            val targetOrder = target?.order ?: return 0
-
-            return sourceOrder.compareTo(targetOrder)
-        }
-
         companion object {
             val Home = Group(GroupId("home"))
             val Projects = Group(GroupId("projects"), 0)
@@ -59,12 +49,16 @@ sealed class Screen(
             val About = Group(GroupId("about"), 2)
 
             val byId = listOf(Home, Projects, Media, About)
-                .associateBy { it.id }
+                .associateBy(Group::id)
             
             operator fun get(id: GroupId) = byId[id]
-        }
 
-        object MetaKey : NavMetadataKey<Group>
+            fun compare(from: GroupId, to: GroupId): Int {
+                val fromOrder = Group[from]?.order ?: return 0
+                val toOrder = Group[to]?.order ?: return 0
+                return fromOrder.compareTo(toOrder)
+            }
+        }
     }
 
     @Serializable

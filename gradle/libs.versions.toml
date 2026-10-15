@@ -2,7 +2,7 @@
 jvm = "25"
 jvm-target = "25"
 
-standard = "20261014.4c828cf-SNAPSHOT"
+standard = "20261015.b185f2a-SNAPSHOT"
 
 koin = "4.2.2"
 colormath = "3.7.0"
@@ -16,6 +16,11 @@ buildkonfig = "0.23.0"
 [libraries]
 standard-data = { module = "dev.stashy.standard:data", version.ref = "standard" }
 standard-navigation = { module = "dev.stashy.standard:navigation", version.ref = "standard" }
+standard-navigation-ui = { module = "dev.stashy.standard:navigation-ui", version.ref = "standard" }
+standard-ui-animation = { module = "dev.stashy.standard:ui-animation", version.ref = "standard" }
+standard-ui-components = { module = "dev.stashy.standard:ui-components", version.ref = "standard" }
+standard-ui-gradients = { module = "dev.stashy.standard:ui-gradients", version.ref = "standard" }
+standard-util-time = { module = "dev.stashy.standard:util-time", version.ref = "standard" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ktor3 = { module = "io.insert-koin:koin-ktor3", version.ref = "koin" }

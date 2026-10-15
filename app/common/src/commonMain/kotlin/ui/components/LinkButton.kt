@@ -41,6 +41,7 @@ import com.materialkolor.ktx.darken
 import icons.Icons
 import icons.outline.ArrowOutwardThick
 import io.ktor.http.Url
+import dev.stashy.standard.ui.components.InlineIcon
 import model.display
 import model.getIcon
 import ui.preview.ComponentPreview
@@ -125,7 +126,7 @@ fun LinkButton(
         ) {
             CompositionLocalProvider(LocalContentColor provides contentColor) {
                 if (prefixIcon)
-                    InlineIcon(url.getIcon(), null)
+                    InlineIcon(url.getIcon())
                 Text(
                     url.display(),
                     textDecoration = Underline,

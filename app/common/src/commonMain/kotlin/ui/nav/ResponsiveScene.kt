@@ -26,10 +26,15 @@ import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import ui.LocalScaffoldPadding
+import dev.stashy.standard.ui.animation.tweenInstantOut
 import ui.components.nav.NavBar
 import ui.components.nav.navHazeEffect
 import ui.nav.ResponsiveScene.MetadataKey
-import ui.theme.*
+import ui.theme.ContainerSize
+import ui.theme.animateBlur
+import ui.theme.blurIn
+import ui.theme.blurOut
+import ui.theme.navigationSharedElement
 
 data class LayoutConfig(
     var size: ContainerSize? = null,
@@ -54,8 +59,8 @@ data class ResponsiveScene<T : Any>(
                 .fillMaxSize()
                 .animateBlur(
                     LocalNavAnimatedContentScope.current,
-                    blurIn(instantBezier(), initialRadius = 16.dp),
-                    blurOut(instantBezier(), targetRadius = 16.dp)
+                    blurIn(tweenInstantOut(), initialRadius = 16.dp),
+                    blurOut(tweenInstantOut(), targetRadius = 16.dp)
                 ),
             contentAlignment = config.alignment
         ) {

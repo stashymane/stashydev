@@ -47,13 +47,13 @@ import icons.outlinelarge.UserSearch
 import io.ktor.http.Url
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
-import ui.theme.fastBezier
+import dev.stashy.standard.ui.animation.tweenFastOut
 
-private val iconEnter = fadeIn(fastBezier(200)) + slideIn(
-    fastBezier(200)
+private val iconEnter = fadeIn(tweenFastOut(200)) + slideIn(
+    tweenFastOut(200)
 ) { IntOffset(-3, 3) }
-private val iconExit = fadeOut(fastBezier(200)) + slideOut(
-    fastBezier(200)
+private val iconExit = fadeOut(tweenFastOut(200)) + slideOut(
+    tweenFastOut(200)
 ) { IntOffset(-3, 3) }
 
 @Composable

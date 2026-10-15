@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import dev.stashy.standard.ui.components.InlineIcon
 import model.composeColor
 import model.getIcon
 import ui.preview.ComponentPreview
@@ -49,7 +50,7 @@ fun LanguageBadge(
         textStyle = textStyle
     ) {
         meta.icon?.let { icon ->
-            InlineIcon(icon, language.label)
+            InlineIcon(icon, contentDescription = language.label)
         }
 
         Text(language.label, Modifier.padding(end = 2.dp), color = LocalContentColor.current)

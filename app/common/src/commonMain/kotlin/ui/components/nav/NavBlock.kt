@@ -1,19 +1,9 @@
 package ui.components.nav
 
 import androidx.compose.animation.core.EaseInOut
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -21,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -29,12 +20,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import dev.stashy.home.Res
 import dev.stashy.home.block_projects_1k
+import dev.stashy.standard.ui.gradients.easedVerticalGradient
+import dev.stashy.standard.ui.gradients.stop
+import dev.stashy.standard.ui.gradients.toEasingFunction
 import icons.Icons
 import icons.outlinelarge.CaptivePortal
 import org.jetbrains.compose.resources.imageResource
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
-import ui.theme.easeVerticalGradient
 import ui.theme.indication.scale
 
 @Composable
@@ -64,14 +57,11 @@ fun NavBlock(
         Box(Modifier.graphicsLayer {
             compositingStrategy = Offscreen
         }.drawWithCache {
-            val overlayGradient =
-                Brush.easeVerticalGradient(
-                    surfaceColor,
-                    surfaceColor.copy(alpha = 0f),
-                    10,
-                    end = 1f,
-                    easing = EaseInOut
-                )
+            val overlayGradient = Brush.easedVerticalGradient(steps = 10) {
+                easing = EaseInOut.toEasingFunction()
+                stop(surfaceColor)
+                stop(surfaceColor.copy(alpha = 0f))
+            }
 
             onDrawWithContent {
                 drawContent()

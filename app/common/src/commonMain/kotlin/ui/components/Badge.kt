@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import dev.stashy.standard.ui.components.InlineIcon
 import icons.Icons
 import icons.outline.Briefcases
 import ui.preview.ComponentPreview
@@ -49,7 +50,7 @@ private fun BadgePreview() = PreviewHost {
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Badge(
             content = {
-                InlineIcon(Icons.Outline.Briefcases, null)
+                InlineIcon(Icons.Outline.Briefcases)
                 Text("Badge")
             }
         )

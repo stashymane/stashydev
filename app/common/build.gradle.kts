@@ -38,7 +38,12 @@ kotlin {
             implementation(projects.modules.shaders)
             implementation(projects.modules.tiled)
             implementation(libs.standard.navigation)
+            implementation(libs.standard.navigation.ui)
             implementation(libs.standard.data)
+            implementation(libs.standard.ui.animation)
+            implementation(libs.standard.ui.components)
+            implementation(libs.standard.ui.gradients)
+            implementation(libs.standard.util.time)
 
             implementation(kotlinLibs.serialization.json)
 

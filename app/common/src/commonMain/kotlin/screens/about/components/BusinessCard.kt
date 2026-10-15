@@ -11,26 +11,20 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight.Companion.Black
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import dev.stashy.standard.ui.components.InlineIcon
 import icons.Icons
 import icons.outline.PinDrop24Dp
 import model.Links
-import ui.components.InlineIcon
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
-import ui.theme.easeGradientBetween
-import ui.theme.fullRadialGradient
 
 @Composable
 fun BusinessCard(
@@ -74,7 +68,10 @@ fun BusinessCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    InlineIcon(Icons.Outline.PinDrop24Dp, "Location")
+                    InlineIcon(
+                        Icons.Outline.PinDrop24Dp,
+                        contentDescription = "Location",
+                    )
                     Text(location, fontWeight = Bold)
                 }
             }

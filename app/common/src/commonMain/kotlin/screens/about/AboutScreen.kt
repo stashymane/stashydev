@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -22,6 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.stashy.standard.ui.gradients.fullRadialGradient
+import dev.stashy.standard.ui.gradients.stop
+import dev.stashy.standard.util.time.toRelativeString
 import model.Links
 import org.koin.compose.viewmodel.koinViewModel
 import screens.LoadingFailedScreen
@@ -29,15 +31,12 @@ import screens.LoadingScreen
 import screens.ScreenContent
 import screens.about.components.BusinessCard
 import screens.about.components.ContributionGraph
-import toRelativeString
 import ui.LocalContainerSize
 import ui.components.LinkButton
 import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
 import ui.theme.ContainerSize.Regular
-import ui.theme.easeGradientBetween
-import ui.theme.fullRadialGradient
 import kotlin.math.min
 
 @Composable
@@ -79,9 +78,6 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
             MaterialTheme.colorScheme.surfaceContainer,
             0.9f
         )
-        val gradient = remember(surfaceColor) {
-            easeGradientBetween(surfaceColor, Color.Transparent)
-        }
 
         ContributionGraph(
             graph = meta.contributionGraph,
@@ -99,14 +95,15 @@ private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
                 }
             },
             Modifier.fillMaxWidth().drawWithCache {
-                val gradient =
-                    Brush.fullRadialGradient(
-                        *gradient,
-                        size = size,
-                        radius = 1f,
-                        x = 0f,
-                        y = 0f
-                    )
+                val gradient = Brush.fullRadialGradient(
+                    size = size,
+                    scale = 1f,
+                    x = 0f,
+                    y = 0f,
+                ) {
+                    stop(surfaceColor)
+                    stop(Color.Transparent)
+                }
                 onDrawWithContent {
                     drawRect(gradient)
                     drawContent()

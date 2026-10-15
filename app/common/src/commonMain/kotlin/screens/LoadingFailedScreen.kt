@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import icons.Icons
 import icons.outline.Refresh24Dp
-import ui.components.InlineIcon
+import dev.stashy.standard.ui.components.InlineIcon
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
 

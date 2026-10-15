@@ -16,20 +16,21 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.stashy.standard.ui.components.InlineIcon
+import dev.stashy.standard.ui.gradients.fullRadialGradient
+import dev.stashy.standard.ui.gradients.stop
+import dev.stashy.standard.ui.gradients.toEasingFunction
+import dev.stashy.standard.util.time.toRelativeString
 import icons.Icons
 import icons.outline.Briefcases
 import model.composeColor
-import toRelativeString
 import ui.components.Badge
-import ui.components.InlineIcon
 import ui.components.LanguageBadge
 import ui.components.LinkButton
 import ui.preview.ComponentPreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
 import ui.theme.AppTheme
-import ui.theme.easeGradientBetween
-import ui.theme.fullRadialGradient
 
 @Composable
 fun ProjectCard(
@@ -44,20 +45,19 @@ fun ProjectCard(
         val innerContainerColor = remember(languageColor, containerColor) {
             languageColor.copy(alpha = 0.1f).compositeOver(containerColor)
         }
-        val backgroundGradient = remember(innerContainerColor, containerColor) {
-            easeGradientBetween(
-                innerContainerColor,
-                containerColor,
-                steps = 6,
-                easing = EaseOut
-            )
-        }
 
         Column(
             modifier.drawWithCache {
                 val gradient = Brush.fullRadialGradient(
-                    *backgroundGradient, size = size, x = 0.5f, y = 1f
-                )
+                    size = size,
+                    x = 0.5f,
+                    y = 1f,
+                    steps = 6,
+                ) {
+                    easing = EaseOut.toEasingFunction()
+                    stop(innerContainerColor)
+                    stop(containerColor)
+                }
 
                 onDrawBehind {
                     drawRect(gradient)
@@ -109,7 +109,7 @@ fun ProjectCard(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                         contentColor = MaterialTheme.colorScheme.onSurface
                     ) {
-                        InlineIcon(Icons.Outline.Briefcases, null)
+                        InlineIcon(Icons.Outline.Briefcases, contentDescription = null)
                         Text(license)
                     }
                 }

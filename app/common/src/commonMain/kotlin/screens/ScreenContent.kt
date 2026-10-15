@@ -11,8 +11,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import dev.stashy.standard.ui.components.scroll.VerticalScrollbar
 import ui.LocalScaffoldPadding
-import ui.components.VerticalScrollbar
 
 @Composable
 fun ScreenContent(
