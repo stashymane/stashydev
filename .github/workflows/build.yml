@@ -19,8 +19,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     env:
       DIST_PATH: "app/web/build/dist/wasmJs/${{ (inputs.production == true && 'production') || 'development' }}Executable/"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout
