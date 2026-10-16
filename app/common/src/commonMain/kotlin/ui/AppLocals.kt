@@ -1,6 +1,5 @@
 package ui
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.ProvidableCompositionLocal
@@ -9,9 +8,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import coil3.ImageLoader
 import model.Settings
-import ui.theme.ContainerSize
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 val LocalSharedTransitionScope: ProvidableCompositionLocal<SharedTransitionScope> =
     compositionLocalOf { error("LocalSharedTransitionScope not initialized.") }
 
@@ -25,5 +22,3 @@ val LocalScaffoldPadding: ProvidableCompositionLocal<PaddingValues> =
     compositionLocalOf { PaddingValues() }
 
 val LocalSettings = compositionLocalOf { Settings() }
-
-val LocalContainerSize = compositionLocalOf { ContainerSize.Small }

@@ -2,7 +2,7 @@
 jvm = "25"
 jvm-target = "25"
 
-standard = "20261015.b185f2a-SNAPSHOT"
+standard = "20261016.c76efa9-SNAPSHOT"
 
 koin = "4.2.2"
 colormath = "3.7.0"

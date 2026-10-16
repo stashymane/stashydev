@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.stashy.standard.ui.gradients.fullRadialGradient
 import dev.stashy.standard.ui.gradients.stop
+import dev.stashy.standard.ui.responsive.ContainerSize
+import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import dev.stashy.standard.util.time.toRelativeString
 import model.Links
 import org.koin.compose.viewmodel.koinViewModel
@@ -31,12 +33,10 @@ import screens.LoadingScreen
 import screens.ScreenContent
 import screens.about.components.BusinessCard
 import screens.about.components.ContributionGraph
-import ui.LocalContainerSize
 import ui.components.LinkButton
 import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
-import ui.theme.ContainerSize.Regular
 import kotlin.math.min
 
 @Composable
@@ -66,9 +66,9 @@ fun AboutScreen(
 
 @Composable
 private fun AboutScreenContent(meta: UserMeta) = ScreenContent {
-    val containerSize = LocalContainerSize.current
+    val responsiveInfo = LocalResponsiveInfo.current
     val columns = when {
-        containerSize >= Regular -> 3
+        responsiveInfo >= ContainerSize.Large -> 3
         else -> 1
     }
 

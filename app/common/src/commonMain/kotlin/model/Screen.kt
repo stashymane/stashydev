@@ -50,7 +50,7 @@ sealed class Screen(
 
             val byId = listOf(Home, Projects, Media, About)
                 .associateBy(Group::id)
-            
+
             operator fun get(id: GroupId) = byId[id]
 
             fun compare(from: GroupId, to: GroupId): Int {
@@ -73,7 +73,7 @@ sealed class Screen(
         override fun Content() = HomeScreen()
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Regular
+            size = Medium
             effects = { defaultSceneEffects() }
             showNavigation = false
             alignment = Center
@@ -87,7 +87,7 @@ sealed class Screen(
         override fun Content() = ProjectsScreen()
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Wide
+            size = Large
             effects = { defaultSceneEffects() }
             showNavigation = true
             fillMaxSize = true
@@ -101,7 +101,7 @@ sealed class Screen(
         override fun Content() = MediaScreen()
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Wide
+            size = Large
             effects = { defaultSceneEffects() }
             showNavigation = true
             fillMaxSize = true
@@ -115,7 +115,7 @@ sealed class Screen(
         override fun Content() = AboutScreen()
 
         override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Wide
+            size = Large
             effects = { defaultSceneEffects() }
             showNavigation = true
             fillMaxSize = true

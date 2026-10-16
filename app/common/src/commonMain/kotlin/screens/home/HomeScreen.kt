@@ -14,19 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import dev.stashy.navigation.LocalNavigator
+import dev.stashy.standard.ui.responsive.ContainerSize
+import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import model.Links
 import model.getIcon
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import screens.home.components.SiteFooter
-import dev.stashy.navigation.LocalNavigator
 import ui.LocalScaffoldPadding
 import ui.components.nav.NavBlock
 import ui.components.nav.SocialIcon
 import ui.preview.DevicePreview
 import ui.preview.PreviewHost
-import ui.theme.ContainerSize
-import ui.theme.currentContainerSize
 
 @Composable
 fun HomeScreen(
@@ -35,7 +35,7 @@ fun HomeScreen(
     val navigator = LocalNavigator.current
     val scrollState = rememberScrollState()
 
-    val expanded = currentContainerSize() >= ContainerSize.Regular
+    val expanded = LocalResponsiveInfo.current.width > ContainerSize.Medium
 
     Column(
         Modifier.verticalScroll(scrollState)

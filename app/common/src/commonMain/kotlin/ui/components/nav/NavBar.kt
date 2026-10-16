@@ -20,15 +20,15 @@ import dev.stashy.navigation.LocalNavigator
 import dev.stashy.navigation.Navigator
 import dev.stashy.navigation.compose.Provide
 import dev.stashy.navigation.compose.rememberNavigationState
+import dev.stashy.standard.ui.responsive.ContainerSize
+import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import icons.Icons
 import icons.filled.ChevronBackward
 import model.NavEntry
 import model.Screen
 import org.jetbrains.compose.resources.stringResource
-import ui.LocalContainerSize
 import ui.preview.ComponentPreview
 import ui.preview.PreviewHost
-import ui.theme.ContainerSize
 import ui.theme.inDp
 
 @Composable
@@ -36,7 +36,7 @@ fun NavBar(
     modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavigator.current
-    val containerSize = LocalContainerSize.current
+    val responsiveInfo = LocalResponsiveInfo.current
 
     Grid(
         {
@@ -67,7 +67,7 @@ fun NavBar(
             NavEntry.All.forEach { entry ->
                 NavLink(
                     title = {
-                        if (containerSize > ContainerSize.Small) {
+                        if (responsiveInfo > ContainerSize.Small) {
                             Text(stringResource(entry.title), fontWeight = FontWeight.SemiBold)
                             Spacer(Modifier.fillMaxWidth())
                         }

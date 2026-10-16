@@ -1,13 +1,6 @@
 package ui.nav
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -25,12 +18,12 @@ import androidx.navigation3.scene.SceneStrategyScope
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
-import ui.LocalScaffoldPadding
 import dev.stashy.standard.ui.animation.tweenInstantOut
+import dev.stashy.standard.ui.responsive.ContainerSize
+import ui.LocalScaffoldPadding
 import ui.components.nav.NavBar
 import ui.components.nav.navHazeEffect
 import ui.nav.ResponsiveScene.MetadataKey
-import ui.theme.ContainerSize
 import ui.theme.animateBlur
 import ui.theme.blurIn
 import ui.theme.blurOut
@@ -43,7 +36,7 @@ data class LayoutConfig(
     var alignment: Alignment = Alignment.TopCenter,
     var fillMaxSize: Boolean = false,
 ) {
-    val screenWidth: Dp get() = size?.value ?: Dp.Unspecified
+    val screenWidth: Dp get() = size?.width ?: Dp.Unspecified
 }
 
 data class ResponsiveScene<T : Any>(

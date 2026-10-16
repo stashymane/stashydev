@@ -30,17 +30,17 @@ import dev.stashy.navigation.LocalNavigator
 import dev.stashy.navigation.Navigator
 import dev.stashy.navigation.compose.SyncBrowserHistory
 import dev.stashy.navigation.compose.rememberNavigationState
+import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
+import dev.stashy.standard.ui.responsive.rememberResponsiveInfo
 import model.Screen
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
 import tiled.toTiledBrush
-import ui.LocalContainerSize
 import ui.Navigation
 import ui.PreloadContent
 import ui.modifiers.dotGridOverlay
 import ui.preview.DevicePreview
 import ui.theme.AppTheme
-import ui.theme.currentContainerSize
 
 @Composable
 fun App() {
@@ -61,7 +61,7 @@ fun App() {
     }) {
         val state = rememberNavigationState(startRoute = Screen.Home)
         val navigator = remember { Navigator(state) }
-        val containerSize = currentContainerSize()
+        val responsiveInfo = rememberResponsiveInfo()
 
         SyncBrowserHistory<Screen>(navigator)
         PreloadContent()
@@ -70,7 +70,7 @@ fun App() {
             Surface(color = MaterialTheme.colorScheme.background) {
                 CompositionLocalProvider(
                     LocalNavigator provides navigator,
-                    LocalContainerSize provides containerSize
+                    LocalResponsiveInfo provides responsiveInfo
                 ) {
                     Box {
                         BackgroundImageOverlay(

@@ -11,6 +11,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.app.common)
             implementation(projects.modules.icons)
+            implementation(libs.standard.ui.responsive)
 
             implementation(composeLibs.bundles.jb)
             implementation(kotlinLibs.coroutines.swing)

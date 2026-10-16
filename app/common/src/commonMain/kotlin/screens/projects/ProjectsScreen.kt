@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import data.ProjectsRepository
 import dev.stashy.data.cached
 import dev.stashy.data.dataSource
+import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import icons.Icons
 import icons.outline.ArrowOutwardThick
 import org.koin.compose.viewmodel.koinViewModel
@@ -39,7 +40,6 @@ import screens.LoadingFailedScreen
 import screens.LoadingScreen
 import screens.ScreenContent
 import screens.projects.components.ProjectCard
-import ui.LocalContainerSize
 import ui.preview.DevicePreview
 import ui.preview.PreviewData
 import ui.preview.PreviewHost
@@ -75,10 +75,10 @@ private fun ProjectScreenContent(
     featured: List<Project>,
     latest: List<Project>,
 ) = ScreenContent {
-    val containerSize = LocalContainerSize.current
+    val responsiveInfo = LocalResponsiveInfo.current
     val columns = when {
-        containerSize >= Wide -> 3
-        containerSize >= Regular -> 2
+        responsiveInfo >= Large -> 3
+        responsiveInfo >= Medium -> 2
         else -> 1
     }
 
