@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import dev.stashy.navigation.LocalNavigator
+import dev.stashy.navigation.compose.LocalNavigator
 import dev.stashy.standard.ui.responsive.ContainerSize
 import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import model.Links

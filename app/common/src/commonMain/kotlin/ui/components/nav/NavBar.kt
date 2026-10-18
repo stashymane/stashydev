@@ -16,10 +16,7 @@ import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.blur.HazeBlurStyle
 import dev.chrisbanes.haze.blur.hazeBlur
-import dev.stashy.navigation.LocalNavigator
-import dev.stashy.navigation.Navigator
-import dev.stashy.navigation.compose.Provide
-import dev.stashy.navigation.compose.rememberNavigationState
+import dev.stashy.navigation.compose.LocalNavigator
 import dev.stashy.standard.ui.responsive.ContainerSize
 import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import icons.Icons
@@ -75,7 +72,7 @@ fun NavBar(
                     icon = {
                         Icon(entry.icon, null, Modifier.size(iconSize))
                     },
-                    isActive = navigator.state.currentGroup == entry.screen.group,
+                    isActive = entry.screen in navigator.state.entries,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     navigator.navigate(entry.screen)
@@ -114,9 +111,8 @@ fun Modifier.navHazeEffect(state: HazeState, backgroundColor: Color = Color.Unsp
 @ComponentPreview
 @Composable
 private fun NavBarPreview() = PreviewHost {
-    val state = rememberNavigationState(startRoute = Screen.Projects)
-    val navigator = remember { Navigator(state) }
-    navigator.Provide {
-        NavBar()
-    }
+    val navigator = LocalNavigator.current
+    navigator.navigate(Screen.Projects)
+
+    NavBar()
 }

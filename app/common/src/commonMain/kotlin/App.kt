@@ -26,13 +26,8 @@ import coil3.serviceLoaderEnabled
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 import dev.stashy.home.Res
-import dev.stashy.navigation.LocalNavigator
-import dev.stashy.navigation.Navigator
-import dev.stashy.navigation.compose.SyncBrowserHistory
-import dev.stashy.navigation.compose.rememberNavigationState
 import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import dev.stashy.standard.ui.responsive.rememberResponsiveInfo
-import model.Screen
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
 import tiled.toTiledBrush
@@ -59,17 +54,13 @@ fun App() {
     KoinApplication(koinConfiguration {
         modules(KoinModule)
     }) {
-        val state = rememberNavigationState(startRoute = Screen.Home)
-        val navigator = remember { Navigator(state) }
         val responsiveInfo = rememberResponsiveInfo()
 
-        SyncBrowserHistory<Screen>(navigator)
         PreloadContent()
 
         AppTheme(Color(0xFF9476FF)) {
             Surface(color = MaterialTheme.colorScheme.background) {
                 CompositionLocalProvider(
-                    LocalNavigator provides navigator,
                     LocalResponsiveInfo provides responsiveInfo
                 ) {
                     Box {

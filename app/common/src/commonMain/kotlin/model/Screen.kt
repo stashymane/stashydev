@@ -1,66 +1,11 @@
 package model
 
-import androidx.compose.foundation.background
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.runtime.metadata
-import dev.stashy.navigation.GroupId
-import dev.stashy.navigation.NavDestination
+import androidx.navigation3.runtime.NavKey
 import io.ktor.resources.*
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
-import screens.about.AboutScreen
-import screens.home.HomeScreen
-import screens.media.MediaScreen
-import screens.projects.ProjectsScreen
-import ui.modifiers.outerBorder
-import ui.nav.ResponsiveScene
-
-@Composable
-private fun Modifier.defaultSceneEffects() = background(MaterialTheme.colorScheme.surface)
-    .outerBorder(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 
 @Serializable
-sealed class Screen(
-    @Transient
-    override val group: GroupId = GroupId.Default,
-) : NavDestination {
-    open fun metadata(): Map<String, Any> = metadata { }
-
-    fun provideEntry(): NavEntry<NavDestination> = NavEntry(
-        this,
-        metadata = metadata(),
-    ) {
-        Content()
-    }
-
-    @Serializable
-    data class Group(
-        val id: GroupId,
-        val order: Int? = null
-    ) {
-        companion object {
-            val Home = Group(GroupId("home"))
-            val Projects = Group(GroupId("projects"), 0)
-            val Media = Group(GroupId("media"), 1)
-            val About = Group(GroupId("about"), 2)
-
-            val byId = listOf(Home, Projects, Media, About)
-                .associateBy(Group::id)
-
-            operator fun get(id: GroupId) = byId[id]
-
-            fun compare(from: GroupId, to: GroupId): Int {
-                val fromOrder = Group[from]?.order ?: return 0
-                val toOrder = Group[to]?.order ?: return 0
-                return fromOrder.compareTo(toOrder)
-            }
-        }
-    }
-
+sealed class Screen : NavKey {
     @Serializable
     sealed class Popup : Screen() {
         //TODO popup screens
@@ -68,58 +13,17 @@ sealed class Screen(
 
     @Serializable
     @Resource("/")
-    data object Home : Screen(Group.Home.id) {
-        @Composable
-        override fun Content() = HomeScreen()
-
-        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Medium
-            effects = { defaultSceneEffects() }
-            showNavigation = false
-            alignment = Center
-        }
-    }
+    data object Home : Screen()
 
     @Serializable
     @Resource("/projects")
-    data object Projects : Screen(Group.Projects.id) {
-        @Composable
-        override fun Content() = ProjectsScreen()
-
-        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Large
-            effects = { defaultSceneEffects() }
-            showNavigation = true
-            fillMaxSize = true
-        }
-    }
+    data object Projects : Screen()
 
     @Serializable
     @Resource("/media")
-    data object Media : Screen(Group.Media.id) {
-        @Composable
-        override fun Content() = MediaScreen()
-
-        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Large
-            effects = { defaultSceneEffects() }
-            showNavigation = true
-            fillMaxSize = true
-        }
-    }
+    data object Media : Screen()
 
     @Serializable
     @Resource("/about")
-    data object About : Screen(Group.About.id) {
-        @Composable
-        override fun Content() = AboutScreen()
-
-        override fun metadata(): Map<String, Any> = ResponsiveScene.configure {
-            size = Large
-            effects = { defaultSceneEffects() }
-            showNavigation = true
-            fillMaxSize = true
-        }
-    }
-
+    data object About : Screen()
 }
