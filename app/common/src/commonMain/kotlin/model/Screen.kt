@@ -27,3 +27,10 @@ sealed class Screen : NavKey {
     @Resource("/about")
     data object About : Screen()
 }
+
+val TopLevelRoutes: Set<Screen> = setOf(
+    Screen.Home,
+    Screen.Projects,
+    Screen.Media,
+    Screen.About,
+)

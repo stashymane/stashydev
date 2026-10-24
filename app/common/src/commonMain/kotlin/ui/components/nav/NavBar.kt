@@ -72,7 +72,7 @@ fun NavBar(
                     icon = {
                         Icon(entry.icon, null, Modifier.size(iconSize))
                     },
-                    isActive = entry.screen in navigator.state.entries,
+                    isActive = navigator.state.topLevelRoute == entry.screen,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     navigator.navigate(entry.screen)

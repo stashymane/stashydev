@@ -6,14 +6,13 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
-import appNavGraph
-import dev.stashy.navigation.Navigator
 import dev.stashy.navigation.compose.LocalNavigator
 import dev.stashy.navigation.compose.rememberNavigationState
+import dev.stashy.navigation.compose.rememberNavigator
 import model.Screen
+import model.TopLevelRoutes
 import ui.LocalSharedTransitionScope
 import ui.theme.AppTheme
 
@@ -21,9 +20,11 @@ import ui.theme.AppTheme
 fun PreviewHost(
     content: @Composable () -> Unit
 ) {
-    val graph = remember { appNavGraph() }
-    val state = rememberNavigationState(startRoute = Screen.Home, graph = graph)
-    val navigator = remember(state, graph) { Navigator(state, graph) }
+    val state = rememberNavigationState(
+        startRoute = Screen.Home,
+        topLevelRoutes = TopLevelRoutes,
+    )
+    val navigator = rememberNavigator<Screen>(state)
 
     AppTheme(Color.Blue, isSystemInDarkTheme()) {
         AnimatedContent(Unit) {
