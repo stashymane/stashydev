@@ -2,14 +2,14 @@
 jvm = "25"
 jvm-target = "25"
 
-standard = "20261024.4ea92d4-SNAPSHOT"
+standard = "20261027.267e6d9-SNAPSHOT"
 
 koin = "4.2.2"
 colormath = "3.7.0"
 clikt = "5.1.0"
 
 slf4j-simple = "2.0.20"
-kotest = "6.2.5"
+kotest = "6.2.6"
 testResources = "0.16.2"
 buildkonfig = "0.23.0"
 
