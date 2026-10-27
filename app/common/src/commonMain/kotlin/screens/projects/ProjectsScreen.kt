@@ -77,8 +77,8 @@ private fun ProjectScreenContent(
 ) = ScreenContent {
     val responsiveInfo = LocalResponsiveInfo.current
     val columns = when {
-        responsiveInfo >= Large -> 3
-        responsiveInfo >= Medium -> 2
+        responsiveInfo.width >= Large -> 3
+        responsiveInfo.width >= Small -> 2
         else -> 1
     }
 
