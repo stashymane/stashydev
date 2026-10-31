@@ -4,8 +4,8 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import dev.stashy.metadata.github.collect.collectMeta
-import dev.stashy.metadata.metadataJson
-import kotlin.io.path.*
+import kotlin.io.path.Path
+import kotlin.io.path.absolute
 
 class GitHubCollectCommand : GitHubSubcommand("collect") {
     val output: String by option(help = "output directory for user.json and repo.json").required()
@@ -15,15 +15,7 @@ class GitHubCollectCommand : GitHubSubcommand("collect") {
     override suspend fun run() {
         val config = paramsToConfig()
         val outDir = Path(output).absolute().normalize()
-        if (!outDir.isDirectory()) {
-            outDir.createDirectories()
-        }
-
-        val meta = collectMeta(config)
-        val userPath = outDir.resolve("user.json")
-        val repoPath = outDir.resolve("repo.json")
-        userPath.writeText(metadataJson.encodeToString(meta.user))
-        repoPath.writeText(metadataJson.encodeToString(meta.repos))
-        echo("Wrote GitHub metadata for '${config.username}' to $userPath and $repoPath")
+        val files = collectMeta(config).writeTo(outDir)
+        echo("Wrote GitHub metadata for '${config.username}' to ${outDir.toAbsolutePath().normalize()}")
     }
 }
