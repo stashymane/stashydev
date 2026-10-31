@@ -38,18 +38,24 @@ jobs:
         run: |
           mkdir -p "$OUT_DIR"
           ./gradlew :modules:metadata:runJvm --args="github collect --output $OUT_DIR"
-          ls -la "$OUT_DIR"
+          find "$OUT_DIR" -type f
 
-      - name: Upload api/user.json to R2
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: r2 object put ${{ secrets.R2_BUCKET }}/api/user.json --file=${{ env.OUT_DIR }}/user.json --content-type application/json --remote
+      - name: Install wrangler
+        run: npm install --global wrangler@4
 
-      - name: Upload api/repo.json to R2
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: r2 object put ${{ secrets.R2_BUCKET }}/api/repo.json --file=${{ env.OUT_DIR }}/repo.json --content-type application/json --remote
+      - name: Upload metadata to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          find "$OUT_DIR" -type f -print0 | while IFS= read -r -d '' file; do
+            key="${file#"$OUT_DIR"/}"
+            case "$file" in
+              *.json) content_type="application/json" ;;
+              *.md) content_type="text/markdown" ;;
+              *) content_type="application/octet-stream" ;;
+            esac
+            echo "Uploading api/$key"
+            wrangler r2 object put "$R2_BUCKET/api/$key" --file="$file" --content-type="$content_type" --remote
+          done
