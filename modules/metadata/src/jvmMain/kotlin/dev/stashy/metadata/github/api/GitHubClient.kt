@@ -89,6 +89,14 @@ internal class GitHubClient(
             ?: error("GitHub user '${config.username}' not found via GraphQL")
     }
 
+    suspend fun fetchReadme(fullName: String): String? {
+        val response = client.get("/repos/$fullName/readme") {
+            accept(ContentType("application", "vnd.github.raw"))
+        }
+        if (response.status == HttpStatusCode.NotFound) return null
+        return response.requireSuccess().bodyAsText()
+    }
+
     private suspend inline fun <reified T> graphql(
         query: String,
         variables: JsonElement,
