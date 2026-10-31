@@ -15,6 +15,19 @@ data class RepoMeta(
     val pinned: List<RepositoryMeta> = emptyList(),
     val repositories: List<RepositoryMeta>,
     val descriptionOverrides: Map<String, String> = emptyMap(),
+    val contributors: Map<String, ContributorMeta> = emptyMap(),
+)
+
+@Serializable
+data class ContributorMeta(
+    val avatarUrl: String,
+    val htmlUrl: String,
+)
+
+@Serializable
+data class ContributorRef(
+    val login: String,
+    val contributions: Int,
 )
 
 @Serializable
@@ -57,6 +70,8 @@ data class RepositoryMeta(
     val updatedAt: Instant,
     val pushedAt: Instant?,
     val latestRelease: ReleaseMeta?,
+    val allTimeContributors: List<ContributorRef> = emptyList(),
+    val recentContributors: List<ContributorRef> = emptyList(),
 )
 
 @Serializable

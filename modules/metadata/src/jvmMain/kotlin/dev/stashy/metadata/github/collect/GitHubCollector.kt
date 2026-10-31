@@ -57,11 +57,14 @@ internal suspend fun collect(
     val periodFrom = now - PERIOD_DAYS.days
     val profile = client.fetchProfile()
     val contributions = fetchMergedContributions(client, periodFrom, now)
-    val repoMeta = buildRepoMeta(
-        profile = profile,
-        config = config,
-        descriptionOverrides = descriptionOverrides,
-        now = now,
+    val repoMeta = attachContributors(
+        client = client,
+        repos = buildRepoMeta(
+            profile = profile,
+            config = config,
+            descriptionOverrides = descriptionOverrides,
+            now = now,
+        ),
     )
 
     return CollectedGitHubMeta(

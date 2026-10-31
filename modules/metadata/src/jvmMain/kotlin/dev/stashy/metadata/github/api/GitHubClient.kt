@@ -8,6 +8,8 @@ import dev.stashy.metadata.github.api.dto.GqlUserProfile
 import dev.stashy.metadata.github.api.dto.GraphqlResponse
 import dev.stashy.metadata.github.api.dto.ProfileQueryData
 import dev.stashy.metadata.github.api.dto.ProfileQueryVariables
+import dev.stashy.metadata.github.api.dto.RestContributor
+import dev.stashy.metadata.github.api.dto.RestContributorStats
 import dev.stashy.metadata.metadataJson
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -18,6 +20,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.delay
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
@@ -97,6 +100,34 @@ internal class GitHubClient(
         return response.requireSuccess().bodyAsText()
     }
 
+    suspend fun fetchContributors(fullName: String): List<RestContributor> {
+        val contributors = mutableListOf<RestContributor>()
+        var page = 1
+        while (true) {
+            val response = client.get("/repos/$fullName/contributors") {
+                parameter("per_page", 100)
+                parameter("page", page)
+            }
+            if (response.status == HttpStatusCode.NoContent) break
+            contributors += response.requireSuccess().body<List<RestContributor>>()
+            if (!response.hasNextPage()) break
+            page++
+        }
+        return contributors
+    }
+
+    suspend fun fetchRecentContributorStats(fullName: String): List<RestContributorStats> {
+        repeat(3) { attempt ->
+            val response = client.get("/repos/$fullName/stats/contributors")
+            when (response.status) {
+                HttpStatusCode.Accepted -> if (attempt < 2) delay(2.seconds)
+                HttpStatusCode.NoContent -> return emptyList()
+                else -> return response.requireSuccess().body<List<RestContributorStats>>()
+            }
+        }
+        return emptyList()
+    }
+
     private suspend inline fun <reified T> graphql(
         query: String,
         variables: JsonElement,
@@ -127,3 +158,6 @@ private suspend fun HttpResponse.requireSuccess(): HttpResponse {
     }
     return this
 }
+
+private fun HttpResponse.hasNextPage(): Boolean =
+    headers[HttpHeaders.Link]?.contains("rel=\"next\"") == true
