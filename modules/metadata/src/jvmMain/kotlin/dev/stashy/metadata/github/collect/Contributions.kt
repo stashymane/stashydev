@@ -22,8 +22,9 @@ internal suspend fun fetchMergedContributions(
     client: GitHubClient,
     from: Instant,
     to: Instant,
+    concurrency: Int,
 ): MergedContributions {
-    val collections = contributionWindows(from, to).map { (windowFrom, windowTo) ->
+    val collections = contributionWindows(from, to).mapConcurrent(concurrency) { (windowFrom, windowTo) ->
         client.fetchContributions(windowFrom.toString(), windowTo.toString())
     }
     return mergeContributions(collections)

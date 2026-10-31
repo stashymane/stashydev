@@ -25,6 +25,7 @@ abstract class GitHubSubcommand(name: String) : SuspendingCliktCommand(name) {
     val username: String by option(help = "username to fetch data for").default("stashymane")
 
     val repoLimit: Int by option(help = "limit of latest repositories").int().default(32)
+    val repoConcurrency: Int by option(help = "maximum concurrent metadata requests").int().default(4)
     val includeForks: Boolean by option(help = "should forks be included").flag()
     val includeArchived: Boolean by option(help = "should archived repos be included").flag()
 
@@ -37,5 +38,6 @@ abstract class GitHubSubcommand(name: String) : SuspendingCliktCommand(name) {
         includeForks = includeForks,
         includeArchived = includeArchived,
         apiUrl = apiUrl,
+        repoConcurrency = repoConcurrency,
     )
 }

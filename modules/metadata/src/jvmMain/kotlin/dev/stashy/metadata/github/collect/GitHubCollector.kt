@@ -56,7 +56,7 @@ internal suspend fun collect(
 ): CollectedGitHubMeta {
     val periodFrom = now - PERIOD_DAYS.days
     val profile = client.fetchProfile()
-    val contributions = fetchMergedContributions(client, periodFrom, now)
+    val contributions = fetchMergedContributions(client, periodFrom, now, config.repoConcurrency)
     val repoMeta = attachContributors(
         client = client,
         repos = buildRepoMeta(
@@ -65,6 +65,7 @@ internal suspend fun collect(
             descriptionOverrides = descriptionOverrides,
             now = now,
         ),
+        concurrency = config.repoConcurrency,
     )
 
     return CollectedGitHubMeta(
@@ -84,14 +85,16 @@ internal suspend fun collect(
             ),
         ),
         repos = repoMeta,
-        readmes = fetchReadmes(client, repoMeta),
+        readmes = fetchReadmes(client, repoMeta, config.repoConcurrency),
     )
 }
 
 private suspend fun fetchReadmes(
     client: GitHubClient,
     repos: RepoMeta,
+    concurrency: Int,
 ): Map<String, String> =
     (repos.pinned + repos.repositories)
-        .mapNotNull { repo -> client.fetchReadme(repo.fullName)?.let { repo.fullName to it } }
+        .mapConcurrent(concurrency) { repo -> client.fetchReadme(repo.fullName)?.let { repo.fullName to it } }
+        .filterNotNull()
         .toMap()

@@ -7,4 +7,5 @@ data class GitHubApiConfig(
     val includeForks: Boolean,
     val includeArchived: Boolean,
     val apiUrl: String,
+    val repoConcurrency: Int = 4,
 )
