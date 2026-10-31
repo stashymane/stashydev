@@ -1,8 +1,9 @@
-package dev.stashy.metadata.github
+package dev.stashy.metadata.github.cli
 
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
+import dev.stashy.metadata.github.collect.collectMeta
 import dev.stashy.metadata.metadataJson
 import kotlin.io.path.*
 

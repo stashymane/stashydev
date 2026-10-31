@@ -1,5 +1,13 @@
-package dev.stashy.metadata.github
+package dev.stashy.metadata.github.api
 
+import dev.stashy.metadata.github.GitHubApiConfig
+import dev.stashy.metadata.github.api.dto.ContributionsCollection
+import dev.stashy.metadata.github.api.dto.ContributionsQueryData
+import dev.stashy.metadata.github.api.dto.ContributionsQueryVariables
+import dev.stashy.metadata.github.api.dto.GqlUserProfile
+import dev.stashy.metadata.github.api.dto.GraphqlResponse
+import dev.stashy.metadata.github.api.dto.ProfileQueryData
+import dev.stashy.metadata.github.api.dto.ProfileQueryVariables
 import dev.stashy.metadata.metadataJson
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -57,7 +65,7 @@ internal class GitHubClient(
     suspend fun fetchProfile(): GqlUserProfile {
         val repoFirst = (config.repoLimit * 2).coerceAtMost(100)
         return graphql<ProfileQueryData>(
-            query = PROFILE_QUERY,
+            query = GitHubQueries.profileQuery,
             variables = metadataJson.encodeToJsonElement(
                 ProfileQueryVariables(
                     login = config.username,
@@ -69,7 +77,7 @@ internal class GitHubClient(
 
     suspend fun fetchContributions(fromIso: String, toIso: String): ContributionsCollection {
         return graphql<ContributionsQueryData>(
-            query = CONTRIBUTIONS_QUERY,
+            query = GitHubQueries.contributionsQuery,
             variables = metadataJson.encodeToJsonElement(
                 ContributionsQueryVariables(
                     login = config.username,
@@ -101,120 +109,6 @@ internal class GitHubClient(
         }
 
         return response.data ?: error("GitHub GraphQL returned no data")
-    }
-
-    private companion object {
-        // language=GraphQL
-        private val REPOSITORY_FIELDS = """
-            name
-            nameWithOwner
-            description
-            url
-            homepageUrl
-            stargazerCount
-            forkCount
-            watchers { totalCount }
-            openIssues: issues(states: OPEN) { totalCount }
-            isFork
-            isArchived
-            isPrivate
-            primaryLanguage { name }
-            languages(first: 20, orderBy: { field: SIZE, direction: DESC }) {
-              edges {
-                size
-                node { name }
-              }
-            }
-            repositoryTopics(first: 20) {
-              nodes { topic { name } }
-            }
-            licenseInfo { spdxId name }
-            createdAt
-            updatedAt
-            pushedAt
-            latestRelease {
-              tagName
-              name
-              url
-              publishedAt
-              isPrerelease
-              isDraft
-            }
-        """.trimIndent()
-
-        // language=GraphQL
-        private val PROFILE_QUERY = $$"""
-            query($login: String!, $repoFirst: Int!) {
-              user(login: $login) {
-                login
-                name
-                bio
-                avatarUrl
-                url
-                company
-                location
-                websiteUrl
-                twitterUsername
-                publicRepositories: repositories(privacy: PUBLIC) { totalCount }
-                publicGists: gists(privacy: PUBLIC) { totalCount }
-                followers { totalCount }
-                following { totalCount }
-                createdAt
-                updatedAt
-                pinnedItems(first: 6, types: [REPOSITORY]) {
-                  nodes {
-                    ... on Repository {
-                      $$REPOSITORY_FIELDS
-                    }
-                  }
-                }
-                repositories(
-                  first: $repoFirst,
-                  orderBy: { field: UPDATED_AT, direction: DESC },
-                  ownerAffiliations: OWNER,
-                  privacy: PUBLIC
-                ) {
-                  nodes {
-                    $$REPOSITORY_FIELDS
-                  }
-                }
-              }
-            }
-        """.trimIndent()
-
-        // language=GraphQL
-        private val CONTRIBUTIONS_QUERY = $$"""
-            query($login: String!, $from: DateTime!, $to: DateTime!) {
-              user(login: $login) {
-                contributionsCollection(from: $from, to: $to) {
-                  contributionCalendar {
-                    totalContributions
-                    weeks {
-                      contributionDays {
-                        date
-                        contributionCount
-                      }
-                    }
-                  }
-                  commitContributionsByRepository(maxRepositories: 100) {
-                    contributions { totalCount }
-                    repository {
-                      nameWithOwner
-                      isFork
-                      isArchived
-                      primaryLanguage { name }
-                      languages(first: 20, orderBy: { field: SIZE, direction: DESC }) {
-                        edges {
-                          size
-                          node { name }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-        """.trimIndent()
     }
 }
 

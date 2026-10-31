@@ -1,0 +1,71 @@
+query($login: String!, $repoFirst: Int!) {
+  user(login: $login) {
+    login
+    name
+    bio
+    avatarUrl
+    url
+    company
+    location
+    websiteUrl
+    twitterUsername
+    publicRepositories: repositories(privacy: PUBLIC) { totalCount }
+    publicGists: gists(privacy: PUBLIC) { totalCount }
+    followers { totalCount }
+    following { totalCount }
+    createdAt
+    updatedAt
+    pinnedItems(first: 6, types: [REPOSITORY]) {
+      nodes {
+        ...RepositoryFields
+      }
+    }
+    repositories(
+      first: $repoFirst,
+      orderBy: { field: UPDATED_AT, direction: DESC },
+      ownerAffiliations: OWNER,
+      privacy: PUBLIC
+    ) {
+      nodes {
+        ...RepositoryFields
+      }
+    }
+  }
+}
+
+fragment RepositoryFields on Repository {
+  name
+  nameWithOwner
+  description
+  url
+  homepageUrl
+  stargazerCount
+  forkCount
+  watchers { totalCount }
+  openIssues: issues(states: OPEN) { totalCount }
+  isFork
+  isArchived
+  isPrivate
+  primaryLanguage { name }
+  languages(first: 20, orderBy: { field: SIZE, direction: DESC }) {
+    edges {
+      size
+      node { name }
+    }
+  }
+  repositoryTopics(first: 20) {
+    nodes { topic { name } }
+  }
+  licenseInfo { spdxId name }
+  createdAt
+  updatedAt
+  pushedAt
+  latestRelease {
+    tagName
+    name
+    url
+    publishedAt
+    isPrerelease
+    isDraft
+  }
+}

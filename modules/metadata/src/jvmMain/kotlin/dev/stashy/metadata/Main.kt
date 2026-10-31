@@ -3,7 +3,7 @@ package dev.stashy.metadata
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.command.main
 import com.github.ajalt.clikt.core.subcommands
-import dev.stashy.metadata.github.GitHubCommand
+import dev.stashy.metadata.github.cli.GitHubCommand
 
 class Root : SuspendingCliktCommand("metadata") {
     override suspend fun run() = Unit

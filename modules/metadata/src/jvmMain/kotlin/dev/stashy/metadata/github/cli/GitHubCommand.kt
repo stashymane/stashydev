@@ -1,4 +1,4 @@
-package dev.stashy.metadata.github
+package dev.stashy.metadata.github.cli
 
 import com.github.ajalt.clikt.command.SuspendingCliktCommand
 import com.github.ajalt.clikt.core.Context
@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
+import dev.stashy.metadata.github.GitHubApiConfig
 
 class GitHubCommand : SuspendingCliktCommand("github") {
     init {

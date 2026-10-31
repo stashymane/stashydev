@@ -1,9 +1,10 @@
-package dev.stashy.metadata.github
+package dev.stashy.metadata.github.cli
 
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
+import dev.stashy.metadata.github.collect.collectMeta
 import dev.stashy.metadata.metadataJson
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -32,7 +33,7 @@ class GitHubDevCommand : GitHubSubcommand("dev") {
             install(ContentNegotiation) {
                 json(metadataJson)
             }
-            
+
             install(CORS) {
                 anyHost()
                 allowHeader(HttpHeaders.ContentType)
