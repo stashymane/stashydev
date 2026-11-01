@@ -16,7 +16,6 @@ buildkonfig = "0.23.0"
 [libraries]
 standard-data = { module = "dev.stashy.standard:data", version.ref = "standard" }
 standard-navigation = { module = "dev.stashy.standard:navigation", version.ref = "standard" }
-standard-navigation-ui = { module = "dev.stashy.standard:navigation-ui", version.ref = "standard" }
 standard-ui-animation = { module = "dev.stashy.standard:ui-animation", version.ref = "standard" }
 standard-ui-components = { module = "dev.stashy.standard:ui-components", version.ref = "standard" }
 standard-ui-gradients = { module = "dev.stashy.standard:ui-gradients", version.ref = "standard" }
@@ -39,7 +38,7 @@ testResources = { module = "com.goncalossilva:resources", version.ref = "testRes
 
 [bundles]
 koin = ["koin-core", "koin-compose", "koin-compose-viewmodel"]
-standard = ["standard-data", "standard-navigation", "standard-navigation-ui", "standard-ui-animation",
+standard = ["standard-data", "standard-navigation", "standard-ui-animation",
     "standard-ui-components", "standard-ui-gradients", "standard-ui-responsive", "standard-util-time"]
 
 [plugins]
