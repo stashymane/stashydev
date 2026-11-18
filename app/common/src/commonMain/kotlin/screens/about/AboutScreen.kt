@@ -25,7 +25,7 @@ import dev.stashy.standard.ui.gradients.fullRadialGradient
 import dev.stashy.standard.ui.gradients.stop
 import dev.stashy.standard.ui.responsive.ContainerSize
 import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
-import dev.stashy.standard.util.time.toRelativeString
+import dev.stashy.standard.ui.components.toRelativeString
 import model.Links
 import org.koin.compose.viewmodel.koinViewModel
 import screens.LoadingFailedScreen

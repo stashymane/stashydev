@@ -1,19 +1,19 @@
 package data
 
 import UserMeta
-import dev.stashy.data.CachedDataSource
-import dev.stashy.data.cached
-import dev.stashy.data.dataSource
+import dev.stashy.data.DataSource
+import dev.stashy.data.SharedDataSource
 import dev.stashy.data.deserialize
+import dev.stashy.data.shared
 import json
 
 class AboutRepository(
-    val data: CachedDataSource<UserMeta>,
+    val data: SharedDataSource<UserMeta>,
 ) {
     constructor() : this(
-        data = dataSource { StaticApi.fetch("user.json") }
+        data = DataSource { StaticApi.fetch("user.json") }
             .deserialize<UserMeta>(json)
-            .cached()
+            .shared()
     )
 
     suspend fun preload() {

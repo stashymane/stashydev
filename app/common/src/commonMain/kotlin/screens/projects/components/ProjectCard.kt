@@ -20,7 +20,7 @@ import dev.stashy.standard.ui.components.InlineIcon
 import dev.stashy.standard.ui.gradients.fullRadialGradient
 import dev.stashy.standard.ui.gradients.stop
 import dev.stashy.standard.ui.gradients.toEasingFunction
-import dev.stashy.standard.util.time.toRelativeString
+import dev.stashy.standard.ui.components.toRelativeString
 import icons.Icons
 import icons.outline.Briefcases
 import model.composeColor

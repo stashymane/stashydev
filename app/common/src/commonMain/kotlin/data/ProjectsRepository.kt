@@ -1,19 +1,19 @@
 package data
 
 import RepoMeta
-import dev.stashy.data.CachedDataSource
-import dev.stashy.data.cached
-import dev.stashy.data.dataSource
+import dev.stashy.data.DataSource
+import dev.stashy.data.SharedDataSource
 import dev.stashy.data.deserialize
+import dev.stashy.data.shared
 import json
 
 class ProjectsRepository(
-    val repos: CachedDataSource<RepoMeta>,
+    val repos: SharedDataSource<RepoMeta>,
 ) {
     constructor() : this(
-        repos = dataSource { StaticApi.fetch("repo.json") }
+        repos = DataSource { StaticApi.fetch("repo.json") }
             .deserialize<RepoMeta>(json)
-            .cached()
+            .shared()
     )
 
     suspend fun preload() {

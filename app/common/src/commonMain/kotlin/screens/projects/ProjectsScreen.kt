@@ -30,8 +30,8 @@ import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import data.ProjectsRepository
-import dev.stashy.data.cached
-import dev.stashy.data.dataSource
+import dev.stashy.data.DataSource
+import dev.stashy.data.shared
 import dev.stashy.standard.ui.responsive.LocalResponsiveInfo
 import icons.Icons
 import icons.outline.ArrowOutwardThick
@@ -165,7 +165,7 @@ private fun ProjectScreenPreview() = PreviewHost {
     val vm = remember {
         ProjectsViewmodel(
             repo = ProjectsRepository(
-                repos = dataSource { PreviewData.repoMeta }.cached(),
+                repos = DataSource { PreviewData.repoMeta }.shared(),
             )
         )
     }
