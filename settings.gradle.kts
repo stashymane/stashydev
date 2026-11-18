@@ -62,4 +62,6 @@ include(
     "modules:icons",
     "modules:shaders",
     "modules:tiled",
+    "modules:audio",
+    "modules:audio-loader-ktor",
 )
